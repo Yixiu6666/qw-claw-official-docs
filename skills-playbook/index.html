@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>企业微信和企微管家Claw Skills 玩法使用指南</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;900&family=Noto+Serif+SC:wght@600;700;900&family=Playfair+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:'Noto Sans SC','PingFang SC',system-ui,sans-serif;color:#1C1C28;background:#FAFAF7;line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{text-decoration:none;color:inherit}
+::selection{background:#E8503A;color:#fff}
+
+:root{
+  --coral:#E8503A;--coral-light:#FF8A73;--coral-glow:rgba(232,80,58,.08);
+  --amber:#F5A623;--teal:#2ABFBF;--plum:#9C5BCA;--sky:#3A9BDC;
+  --dark:#0D0D1A;--charcoal:#1C1C28;--slate:#4A4A5A;--muted:#8A8A9A;
+  --bg:#FAFAF7;--card:#FFFFFF;--border:rgba(28,28,40,.06);
+  --shadow:0 2px 8px rgba(13,13,26,.04),0 8px 32px rgba(13,13,26,.06);
+  --shadow-lg:0 12px 48px rgba(13,13,26,.1);
+  --max-w:1140px;--r:20px;
+}
+
+/* ── Grain overlay ── */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ── Progress bar ── */
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--coral),var(--amber));z-index:9999;width:0;transition:width .12s}
+
+/* ═══════ HERO ═══════ */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--dark);overflow:hidden}
+.hero-mesh{position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 80%,rgba(232,80,58,.18),transparent 55%),
+    radial-gradient(ellipse 50% 45% at 80% 20%,rgba(245,166,35,.1),transparent 55%),
+    radial-gradient(ellipse 40% 40% at 50% 50%,rgba(42,191,191,.06),transparent 50%);
+  animation:meshDrift 20s ease-in-out infinite alternate}
+@keyframes meshDrift{0%{transform:scale(1)}50%{transform:scale(1.05) translate(-1%,2%)}100%{transform:scale(1) translate(1%,-1%)}}
+.hero-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:64px 64px}
+.hero-inner{position:relative;z-index:2;text-align:center;max-width:900px;padding:40px 28px}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;padding:8px 20px;border-radius:100px;
+  background:rgba(232,80,58,.12);border:1px solid rgba(232,80,58,.2);
+  color:var(--coral-light);font-size:13px;font-weight:600;letter-spacing:1.5px;margin-bottom:32px}
+.hero-badge i{width:8px;height:8px;border-radius:50%;background:var(--coral);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,80,58,.5)}50%{box-shadow:0 0 0 8px rgba(232,80,58,0)}}
+.hero h1{font-family:'Noto Serif SC','Noto Sans SC',serif;font-size:clamp(32px,5.8vw,62px);font-weight:900;color:#fff;line-height:1.15;margin-bottom:28px;letter-spacing:-.5px}
+.hero .hl{background:linear-gradient(135deg,#FFD4C4,var(--coral-light) 30%,var(--amber) 70%,#FFE8B8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.42);max-width:720px;margin:0 auto 48px;line-height:2}
+.hero-stats{display:flex;justify-content:center;gap:48px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-family:'Playfair Display',serif;font-size:48px;color:#fff;display:block;line-height:1;font-weight:800}
+.stat-num span{font-family:'Noto Sans SC',sans-serif;font-size:14px;color:rgba(255,255,255,.28)}
+.stat-label{font-size:11px;color:rgba(255,255,255,.25);margin-top:6px;display:block;letter-spacing:1px}
+.hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.15);display:flex;flex-direction:column;align-items:center;gap:8px;font-size:10px;letter-spacing:3px;text-transform:uppercase}
+.hero-scroll span{width:1px;height:40px;background:linear-gradient(to bottom,rgba(255,255,255,.2),transparent);animation:scrollLine 2s infinite}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ═══════ STICKY NAV ═══════ */
+.topnav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:10px 0;transition:box-shadow .3s}
+.topnav.shadow{box-shadow:0 4px 20px rgba(13,13,26,.06)}
+.topnav-inner{max-width:var(--max-w);margin:0 auto;padding:0 24px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.topnav-inner::-webkit-scrollbar{display:none}
+.topnav-inner a{padding:7px 16px;border-radius:10px;font-size:13px;font-weight:600;white-space:nowrap;border:1.5px solid transparent;color:var(--slate);transition:all .25s}
+.topnav-inner a:hover{color:var(--coral);background:var(--coral-glow)}
+.topnav-inner a.on{background:var(--dark);color:#fff;border-color:var(--dark)}
+
+/* ═══════ CONTAINER ═══════ */
+.wrap{max-width:var(--max-w);margin:0 auto;padding:64px 24px 80px}
+
+/* ═══════ SECTION HEAD ═══════ */
+.sec-head{text-align:center;margin-bottom:56px}
+.sec-head .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;padding:6px 18px;border-radius:100px;margin-bottom:16px}
+.sec-head h2{font-family:'Noto Serif SC','Noto Sans SC',serif;font-size:clamp(26px,3.8vw,42px);font-weight:900;color:var(--charcoal);line-height:1.25;margin-bottom:12px}
+.sec-head p{font-size:14px;color:var(--muted);max-width:600px;margin:0 auto}
+
+/* ═══════ FEATURE CARD (image + text) ═══════ */
+.feat{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:24px;transition:box-shadow .4s,transform .4s}
+.feat:hover{box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;min-height:340px}
+.feat:nth-child(even) .feat-grid{direction:rtl}
+.feat:nth-child(even) .feat-grid>*{direction:ltr}
+.feat-body{padding:36px 40px;display:flex;flex-direction:column;justify-content:center}
+.feat-num{font-family:'Playfair Display',serif;font-size:56px;font-weight:900;color:rgba(232,80,58,.08);line-height:1;margin-bottom:-8px;letter-spacing:-2px}
+.feat-body h3{font-family:'Noto Serif SC','Noto Sans SC',serif;font-size:21px;font-weight:700;color:var(--charcoal);margin-bottom:14px;line-height:1.4}
+.feat-body p{font-size:13.5px;color:var(--slate);line-height:1.95;margin-bottom:14px}
+.feat-body ul{list-style:none;margin-bottom:14px}
+.feat-body li{font-size:13px;color:var(--slate);line-height:1.9;padding-left:20px;position:relative;margin-bottom:2px}
+.feat-body li::before{content:'';position:absolute;left:0;top:12px;width:7px;height:7px;border-radius:50%;background:var(--coral-light);opacity:.6}
+.feat-pic{display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#F5F3EF,#EDE9E3);padding:24px;overflow:hidden;position:relative}
+.feat-pic::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 70%,rgba(232,80,58,.04),transparent 60%)}
+.feat-pic img{max-height:380px;object-fit:contain;border-radius:12px;box-shadow:0 8px 32px rgba(13,13,26,.08);transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.feat:hover .feat-pic img{transform:scale(1.03)}
+.feat-pic-dual{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
+.feat-pic-dual img{max-height:280px;object-fit:contain;border-radius:12px;box-shadow:0 8px 32px rgba(13,13,26,.08);transition:transform .5s cubic-bezier(.22,1,.36,1)}
+
+/* ═══════ PROMPT CHIP ═══════ */
+.cmd{background:linear-gradient(135deg,#F5F3EF,#EDEBE5);border:1px solid rgba(232,80,58,.1);border-radius:12px;padding:14px 16px;font-size:12.5px;color:var(--charcoal);line-height:1.75;font-family:'JetBrains Mono','Noto Sans SC',monospace;cursor:pointer;position:relative;transition:all .25s;white-space:pre-wrap;word-break:break-all}
+.cmd:hover{border-color:var(--coral);box-shadow:0 2px 12px var(--coral-glow)}
+.cmd::before{content:'💬 示例指令';display:block;font-family:'Noto Sans SC',sans-serif;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px}
+.cmd::after{content:'📋 复制';position:absolute;right:12px;top:12px;font-size:10px;font-family:'Noto Sans SC',sans-serif;color:var(--coral);opacity:0;transition:opacity .2s}
+.cmd:hover::after{opacity:1}
+
+/* ═══════ COMPACT CARD (no image) ═══════ */
+.compact{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:32px 36px;margin-bottom:24px;transition:box-shadow .4s,transform .4s;position:relative;overflow:hidden}
+.compact::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(to bottom,var(--coral),var(--amber));border-radius:var(--r) 0 0 var(--r);opacity:.4}
+.compact:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.compact .feat-num{font-family:'Playfair Display',serif;font-size:48px;font-weight:900;color:rgba(232,80,58,.06);line-height:1;margin-bottom:-4px}
+.compact h3{font-family:'Noto Serif SC','Noto Sans SC',serif;font-size:20px;font-weight:700;color:var(--charcoal);margin:8px 0 14px;line-height:1.35}
+.compact p{font-size:13.5px;color:var(--slate);line-height:1.95;margin-bottom:14px}
+.compact ul{list-style:none;margin-bottom:14px}
+.compact li{font-size:13px;color:var(--slate);line-height:1.9;padding-left:20px;position:relative;margin-bottom:2px}
+.compact li::before{content:'';position:absolute;left:0;top:12px;width:7px;height:7px;border-radius:50%;background:var(--coral-light);opacity:.5}
+.accent-line{font-size:14px;color:var(--coral);font-weight:600;line-height:1.8}
+
+/* ═══════ SKILLS CATEGORY ═══════ */
+.cat{margin-bottom:56px;scroll-margin-top:80px}
+.cat-bar{display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:18px;border-bottom:2px solid var(--border);position:relative}
+.cat-bar::after{content:'';position:absolute;bottom:-2px;left:0;width:80px;height:2px;border-radius:1px}
+.cat-bar.coral::after{background:var(--coral)}
+.cat-bar.sky::after{background:var(--sky)}
+.cat-bar.plum::after{background:var(--plum)}
+.cat-bar.teal::after{background:var(--teal)}
+.cat-ico{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.cat-ico.coral{background:rgba(232,80,58,.08)}
+.cat-ico.sky{background:rgba(58,155,220,.08)}
+.cat-ico.plum{background:rgba(156,91,202,.08)}
+.cat-ico.teal{background:rgba(42,191,191,.08)}
+.cat-lbl h3{font-family:'Noto Serif SC','Noto Sans SC',serif;font-size:20px;font-weight:700;color:var(--charcoal);line-height:1.3}
+.cat-lbl small{font-size:12px;color:var(--muted)}
+
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.scard{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:22px 24px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.scard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity .3s}
+.scard.coral::before{background:linear-gradient(90deg,var(--coral),var(--amber))}
+.scard.sky::before{background:linear-gradient(90deg,var(--sky),#77C0FF)}
+.scard.plum::before{background:linear-gradient(90deg,var(--plum),#D46BDB)}
+.scard.teal::before{background:linear-gradient(90deg,var(--teal),#3AD9A0)}
+.scard:hover{border-color:transparent;box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.scard:hover::before{opacity:1}
+.scard-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.scard-n{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.scard.coral .scard-n{color:var(--coral);background:var(--coral-glow)}
+.scard.sky .scard-n{color:var(--sky);background:rgba(58,155,220,.08)}
+.scard.plum .scard-n{color:var(--plum);background:rgba(156,91,202,.08)}
+.scard.teal .scard-n{color:var(--teal);background:rgba(42,191,191,.08)}
+.scard-name{font-family:'Noto Serif SC','Noto Sans SC',serif;font-size:14px;font-weight:700;color:var(--charcoal);line-height:1.5;flex:1}
+.scard-desc{font-size:12.5px;color:var(--slate);line-height:1.85}
+.scard .cprompt{max-height:0;overflow:hidden;transition:max-height .4s,margin .4s,padding .4s}
+.scard.open .cprompt{max-height:200px;margin-top:14px;padding-top:14px;border-top:1px dashed var(--border)}
+
+/* ── scard with image (for skill 22) ── */
+.scard-img{margin-top:14px;border-radius:10px;overflow:hidden;box-shadow:0 4px 16px rgba(13,13,26,.06)}
+.scard-img img{width:100%;object-fit:cover}
+
+/* ═══════ TIPS ═══════ */
+.tips-box{background:var(--dark);border-radius:24px;padding:56px 44px;margin-top:64px;position:relative;overflow:hidden}
+.tips-box::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 45% 55% at 85% 15%,rgba(232,80,58,.14),transparent 55%),
+  radial-gradient(ellipse 40% 50% at 15% 85%,rgba(245,166,35,.08),transparent 55%)}
+.tips-box::after{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+  background-size:48px 48px}
+.tips-box>*{position:relative;z-index:1}
+.tips-box h2{font-family:'Noto Serif SC','Noto Sans SC',serif;font-size:30px;font-weight:900;color:#fff;text-align:center;margin-bottom:36px}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.tcard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:24px;transition:all .3s}
+.tcard:hover{background:rgba(255,255,255,.08);transform:translateY(-3px);border-color:rgba(232,80,58,.15)}
+.tcard .tico{font-size:28px;margin-bottom:12px}
+.tcard h4{font-family:'Noto Serif SC','Noto Sans SC',serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:8px}
+.tcard p{font-size:12.5px;color:rgba(255,255,255,.4);line-height:1.8}
+
+/* ═══════ FOOTER ═══════ */
+footer{background:var(--dark);color:rgba(255,255,255,.4);padding:56px 24px 40px;text-align:center}
+footer .brand{font-family:'Noto Serif SC','Noto Sans SC',serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:10px}
+footer .fsub{font-size:13px;line-height:1.9;max-width:480px;margin:0 auto 28px}
+footer .ftags{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+footer .ft{padding:5px 14px;border-radius:8px;font-size:11px;font-weight:600;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.35)}
+footer .copy{font-size:11px;color:rgba(255,255,255,.15)}
+
+/* ═══════ TOAST ═══════ */
+.toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--dark);color:#fff;padding:14px 24px;border-radius:14px;font-size:13px;font-weight:600;box-shadow:var(--shadow-lg);animation:toastIn .35s}
+@keyframes toastIn{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+
+/* ═══════ BACK TO TOP ═══════ */
+.btt{position:fixed;bottom:32px;right:32px;z-index:100;width:46px;height:46px;border-radius:14px;background:var(--dark);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);opacity:0;transform:translateY(16px);transition:all .3s;pointer-events:none}
+.btt.show{opacity:1;transform:none;pointer-events:auto}
+.btt:hover{background:var(--coral)}
+
+/* ═══════ REVEAL ═══════ */
+.rv{opacity:0;transform:translateY(28px);transition:all .7s cubic-bezier(.22,1,.36,1)}
+.rv.vis{opacity:1;transform:none}
+
+/* ═══════ RESPONSIVE ═══════ */
+@media(max-width:860px){
+  .feat-grid{grid-template-columns:1fr!important}
+  .feat:nth-child(even) .feat-grid{direction:ltr}
+  .feat-pic{min-height:220px}
+  .feat-body{padding:24px 20px}
+  .feat-num{font-size:40px}
+  .sgrid{grid-template-columns:1fr}
+  .tgrid{grid-template-columns:1fr}
+  .tips-box{padding:40px 20px}
+  .hero-stats{gap:28px}
+}
+@media(max-width:600px){
+  .wrap{padding:36px 14px 56px}
+  .hero h1{font-size:28px}
+  .stat-num{font-size:36px}
+  .sec-head h2{font-size:24px}
+  .feat-body{padding:20px 16px}
+  .compact{padding:24px 20px}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="prog"></div>
+
+<!-- ═══════ HERO ═══════ -->
+<header class="hero" id="top">
+  <div class="hero-mesh"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-badge"><i></i>企微管家Claw · 玩法使用指南</div>
+    <h1><span class="hl">企业微信 × 企微管家Claw</span><br>Skills 玩法使用指南</h1>
+    <p class="hero-sub">企微管家Claw安装包 = OpenClaw 的傻瓜化部署 + 企业微信原生接入 + 企微生态 Skills 集成<br>无需代码基础，零门槛 3 分钟搞定本地电脑安装部署</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">14<span>个</span></span><span class="stat-label">企微进阶玩法</span></div>
+      <div class="stat"><span class="stat-num">32<span>个</span></span><span class="stat-label">内置 Skills</span></div>
+      <div class="stat"><span class="stat-num">4<span>大</span></span><span class="stat-label">Skills 分类</span></div>
+      <div class="stat"><span class="stat-num">0<span>代码</span></span><span class="stat-label">部署门槛</span></div>
+    </div>
+  </div>
+  <div class="hero-scroll">SCROLL<span></span></div>
+</header>
+
+<!-- ═══════ NAV ═══════ -->
+<nav class="topnav" id="nav">
+  <div class="topnav-inner">
+    <a href="#part1" class="on">🦞 OpenClaw 玩法</a>
+    <a href="#part2">🧩 内置 Skills</a>
+    <a href="#cat-scrm">📈 SCRM 场景</a>
+    <a href="#cat-content">✍️ 内容创作</a>
+    <a href="#cat-design">🎨 设计生成</a>
+    <a href="#cat-tools">⚡ 效率工具</a>
+    <a href="#tips">💡 技巧总结</a>
+  </div>
+</nav>
+
+<!-- ═══════ MAIN ═══════ -->
+<div class="wrap">
+
+<!-- ═══════ PART 1 ═══════ -->
+<section id="part1" style="scroll-margin-top:80px">
+<div class="sec-head rv">
+  <div class="tag" style="color:var(--coral);background:var(--coral-glow)">🦞 PART 01</div>
+  <h2>企业微信接入 OpenClaw 玩法</h2>
+  <p>支持面向10人及以下个人及团队：支持机器人一整套玩法，助力高效养龙虾</p>
+</div>
+
+<!-- 01 总结群聊 → image1 ✅ -->
+<div class="feat rv">
+<div class="feat-grid">
+  <div class="feat-body">
+    <div class="feat-num">01</div>
+    <h3>总结群聊内容</h3>
+    <p>群里讨论消息太多，来不及看？现在，可以在企业微信让龙虾帮你查看单聊、群聊消息，它还可以自动帮你编辑好回复内容，发给对应的用户和群聊。</p>
+    <ul>
+      <li><b>消息总结</b>：自动总结群聊的讨论内容和结论，不用再爬楼了</li>
+      <li><b>待办汇总</b>：把讨论之后的待办事项自动汇总起来，碎片想法也能落到实处</li>
+      <li><b>通知提醒</b>：告诉龙虾你要通知谁、什么内容，它就能帮你自动通知到位</li>
+    </ul>
+    <div class="cmd" onclick="cp(this)">帮我总结周会群昨天一天的重要工作进展</div>
+  </div>
+  <div class="feat-pic"><img src="images/image1.png" alt="总结群聊" loading="lazy"></div>
+</div>
+</div>
+
+<!-- 02 提取待办 → 无图片，使用 compact 样式 -->
+<div class="compact rv">
+  <div class="feat-num">02</div>
+  <h3>提取待办事项</h3>
+  <p>从群聊的海量消息中自动提取关键待办事项，不再遗漏任何重要任务。龙虾会逐条整理出需要跟进的事项，让碎片化讨论变成可执行的 todo 清单。</p>
+  <div class="cmd" onclick="cp(this)">帮我把【群名】的聊天内容提取成待办事项</div>
+</div>
+
+<!-- 03 多群批量发通知 → image2 ✅ -->
+<div class="feat rv">
+<div class="feat-grid">
+  <div class="feat-body">
+    <div class="feat-num">03</div>
+    <h3>多群批量发通知</h3>
+    <p>一句话同时向多个群发送通知，不用一个个群去复制粘贴。</p>
+    <div class="cmd" onclick="cp(this)">帮我在项目群、研发三组群发送通知，内容：今天下班前提交日报</div>
+  </div>
+  <div class="feat-pic"><img src="images/image2.png" alt="多群批量发通知" loading="lazy"></div>
+</div>
+</div>
+
+<!-- 04 生成行业报告文档 → image3 ✅ -->
+<div class="feat rv">
+<div class="feat-grid">
+  <div class="feat-body">
+    <div class="feat-num">04</div>
+    <h3>生成行业报告文档</h3>
+    <p>总是消耗在信息汇总的案头工作上，没时间做更有价值的思考？现在，可以在企业微信让龙虾帮你快速搜集和整理信息，并且丝滑创建、写入、读取文档和智能表格，提高办公效率。无论是行业最新资讯，还是业务数据分析，龙虾都能快速生成准确报告。</p>
+    <div class="cmd" onclick="cp(this)">帮我搜集本周零售行业重要新闻，汇总成一篇企业微信文档</div>
+  </div>
+  <div class="feat-pic"><img src="images/image3.png" alt="行业报告" loading="lazy"></div>
+</div>
+</div>
+
+<!-- 05 生成行业信息表格 → image4 ✅ -->
+<div class="feat rv">
+<div class="feat-grid">
+  <div class="feat-body">
+    <div class="feat-num">05</div>
+    <h3>生成行业信息表格</h3>
+    <p>快速整理行业数据，自动生成结构化表格，包含企业名称、规模、主营类目、近期动向等多维信息。</p>
+    <div class="cmd" onclick="cp(this)">帮我整理餐饮行业 top10 企业基础信息和本月动向，做成表格，包含：企业名称、规模、主营类目、近期动向</div>
+  </div>
+  <div class="feat-pic"><img src="images/image4.png" alt="信息表格" loading="lazy"></div>
+</div>
+</div>
+
+<!-- 06 查空闲+安排会议 → image5 ✅ -->
+<div class="feat rv">
+<div class="feat-grid">
+  <div class="feat-body">
+    <div class="feat-num">06</div>
+    <h3>查空闲 + 安排会议</h3>
+    <p>定会议、约日程、写待办，什么时候才能从这些琐碎事情中解放？现在就可以在企业微信，让🦞帮你统统搞定。</p>
+    <ul>
+      <li><b>预定日程</b>：可以自动查看其他人的闲忙状态，帮你新建、查询、更新日程</li>
+      <li><b>预约会议</b>：可以帮你预定线上会议，还可以查询会议信息、取消会议、添加参会人</li>
+      <li><b>创建待办</b>：可以帮你创建待办任务，也可以查看待办列表、添加参与人、更改状态等</li>
+    </ul>
+    <div class="cmd" onclick="cp(this)">看下我和【人名】下周三下午的空闲时间，安排 1 小时讨论会</div>
+  </div>
+  <div class="feat-pic"><img src="images/image5.png" alt="查空闲安排会议" loading="lazy"></div>
+</div>
+</div>
+
+<!-- 07 预约会议 → image6 + image7 ✅ -->
+<div class="feat rv">
+<div class="feat-grid">
+  <div class="feat-body">
+    <div class="feat-num">07</div>
+    <h3>预约会议</h3>
+    <p>一句话快速预约会议，指定时间、参会人、时长，AI 自动创建并发送邀请。预约完成后还可以在日程日历中查看会议安排。</p>
+    <div class="cmd" onclick="cp(this)">帮我预约明天下午 5 点的需求沟通会，邀请【人名】参加，时长 1 小时</div>
+  </div>
+  <div class="feat-pic">
+    <div class="feat-pic-dual">
+      <img src="images/image6.png" alt="预约会议" loading="lazy">
+      <img src="images/image7.png" alt="日程日历" loading="lazy">
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 08 创建待办 → image8 ✅ -->
+<div class="feat rv">
+<div class="feat-grid">
+  <div class="feat-body">
+    <div class="feat-num">08</div>
+    <h3>创建待办 + 定时提醒</h3>
+    <p>通过自然语言快速创建待办事项，设定提醒时间，到点自动提醒，不再遗忘任何重要事项。</p>
+    <div class="cmd" onclick="cp(this)">帮我创建待办，主题：XXX，提醒时间：明天下午 3 点</div>
+  </div>
+  <div class="feat-pic"><img src="images/image8.png" alt="创建待办" loading="lazy"></div>
+</div>
+</div>
+
+<!-- 09 业绩追踪 → image9 ✅ -->
+<div class="feat rv">
+<div class="feat-grid">
+  <div class="feat-body">
+    <div class="feat-num">09</div>
+    <h3>业绩追踪自动化 — 每日客户分析</h3>
+    <p>每天自动分析客户跟进情况，找出成交卡点；超 7 天未跟进客户自动回收到公海；未达标销售自动每日复盘。</p>
+    <div class="cmd" onclick="cp(this)">帮我分析本周未成交客户原因，并给出跟进建议</div>
+  </div>
+  <div class="feat-pic"><img src="images/image9.png" alt="业绩追踪" loading="lazy"></div>
+</div>
+</div>
+
+<!-- 10 爆款内容 → image10 ✅ -->
+<div class="feat rv">
+<div class="feat-grid">
+  <div class="feat-body">
+    <div class="feat-num">10</div>
+    <h3>批量生成爆款内容</h3>
+    <p>OpenClaw 让内容生产从"苦想"变成"批量复制爆款逻辑"——跟龙虾说你的行业和需求，它就能自动帮你分析爆款、生成对标内容。</p>
+    <ul>
+      <li><b>拆解爆款规律</b>：自动抓取 30 篇高赞内容，归纳什么标题格式最容易被点开、什么场景最引发共鸣</li>
+      <li><b>批量生成内容</b>：照着爆款逻辑，自动生成 30 篇专属你门店的图文，标题 + 正文一并产出</li>
+      <li><b>持续迭代选题</b>：每周更新爆款库，让内容始终跟着平台热点走，而不是靠运营的个人感觉</li>
+    </ul>
+    <div class="cmd" onclick="cp(this)">我是广州连锁头疗店老板，帮我抓取同行 30 篇小红书爆款，分析内容特征，帮我生成 30 篇对标图文</div>
+  </div>
+  <div class="feat-pic"><img src="images/image10.png" alt="爆款内容" loading="lazy"></div>
+</div>
+</div>
+
+<!-- 11 跨境选品 → 无图片 compact -->
+<div class="compact rv">
+  <div class="feat-num">11</div>
+  <h3>用 OpenClaw 实现跨境精准选品与定价</h3>
+  <p>做跨境最怕的噩梦：花两周选的品，上架第三天竞品已经把价格砍穿，流量已跑。每天手动查价？十几个 SKU、三四个平台，光比价就能耗掉整个上午。</p>
+  <p>OpenClaw 让价格监控和选品分析 7×24 小时自动运转：</p>
+  <ul>
+    <li><b>实时价格预警</b>：全网扫描指定 SKU，价格一旦破线立即通知，不用守着屏幕刷新</li>
+    <li><b>爆品趋势报告</b>：自动抓取 TOP30 爆品数据，精确到 1 元内的主流价格带、头部卖家材质偏好、高赞评论里买家最在意什么，全部汇成趋势报告</li>
+    <li><b>动态跟踪更新</b>：每日自动刷新监测表格，选什么、定多少钱、什么时候调价</li>
+  </ul>
+  <div class="cmd" onclick="cp(this)">帮我查 eBay 全网保温杯 HD332 是否有价格低于 $250；帮我整理亚马逊、AliExpress 耳环行业前 30 爆品的品牌、材质、价格和好评率</div>
+</div>
+
+<!-- 12 销售拜访 → 无图片 compact -->
+<div class="compact rv">
+  <div class="feat-num">12</div>
+  <h3>用 OpenClaw 实现销售拜访自动化</h3>
+  <p>销售最缺的是什么？时间。约客户、翻聊天、查资料、写纪要——一件件琐事堆起来，半天就没了。真正用来谈客户的时间，反而只剩一小会儿。现在这些琐事，龙虾全能帮你搞定：</p>
+  <ul>
+    <li><b>会前自动约日程</b>：给龙虾发个语音"这周二见 xx 公司王总"，或者直接把机票截图丢给它，它自动把拜访计划填进日程，时间到点提醒</li>
+    <li><b>会前自动整理客户动态</b>：龙虾汇总客户动态形成企微文档直接发你手机上，和客户寒暄不怕没有话题</li>
+    <li><b>会后出待办</b>：拜访录音文稿丢给龙虾，它自动提炼这次聊出几个商机，写进客户跟进表，还能把会后 todo 放进你的企微待办</li>
+  </ul>
+  <p class="accent-line">让销售从"跑流程"变成"跑客户"，把时间花在能成交的地方。</p>
+</div>
+
+<!-- 13 招聘自动化 → 无图片 compact -->
+<div class="compact rv">
+  <div class="feat-num">13</div>
+  <h3>部门招聘全自动化</h3>
+  <p>招人最怕的，不是没人投，而是候选人推进靠人盯、面试安排来回确认、入职跟进又散落在多个表里，结果流程一长就容易漏人、卡人、耽误人。你只要告诉龙虾你的需求，再把候选人简历、岗位需求和相关表格发给它，它就能把招聘到入职的流程自动跑起来——</p>
+  <ul>
+    <li><b>自动整理和分析候选人</b>：自动解析简历、汇总到表格，并结合 JD 判断每位候选人更匹配的岗位，帮助团队更快筛出重点人选</li>
+    <li><b>自动推进面试安排</b>：根据指定时间自动检索相关面试官日历，找出空闲人选并创建面试日程，减少来回协调确认</li>
+    <li><b>自动跟进入职卡点</b>：自动检查各类表格里的入职进度，统一字段格式，识别工位未分、账号未开、培训未安排等问题，并按跟进人输出催办清单</li>
+  </ul>
+</div>
+
+<!-- 14 定时任务 → image11 ✅ -->
+<div class="feat rv">
+<div class="feat-grid">
+  <div class="feat-body">
+    <div class="feat-num">14</div>
+    <h3>定时任务行业资讯收集</h3>
+    <p>每天检索行业热门资讯，并以简报方式呈现。让 AI 成为你的私人信息助理，一次设置、永久生效。</p>
+    <div class="cmd" onclick="cp(this)">每天早上 10 点，设置定时任务 cron，把今日XX相关的最新资讯、热门使用技巧/案例总结发给我</div>
+  </div>
+  <div class="feat-pic"><img src="images/image11.png" alt="定时任务设置" loading="lazy"></div>
+</div>
+</div>
+
+</section>
+
+<!-- ═══════ PART 2 ═══════ -->
+<section id="part2" style="scroll-margin-top:80px">
+<div class="sec-head rv">
+  <div class="tag" style="color:var(--teal);background:rgba(42,191,191,.08)">🧩 PART 02</div>
+  <h2>企微管家Claw 内置 Skills 玩法指南</h2>
+  <p>新版文档已扩展为 32 个内置 Skills，覆盖微盛 SCRM、内容创作、设计生成、效率工具四大场景</p>
+</div>
+
+<!-- 一）结合微盛SCRM的Skills应用场景 -->
+<div class="cat rv" id="cat-scrm" style="scroll-margin-top:80px">
+<div class="cat-bar sky">
+  <div class="cat-ico sky">📈</div>
+  <div class="cat-lbl"><h3>结合微盛SCRM的 Skills 应用场景</h3><small>客户管理、营销触达、数据分析自动化</small></div>
+</div>
+<div class="sgrid">
+
+<div class="scard sky" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">1</span><div class="scard-name">客户列表智能查询</div></div>
+  <div class="scard-desc">用自然语言查询 SCRM 客户数据，AI 直接调用 API 返回结果。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">帮我查一下我的客户列表，显示最近添加的 10 位客户的名称、类型和添加时间</div></div>
+</div>
+
+<div class="scard sky" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">2</span><div class="scard-name">客户标签洞察分析</div></div>
+  <div class="scard-desc">统计客户标签分布，分析高价值客户群体并生成洞察报告。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">统计我所有客户的标签分布情况，按标签组分类，分析高意向客户占比</div></div>
+</div>
+
+<div class="scard sky" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">3</span><div class="scard-name">语音打标签</div></div>
+  <div class="scard-desc">通过语音或文字描述，AI 调用 SCRM API 为客户打标签。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">给客户 "李先生" 打上 "高意向" 和 "需要跟进" 标签</div></div>
+</div>
+
+<div class="scard sky" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">4</span><div class="scard-name">朋友圈群发任务创建</div></div>
+  <div class="scard-desc">告知文案和发送时间，AI 在 SCRM 创建群发任务，销售一键执行。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">帮我创建一个朋友圈群发任务，文案："春季限时优惠..."，明天上午 10 点发送给所有销售</div></div>
+</div>
+
+<div class="scard sky" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">5</span><div class="scard-name">个人 1V1 群发任务</div></div>
+  <div class="scard-desc">创建含文字和图片的个人群发任务，批量触达目标客户。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">创建个人群发任务：给标签为 "待回访" 的客户发送产品更新通知</div></div>
+</div>
+
+<div class="scard sky" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">6</span><div class="scard-name">AI 生成文案→SCRM 创建任务闭环</div></div>
+  <div class="scard-desc">AI 生成营销文案后，自动创建 SCRM 群发任务，实现内容生产与执行一体化。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">先帮我生成一条促销文案，然后创建朋友圈群发任务，定于明天 10:00 执行</div></div>
+</div>
+
+<div class="scard sky" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">7</span><div class="scard-name">员工活码创建 + 欢迎语设置</div></div>
+  <div class="scard-desc">通过对话创建员工活码，设置个性化欢迎语和自动打标签规则。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">帮我创建一个员工活码，设置欢迎语为 "您好，很高兴认识您！"，自动打上 "线下活动" 标签</div></div>
+</div>
+
+<div class="scard sky" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">8</span><div class="scard-name">流失客户分析报告</div></div>
+  <div class="scard-desc">查询流失客户列表，分析流失原因和趋势并给出挽回建议。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">查询最近 30 天的流失客户列表，分析流失原因和趋势，给出挽回建议</div></div>
+</div>
+
+<div class="scard sky" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">9</span><div class="scard-name">群聊数据统计分析</div></div>
+  <div class="scard-desc">获取客户群数据，统计人数、活跃度、退群率，生成社群健康度报告。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">获取我管理的所有客户群列表，统计每个群的总人数、客户数和退群率</div></div>
+</div>
+
+<div class="scard sky" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">10</span><div class="scard-name">营销任务督办提醒</div></div>
+  <div class="scard-desc">监控 SCRM 任务执行进度，自动提醒未按时完成的销售。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">检查昨天创建的朋友圈任务执行情况，未完成的督促对应销售执行</div></div>
+</div>
+
+<div class="scard sky" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">11</span><div class="scard-name">海报素材快速生成</div></div>
+  <div class="scard-desc">基于数据生成战报、活动、庆祝海报，4K 高清可直接存入 SCRM 素材库。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">根据 Q1 业绩数据生成一张 "战区业绩排行榜" 海报，TOP5 展示新增客户数和培训覆盖率</div></div>
+</div>
+
+<div class="scard sky" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">12</span><div class="scard-name">客户跟进记录语音录入</div></div>
+  <div class="scard-desc">通过语音告知客户跟进情况，AI 自动润色并同步至 SCRM 跟进记录。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">今天下午拜访了 XX 公司张总，对方对 AI 办公很感兴趣，需要一份详细方案，请记录这次跟进</div></div>
+</div>
+
+<div class="scard sky" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">13</span><div class="scard-name">AI 营销全链路闭环</div></div>
+  <div class="scard-desc">实现文案生成→表格同步→SCRM 任务创建→销售执行→任务催办的全流程 AI 驱动。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">帮我执行完整营销流程：生成国庆促销文案→同步到运营日历表格→创建朋友圈群发任务→设置 3 天后催办未执行的</div></div>
+</div>
+
+<div class="scard sky" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">14</span><div class="scard-name">新客户自动画像分析</div></div>
+  <div class="scard-desc">新加客户后，AI 自动分析来源渠道和标签特征，生成客户画像推送给销售。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">查询最近一周新增的客户，分析来源渠道分布和标签特征，生成新客户画像报告</div></div>
+</div>
+
+</div>
+</div>
+
+<!-- 一）内容创作 -->
+<div class="cat rv" id="cat-content" style="scroll-margin-top:80px">
+<div class="cat-bar coral">
+  <div class="cat-ico coral">✍️</div>
+  <div class="cat-lbl"><h3>内容创作与营销运营</h3><small>AI 助你生产内容、运营营销</small></div>
+</div>
+<div class="sgrid">
+
+<div class="scard coral" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">15</span><div class="scard-name">微信公众号文章创作与草稿发布</div></div>
+  <div class="scard-desc">AI 自动创作公众号文章并配图排版，直接发布到草稿箱方便审核发文。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">写一篇私域运营干货文章，生成封面并存为公众号草稿</div></div>
+</div>
+
+<div class="scard coral" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">16</span><div class="scard-name">微信公众号文章搜索</div></div>
+  <div class="scard-desc">按关键词搜索公众号文章，快速收集行业资料与竞品内容。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">搜索近三个月企微私域运营相关的优质公众号文章</div></div>
+</div>
+
+<div class="scard coral" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">17</span><div class="scard-name">微信公众号文章抓取</div></div>
+  <div class="scard-desc">提取公众号文章正文内容，用于内容归档、二次编辑与知识库沉淀。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">抓取这篇公众号文章并提取干净正文保存</div></div>
+</div>
+
+<div class="scard coral" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">18</span><div class="scard-name">银行朋友圈文案爆款与合规专家</div></div>
+  <div class="scard-desc">生成合规、简短吸睛的银行朋友圈文案，兼顾营销效果与风险规范。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">写一条定期存款活动朋友圈文案，简短合规有吸引力</div></div>
+</div>
+
+<div class="scard coral" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">19</span><div class="scard-name">AI 文本人性化改写</div></div>
+  <div class="scard-desc">将生硬的 AI 文本改写成自然流畅、贴近真人表达的话术与文案。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">把这段客户跟进话术改得更自然亲切</div></div>
+</div>
+
+</div>
+</div>
+
+<!-- 二）设计生成 -->
+<div class="cat rv" id="cat-design" style="scroll-margin-top:80px">
+<div class="cat-bar plum">
+  <div class="cat-ico plum">🎨</div>
+  <div class="cat-lbl"><h3>设计与可视化生成</h3><small>AI 帮你生成图片、PPT、网页</small></div>
+</div>
+<div class="sgrid">
+
+<div class="scard plum" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">20</span><div class="scard-name">AI 图片生成</div></div>
+  <div class="scard-desc">根据文字描述自动生成海报、封面、配图等视觉素材，满足日常设计需求。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">生成一张科技风格的企微 SCRM 产品宣传海报</div></div>
+</div>
+
+<div class="scard plum" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">21</span><div class="scard-name">小红书图片生成</div></div>
+  <div class="scard-desc">将文字内容拆分为小红书风格多图排版，快速产出种草图文素材。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">把私域获客技巧整理成 4 张小红书风格图片</div></div>
+</div>
+
+<div class="scard plum" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">22</span><div class="scard-name">Excalidraw 演示生成器</div></div>
+  <div class="scard-desc">快速生成流程图、架构图等手绘风格图示，用于讲解业务与系统逻辑。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">绘制一张客户从加微到成交的全流程流程图</div></div>
+</div>
+
+<div class="scard plum" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">23</span><div class="scard-name">AI PPT 生成器</div></div>
+  <div class="scard-desc">通过对话自动生成完整 PPT 内容结构，快速完成汇报与演示文稿。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">生成一份企微 SCRM 产品介绍 PPT</div></div>
+</div>
+
+<div class="scard plum" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">24</span><div class="scard-name">精美幻灯片生成</div></div>
+  <div class="scard-desc">制作可在线播放的网页版幻灯片，方便对外分享与无设备限制演示。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">将季度工作汇报生成可在线打开的网页幻灯片</div></div>
+</div>
+
+<div class="scard plum" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">25</span><div class="scard-name">精美网页设计并发布上线</div></div>
+  <div class="scard-desc">AI 设计产品落地页、活动页并直接发布上线，获得可访问链接。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">设计并发布一个 SCRM 产品介绍落地页</div></div>
+</div>
+
+</div>
+</div>
+
+<!-- 三）效率工具 -->
+<div class="cat rv" id="cat-tools" style="scroll-margin-top:80px">
+<div class="cat-bar teal">
+  <div class="cat-ico teal">⚡</div>
+  <div class="cat-lbl"><h3>效率工具与智能执行</h3><small>提升办公效率，智能执行各类任务</small></div>
+</div>
+<div class="sgrid">
+
+<div class="scard teal" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">26</span><div class="scard-name">浏览器自动化</div></div>
+  <div class="scard-desc">自动操控浏览器完成打开、点击、填表、截图等重复操作，提升办公效率。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">自动打开后台并截图今日客户数据统计页面</div></div>
+</div>
+
+<div class="scard teal" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">27</span><div class="scard-name">待办事项管理</div></div>
+  <div class="scard-desc">快速创建、管理待办任务，方便个人与团队工作安排与跟踪。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">添加明天给客户演示产品的待办任务并提醒</div></div>
+</div>
+
+<div class="scard teal" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">28</span><div class="scard-name">自我改进</div></div>
+  <div class="scard-desc">记录执行错误与优化经验，让 AI 持续提升任务执行准确率。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">记录本次数据同步失败原因，避免下次重复出错</div></div>
+</div>
+
+<div class="scard teal" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">29</span><div class="scard-name">百度搜索</div></div>
+  <div class="scard-desc">快速联网获取最新资讯、行业动态与知识资料，辅助决策与创作。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">搜索 2026 年企业私域运营最新趋势</div></div>
+</div>
+
+<div class="scard teal" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">30</span><div class="scard-name">GitHub 命令行工具</div></div>
+  <div class="scard-desc">快速管理代码仓库、Issue 与 PR，方便开发协作与项目状态查看。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">查看项目仓库中待审核的 PR 列表</div></div>
+</div>
+
+<div class="scard teal" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">31</span><div class="scard-name">Coze 应用问答</div></div>
+  <div class="scard-desc">在企微中直接调用扣子平台搭建的智能体，把分散能力统一收口到企微入口。</div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">调用扣子营销智能体，生成一段产品推广文案</div></div>
+</div>
+
+<!-- Skill 22 → image12 ✅ -->
+<div class="scard teal" onclick="this.classList.toggle('open')">
+  <div class="scard-top"><span class="scard-n">32</span><div class="scard-name">总结全网（本地）相关信息</div></div>
+  <div class="scard-desc">按需总结全网（本地）相关信息同步至企微智能表格，一键生成运营日历与策略汇总。</div>
+  <div class="scard-img"><img src="images/image12.png" alt="总结全网信息 - 私域运营日历" loading="lazy"></div>
+  <div class="cprompt"><div class="cmd" onclick="cp(this)">结合品牌特性，输出所有节日的运营策略（包含具体文案、动作），把这些同步到企微的智能表格中</div></div>
+</div>
+
+</div>
+</div>
+
+</section>
+
+<!-- ═══════ TIPS ═══════ -->
+<section id="tips" style="scroll-margin-top:80px">
+<div class="tips-box rv">
+  <h2>💡 技巧总结</h2>
+  <div class="tgrid">
+    <div class="tcard"><div class="tico">🎭</div><h4>告诉 AI 你的身份</h4><p>AI 会根据你的身份调整表达方式和输出内容的专业度，让结果更贴合你的实际需求。</p></div>
+    <div class="tcard"><div class="tico">📋</div><h4>提供上下文</h4><p>上下文越完整，输出越精准。提供背景信息、参考资料和明确目标，AI 才能给你最好的结果。</p></div>
+    <div class="tcard"><div class="tico">⏰</div><h4>善用定时任务</h4><p>把重复性工作全部交给 AI 定时执行——日报、资讯、提醒，一次设置永久生效。</p></div>
+    <div class="tcard"><div class="tico">🧠</div><h4>定期更新记忆</h4><p>让 AI 越来越懂你。定期告诉它你的工作习惯、偏好和经验，它会越用越顺手。</p></div>
+    <div class="tcard"><div class="tico">🔗</div><h4>组合使用能力</h4><p>搜索 → 整理 → 生成文档 → 同步表格，将多个能力串联起来，实现复杂工作流的自动化。</p></div>
+  </div>
+</div>
+</section>
+
+</div>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer>
+  <div class="brand">🦞 微盛·企微管家Claw</div>
+  <div class="fsub">让 AI 真正在企业微信里干活<br>企业微信官方服务商 · 基于 OpenClaw · 一键本地部署 · 安全合规</div>
+  <div class="ftags">
+    <span class="ft">群聊总结</span><span class="ft">SCRM自动化</span><span class="ft">行业报告</span>
+    <span class="ft">日程管理</span><span class="ft">爆款内容</span><span class="ft">跨境选品</span>
+    <span class="ft">招聘自动化</span><span class="ft">Skills技能</span><span class="ft">定时任务</span>
+  </div>
+  <div class="copy">微盛AI · 2026 · 企业微信和企微管家Claw Skills 玩法使用指南</div>
+</footer>
+
+<button class="btt" id="btt" onclick="scrollTo({top:0})"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 15-6-6-6 6"/></svg></button>
+
+<script>
+function cp(el){
+  event.stopPropagation();
+  const t=el.textContent.replace(/^💬 示例指令/,'').replace(/📋 复制$/,'').trim();
+  navigator.clipboard.writeText(t).then(()=>{
+    const d=document.createElement('div');d.className='toast';d.textContent='✓ 已复制到剪贴板';
+    document.body.appendChild(d);setTimeout(()=>{d.style.opacity='0';d.style.transition='opacity .3s';setTimeout(()=>d.remove(),300)},1800);
+  });
+}
+const ids=['part1','part2','cat-scrm','cat-content','cat-design','cat-tools','tips'];
+const links=document.querySelectorAll('.topnav-inner a');
+function upNav(){
+  let cur='';
+  ids.forEach(id=>{const s=document.getElementById(id);if(s&&s.getBoundingClientRect().top<=120)cur=id});
+  links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur));
+}
+addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  document.getElementById('prog').style.width=h.scrollTop/(h.scrollHeight-h.clientHeight)*100+'%';
+  document.getElementById('btt').classList.toggle('show',h.scrollTop>500);
+  document.getElementById('nav').classList.toggle('shadow',h.scrollTop>80);
+  upNav();
+});
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');obs.unobserve(x.target)}}),{threshold:.06});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

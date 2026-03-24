@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>企微管家 Claw · 企业安全解决方案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c10;
+    --bg2: #0d1117;
+    --bg3: #111820;
+    --surface: #141c24;
+    --border: #1e2d3d;
+    --border2: #243447;
+    --accent: #00d4ff;
+    --accent2: #0099cc;
+    --accent-dim: rgba(0,212,255,0.08);
+    --accent-glow: rgba(0,212,255,0.15);
+    --green: #39d353;
+    --green-dim: rgba(57,211,83,0.1);
+    --orange: #f0883e;
+    --orange-dim: rgba(240,136,62,0.1);
+    --red: #f85149;
+    --red-dim: rgba(248,81,73,0.1);
+    --yellow: #e3b341;
+    --text: #c9d1d9;
+    --text2: #8b949e;
+    --text3: #484f58;
+    --heading: #f0f6fc;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Grid noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── SIDEBAR NAV ── */
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 260px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 32px 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .sidebar-logo {
+    padding: 0 24px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-logo .wordmark {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--heading);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .sidebar-logo .tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    margin-top: 4px;
+    letter-spacing: 0.1em;
+  }
+
+  .version-badge {
+    display: inline-block;
+    background: var(--accent-dim);
+    border: 1px solid rgba(0,212,255,0.2);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-section {
+    padding: 24px 0 8px;
+  }
+
+  .nav-section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text3);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0 24px 8px;
+  }
+
+  .nav-item {
+    display: block;
+    padding: 7px 24px;
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+    position: relative;
+  }
+
+  .nav-item:hover, .nav-item.active {
+    color: var(--heading);
+    background: var(--accent-dim);
+    border-left-color: var(--accent);
+  }
+
+  .nav-item .badge {
+    float: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    padding: 1px 5px;
+    border-radius: 2px;
+    margin-top: 2px;
+  }
+
+  .badge-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(57,211,83,0.2); }
+  .badge-orange { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(240,136,62,0.2); }
+  .badge-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(248,81,73,0.2); }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    margin-left: 260px;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 64px 64px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, var(--bg2) 0%, var(--bg) 60%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(32px, 4vw, 52px);
+    color: var(--heading);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 .accent { color: var(--accent); }
+
+  .hero-desc {
+    font-size: 15px;
+    color: var(--text2);
+    max-width: 600px;
+    margin-bottom: 32px;
+    line-height: 1.8;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text2);
+  }
+
+  .meta-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ── ALERT BANNER ── */
+  .alert-banner {
+    margin: 32px 64px 0;
+    background: rgba(248,81,73,0.06);
+    border: 1px solid rgba(248,81,73,0.25);
+    border-radius: 6px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .alert-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .alert-content strong {
+    display: block;
+    color: var(--red);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .alert-content p {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  /* ── CONTENT AREA ── */
+  .content {
+    padding: 48px 64px;
+    max-width: 960px;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 64px;
+    scroll-margin-top: 32px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    background: var(--accent-dim);
+    border: 1px solid rgba(0,212,255,0.2);
+    padding: 3px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  .section h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--heading);
+    letter-spacing: -0.01em;
+  }
+
+  /* ── CARDS ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+
+  .card:hover { border-color: var(--border2); }
+
+  .card-icon { font-size: 20px; margin-bottom: 10px; }
+
+  .card h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--heading);
+    margin-bottom: 8px;
+  }
+
+  .card p {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  /* ── 六要六不要 ITEMS ── */
+  .rule-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .rule-item:hover { border-color: var(--border2); }
+
+  .rule-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .rule-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .rule-num.do { background: var(--green-dim); color: var(--green); border: 1px solid rgba(57,211,83,0.2); }
+  .rule-num.dont { background: var(--red-dim); color: var(--red); border: 1px solid rgba(248,81,73,0.2); }
+
+  .rule-title {
+    flex: 1;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--heading);
+  }
+
+  .rule-feasibility {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .feas-direct { background: var(--green-dim); color: var(--green); border: 1px solid rgba(57,211,83,0.2); }
+  .feas-modify { background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(240,136,62,0.2); }
+
+  .rule-priority {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 7px;
+    border-radius: 3px;
+    margin-left: 8px;
+    flex-shrink: 0;
+  }
+
+  .p0 { background: rgba(248,81,73,0.1); color: var(--red); border: 1px solid rgba(248,81,73,0.2); }
+  .p1 { background: rgba(240,136,62,0.1); color: var(--orange); border: 1px solid rgba(240,136,62,0.2); }
+  .p2 { background: rgba(0,212,255,0.08); color: var(--accent); border: 1px solid rgba(0,212,255,0.2); }
+
+  .rule-body {
+    padding: 0 20px 20px;
+    border-top: 1px solid var(--border);
+    display: none;
+  }
+
+  .rule-body.open { display: block; }
+
+  .rule-body .mandate {
+    background: var(--bg3);
+    border-left: 3px solid var(--accent2);
+    padding: 10px 14px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: var(--text2);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .rule-body .mandate strong { color: var(--text); font-weight: 500; }
+
+  /* ── CODE BLOCK ── */
+  pre {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    margin: 12px 0;
+  }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: #79c0ff;
+    line-height: 1.7;
+  }
+
+  pre code { display: block; }
+
+  .inline-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: #79c0ff;
+  }
+
+  /* ── CHECKLIST ── */
+  .checklist {
+    list-style: none;
+    margin: 12px 0;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 5px 0;
+    font-size: 13px;
+    color: var(--text2);
+  }
+
+  .checklist li::before {
+    content: '□';
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--border2);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── ACCEPTANCE ── */
+  .acceptance {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-top: 12px;
+  }
+
+  .acceptance-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .acceptance p {
+    font-size: 13px;
+    color: var(--text2);
+  }
+
+  /* ── SUMMARY TABLE ── */
+  .table-wrap { overflow-x: auto; margin: 16px 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+    vertical-align: top;
+  }
+
+  tr:hover td { background: var(--accent-dim); }
+
+  td:first-child { color: var(--heading); font-weight: 500; font-size: 12px; }
+
+  /* ── ROADMAP ── */
+  .roadmap { margin: 16px 0; }
+
+  .phase {
+    margin-bottom: 24px;
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .phase-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+
+  .phase-label.p0 { background: rgba(248,81,73,0.12); color: var(--red); border: 1px solid rgba(248,81,73,0.25); }
+  .phase-label.p1 { background: rgba(240,136,62,0.12); color: var(--orange); border: 1px solid rgba(240,136,62,0.25); }
+  .phase-label.p2 { background: rgba(0,212,255,0.08); color: var(--accent); border: 1px solid rgba(0,212,255,0.2); }
+
+  .phase-title {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--heading);
+  }
+
+  .phase-items { display: flex; flex-direction: column; gap: 8px; padding-left: 8px; }
+
+  .phase-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .phase-item .duration {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  /* ── COMPLIANCE TABLE ── */
+  .compliance-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  /* ── ARCHITECTURE DIAGRAM ── */
+  .arch-diagram {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px;
+    margin: 24px 0;
+    position: relative;
+  }
+
+  .arch-layers {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .arch-layer {
+    display: flex;
+    align-items: stretch;
+    gap: 2px;
+  }
+
+  .arch-label {
+    width: 120px;
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    display: flex;
+    align-items: center;
+    padding-right: 12px;
+    text-align: right;
+    justify-content: flex-end;
+    letter-spacing: 0.05em;
+  }
+
+  .arch-nodes {
+    flex: 1;
+    display: flex;
+    gap: 6px;
+  }
+
+  .arch-node {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--text);
+    text-align: center;
+    position: relative;
+  }
+
+  .arch-node .node-status {
+    font-size: 9px;
+    display: block;
+    margin-top: 3px;
+  }
+
+  .arch-node.native { border-color: rgba(57,211,83,0.3); background: rgba(57,211,83,0.04); }
+  .arch-node.native .node-status { color: var(--green); }
+  .arch-node.modify { border-color: rgba(240,136,62,0.3); background: rgba(240,136,62,0.04); }
+  .arch-node.modify .node-status { color: var(--orange); }
+  .arch-node.develop { border-color: rgba(0,212,255,0.2); background: var(--accent-dim); }
+  .arch-node.develop .node-status { color: var(--accent); }
+
+  .arch-arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 0;
+    color: var(--border2);
+    font-size: 16px;
+  }
+
+  .arch-legend {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text2);
+  }
+
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 2px;
+  }
+
+  /* ── CONFIG BLOCK ── */
+  .config-block {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+
+  .config-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+  }
+
+  .config-filename {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text2);
+  }
+
+  .config-lang {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    background: var(--surface);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: 64px;
+    padding: 32px 64px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-left p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+    line-height: 1.8;
+  }
+
+  .footer-refs {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: right;
+  }
+
+  .footer-refs a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-refs a:hover { color: var(--accent); }
+
+  /* ── SUBSECTION TITLE ── */
+  .subsection-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--heading);
+    margin: 32px 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .subsection-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  p { margin-bottom: 12px; font-size: 14px; }
+  p:last-child { margin-bottom: 0; }
+
+  .highlight-box {
+    background: var(--accent-dim);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .highlight-box strong { color: var(--accent); }
+
+  /* ── STRATEGY SECTION ── */
+  .strategy-section {
+    margin-top: 24px;
+    padding: 40px 0 8px;
+    border-top: 1px solid var(--border);
+    position: relative;
+  }
+
+  .strategy-section::before {
+    content: '';
+    position: absolute;
+    top: 24px;
+    right: 0;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 72%);
+    pointer-events: none;
+    filter: blur(8px);
+  }
+
+  .strategy-hero {
+    position: relative;
+    overflow: hidden;
+    background:
+      linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(17,24,32,0.9) 38%, rgba(8,12,16,0.98) 100%),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: auto, 28px 28px, 28px 28px;
+    border: 1px solid rgba(0,212,255,0.16);
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.28);
+  }
+
+  .strategy-hero::after {
+    content: '';
+    position: absolute;
+    inset: auto -80px -120px auto;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(57,211,83,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .strategy-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-bottom: 18px;
+  }
+
+  .strategy-kicker::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .strategy-main-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(30px, 3.6vw, 42px);
+    color: var(--heading);
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    max-width: 760px;
+    margin-bottom: 18px;
+  }
+
+  .strategy-positioning {
+    max-width: 760px;
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.9;
+  }
+
+  .strategy-positioning strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .strategy-grid {
+    display: grid;
+    gap: 18px;
+  }
+
+  .strategy-block {
+    position: relative;
+    background: linear-gradient(180deg, rgba(20,28,36,0.98) 0%, rgba(13,17,23,0.98) 100%);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 24px 20px;
+    overflow: hidden;
+  }
+
+  .strategy-block::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(0,212,255,0.45), rgba(0,212,255,0));
+  }
+
+  .strategy-block-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+
+  .strategy-index {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: var(--accent-dim);
+    border: 1px solid rgba(0,212,255,0.22);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+
+  .strategy-heading {
+    flex: 1;
+    min-width: 260px;
+  }
+
+  .strategy-heading h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--heading);
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+
+  .strategy-heading p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--accent);
+    line-height: 1.7;
+  }
+
+  .strategy-body {
+    display: grid;
+    gap: 14px;
+  }
+
+  .strategy-line {
+    position: relative;
+    padding: 16px 18px;
+    background: rgba(8,12,16,0.72);
+    border: 1px solid rgba(36,52,71,0.86);
+    border-radius: 10px;
+  }
+
+  .strategy-line::before {
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 0;
+    bottom: 16px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: linear-gradient(180deg, var(--accent), rgba(0,212,255,0.08));
+  }
+
+  .strategy-line p {
+    margin: 0;
+    padding-left: 12px;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.9;
+  }
+
+  .strategy-line p strong {
+    color: var(--heading);
+    font-weight: 600;
+  }
+
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+    .hero, .content, .footer { padding-left: 24px; padding-right: 24px; }
+    .alert-banner { margin-left: 24px; margin-right: 24px; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .strategy-hero, .strategy-block { padding: 22px 18px; }
+    .strategy-line { padding: 14px 14px 14px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="wordmark">🦞 企微管家 Claw</div>
+    <div class="tagline">// ENTERPRISE SECURITY POLICY</div>
+    <div class="version-badge">v2.0 · 2026-03-12</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">概览</div>
+    <a href="#background" class="nav-item">背景与监管依据</a>
+    <a href="#architecture" class="nav-item">整体安全架构</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">六要（Six Dos）</div>
+    <a href="#do1" class="nav-item">要1 · 官方最新版本 <span class="badge badge-green">✅ P0</span></a>
+    <a href="#do2" class="nav-item">要2 · 严控暴露面 <span class="badge badge-green">✅ P0</span></a>
+    <a href="#do3" class="nav-item">要3 · 最小权限原则 <span class="badge badge-green">✅ P0</span></a>
+    <a href="#do4" class="nav-item">要4 · 谨慎 Skill 市场 <span class="badge badge-orange">🔧 P1</span></a>
+    <a href="#do5" class="nav-item">要5 · 防社工攻击 <span class="badge badge-orange">🔧 P1</span></a>
+    <a href="#do6" class="nav-item">要6 · 长效防护机制 <span class="badge badge-green">✅ P1</span></a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">六不要（Six Don'ts）</div>
+    <a href="#dont1" class="nav-item">不要1 · 第三方镜像 <span class="badge badge-green">✅ P0</span></a>
+    <a href="#dont2" class="nav-item">不要2 · 暴露公网 <span class="badge badge-green">✅ P0</span></a>
+    <a href="#dont3" class="nav-item">不要3 · 管理员账号 <span class="badge badge-green">✅ P0</span></a>
+    <a href="#dont4" class="nav-item">不要4 · 高危 Skill <span class="badge badge-orange">🔧 P1</span></a>
+    <a href="#dont5" class="nav-item">不要5 · 不可信 URL <span class="badge badge-orange">🔧 P2</span></a>
+    <a href="#dont6" class="nav-item">不要6 · 关闭日志 <span class="badge badge-green">✅ P0</span></a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">汇总</div>
+    <a href="#summary" class="nav-item">可行性评审汇总</a>
+    <a href="#roadmap" class="nav-item">实施路线图</a>
+    <a href="#compliance" class="nav-item">合规对齐矩阵</a>
+    <a href="#config" class="nav-item">配置速查</a>
+    <a href="#strategy" class="nav-item">产品策略补充</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">工信部 NVDB · 2026-03-11 发布</div>
+    <h1>企微管家 Claw<br><span class="accent">企业安全</span>解决方案</h1>
+    <p class="hero-desc">
+      基于工信部《OpenClaw 安全使用"六要六不要"》指南，结合 NIST AI RMF 与 ISO/IEC 42001 标准，
+      构建覆盖接入控制、内容审计、Skill 治理、执行管控、网络隔离的纵深防御体系。
+    </p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-dot"></span>版本 v2.0</div>
+      <div class="meta-item">状态：实施评审版</div>
+      <div class="meta-item">参考：工信部 NVDB · NIST AI RMF · ISO 42001</div>
+    </div>
+  </div>
+
+  <!-- ALERT -->
+  <div class="alert-banner">
+    <div class="alert-icon">⚠️</div>
+    <div class="alert-content">
+      <strong>// SECURITY ADVISORY</strong>
+      <p>CNCERT 披露：超过 <strong>20 万个</strong> OpenClaw 实例裸露公网。CVE-2026-25253（CVSS 8.8）远程代码执行漏洞已被公开利用。恶意 Skill 伪装成 PDF 工具/加密货币助手，实则窃取凭证植入后门。</p>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- 背景 -->
+    <section class="section" id="background">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <h2>背景与监管依据</h2>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">🏢</div>
+          <h3>智能办公场景</h3>
+          <p>供应链攻击（恶意 Skill）导致企业内网横向渗透，敏感数据泄露。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚙️</div>
+          <h3>开发运维场景</h3>
+          <p>系统敏感信息泄露、设备被劫持控制，DevOps 流水线遭渗透。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🤖</div>
+          <h3>个人助手场景</h3>
+          <p>Prompt 注入误执行危险命令，个人信息被窃，隐私裸露公网。</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💰</div>
+          <h3>金融交易场景</h3>
+          <p>账户被接管，错误操作引发资金损失，交易权限遭非法利用。</p>
+        </div>
+      </div>
+
+      <div class="subsection-title">相关法规</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>法规 / 标准</th>
+              <th>生效时间</th>
+              <th>核心要求</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>《网络安全法》修订版</td>
+              <td>2026-01-01</td>
+              <td>首次将 AI 纳入法治监管框架</td>
+            </tr>
+            <tr>
+              <td>《AI 生成内容安全管理办法》升级版</td>
+              <td>2026-02-17</td>
+              <td>强制内容标识，高风险领域准入评估</td>
+            </tr>
+            <tr>
+              <td>《AI 生成合成内容标识方法》国标</td>
+              <td>2026-02 强制</td>
+              <td>AI 内容强制标识</td>
+            </tr>
+            <tr>
+              <td>工信部 NVDB"六要六不要"</td>
+              <td>2026-03-11</td>
+              <td>OpenClaw 专项安全使用指南</td>
+            </tr>
+            <tr>
+              <td>NIST AI RMF</td>
+              <td>2023-01</td>
+              <td>Govern / Map / Measure / Manage</td>
+            </tr>
+            <tr>
+              <td>ISO/IEC 42001</td>
+              <td>2023-12</td>
+              <td>首个可认证 AI 管理体系国际标准</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 架构 -->
+    <section class="section" id="architecture">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <h2>整体安全架构</h2>
+      </div>
+
+      <div class="arch-diagram">
+        <div class="arch-layers">
+          <div class="arch-layer">
+            <div class="arch-label">用户接入</div>
+            <div class="arch-nodes">
+              <div class="arch-node native">企业微信用户<span class="node-status">✅ 原生支持</span></div>
+              <div class="arch-node native">Telegram 用户<span class="node-status">✅ 原生支持</span></div>
+              <div class="arch-node native">Web Chat 用户<span class="node-status">✅ 原生支持</span></div>
+            </div>
+          </div>
+          <div class="arch-arrow">↓</div>
+          <div class="arch-layer">
+            <div class="arch-label">接入控制</div>
+            <div class="arch-nodes">
+              <div class="arch-node native">Pairing 认证网关<span class="node-status">✅ dmPolicy: pairing</span></div>
+              <div class="arch-node modify">Zero Trust IAM<span class="node-status">🔧 需改造</span></div>
+              <div class="arch-node modify">MFA 多因素验证<span class="node-status">🔧 需改造</span></div>
+            </div>
+          </div>
+          <div class="arch-arrow">↓</div>
+          <div class="arch-layer">
+            <div class="arch-label">内容审计</div>
+            <div class="arch-nodes">
+              <div class="arch-node develop">输入内容审计<span class="node-status">🔧 需开发</span></div>
+              <div class="arch-node develop">Prompt Injection 检测<span class="node-status">🔧 需开发</span></div>
+              <div class="arch-node develop">输出 DLP 过滤<span class="node-status">🔧 需开发</span></div>
+            </div>
+          </div>
+          <div class="arch-arrow">↓</div>
+          <div class="arch-layer">
+            <div class="arch-label">Gateway Core</div>
+            <div class="arch-nodes">
+              <div class="arch-node native">Skill 沙箱 (Docker)<span class="node-status">✅ 原生支持</span></div>
+              <div class="arch-node native">exec.security=allowlist<span class="node-status">✅ 配置实现</span></div>
+              <div class="arch-node modify">Skill 审查注册表<span class="node-status">🔧 流程改造</span></div>
+            </div>
+          </div>
+          <div class="arch-arrow">↓</div>
+          <div class="arch-layer">
+            <div class="arch-label">数据 / 网络</div>
+            <div class="arch-nodes">
+              <div class="arch-node native">审计日志 (180天)<span class="node-status">✅ logrotate</span></div>
+              <div class="arch-node native">TLS + SSRF 防护<span class="node-status">✅ 防火墙规则</span></div>
+              <div class="arch-node modify">域名白名单<span class="node-status">🔧 插件开发</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="arch-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--green); border-radius:2px;"></div> 原生支持，配置即用</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--orange); border-radius:2px;"></div> 需要改造或流程建设</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--accent); border-radius:2px;"></div> 需要插件开发</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 六要 -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <h2>六要（Six Dos）— 可行性评审与实施</h2>
+      </div>
+
+      <!-- 要1 -->
+      <div class="rule-item" id="do1">
+        <div class="rule-header" onclick="toggle(this)">
+          <div class="rule-num do">要1</div>
+          <div class="rule-title">使用官方最新版本</div>
+          <span class="rule-feasibility feas-direct">✅ 可直接实施</span>
+          <span class="rule-priority p0">P0</span>
+          <span style="color:var(--text3);font-size:18px;margin-left:8px">›</span>
+        </div>
+        <div class="rule-body">
+          <div class="mandate"><strong>监管要求：</strong>从官方渠道下载最新稳定版本，开启自动更新提醒；升级前备份，升级后验证补丁生效。</div>
+          <p>OpenClaw 支持内置更新机制（<span class="inline-code">gateway.update.run</span>），可通过 Gateway API 触发更新并重启。</p>
+          <div class="config-block">
+            <div class="config-header"><span class="config-filename">shell</span><span class="config-lang">bash</span></div>
+            <pre><code># 1. 查看当前版本
+openclaw version
+
+# 2. 触发就地更新（SIGUSR1 热重启）
+openclaw update
+
+# 3. 更新前备份
+cp -r ~/.openclaw ~/.openclaw.bak.$(date +%Y%m%d)
+
+# 4. 更新后验证
+openclaw doctor --non-interactive</code></pre>
+          </div>
+          <p style="margin-top:12px;">每周一 09:00 通过 cron 自动检查版本；发现新版本 → 通知管理员 → 确认后执行更新。</p>
+          <div class="acceptance">
+            <div class="acceptance-label">验收标准</div>
+            <p>当前版本与官方 latest 一致；无已知 CVE 漏洞版本在运行；<span class="inline-code">openclaw doctor</span> 无 error。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 要2 -->
+      <div class="rule-item" id="do2">
+        <div class="rule-header" onclick="toggle(this)">
+          <div class="rule-num do">要2</div>
+          <div class="rule-title">严控互联网暴露面</div>
+          <span class="rule-feasibility feas-direct">✅ 可直接实施</span>
+          <span class="rule-priority p0">P0</span>
+          <span style="color:var(--text3);font-size:18px;margin-left:8px">›</span>
+        </div>
+        <div class="rule-body">
+          <div class="mandate"><strong>监管要求：</strong>定期自查是否暴露公网；必须访问时使用 SSH 加密通道并限制源地址，使用强密码或证书认证。</div>
+          <p>OpenClaw Gateway 默认绑定 <span class="inline-code">127.0.0.1</span>，天然不暴露公网。这是已有的正确默认值，需固化为配置基线。</p>
+          <div class="config-block">
+            <div class="config-header"><span class="config-filename">网络架构要求</span><span class="config-lang">diagram</span></div>
+            <pre><code>[企业内网] ──VPN──▶ [OpenClaw 127.0.0.1:PORT]  ✅
+[外部访问] ──SSH隧道──▶ [OpenClaw 127.0.0.1:PORT]  ✅
+[公网直连] ──────▶ [OpenClaw 0.0.0.0:PORT]  ❌ 禁止</code></pre>
+          </div>
+          <div class="config-block">
+            <div class="config-header"><span class="config-filename">暴露面验证 + 每日扫描</span><span class="config-lang">bash</span></div>
+            <pre><code># 验证 Gateway 绑定地址（应为 127.0.0.1）
+ss -tlnp | grep &lt;gateway_port&gt;
+
+# 每日自动扫描（cron）
+nmap -sT -p &lt;port&gt; &lt;public_ip&gt; | grep -q "open" &amp;&amp; \
+  echo "⚠️ OpenClaw 暴露公网！" | 企微告警推送</code></pre>
+          </div>
+          <ul class="checklist">
+            <li>Gateway 绑定地址为 127.0.0.1（非 0.0.0.0）</li>
+            <li>Gateway Token 已设置（非空）</li>
+            <li>无公网端口映射（检查路由器/防火墙规则）</li>
+            <li>远程访问通过 SSH 隧道</li>
+          </ul>
+          <div class="acceptance">
+            <div class="acceptance-label">验收标准</div>
+            <p>从公网 IP 扫描 Gateway 端口，状态为 <span class="inline-code">closed</span> 或 <span class="inline-code">filtered</span>。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 要3 -->
+      <div class="rule-item" id="do3">
+        <div class="rule-header" onclick="toggle(this)">
+          <div class="rule-num do">要3</div>
+          <div class="rule-title">坚持最小权限原则</div>
+          <span class="rule-feasibility feas-direct">✅ 可直接实施</span>
+          <span class="rule-priority p0">P0</span>
+          <span style="color:var(--text3);font-size:18px;margin-left:8px">›</span>
+        </div>
+        <div class="rule-body">
+          <div class="mandate"><strong>监管要求：</strong>按业务需要授予最小权限；删除、发送、修改系统配置等操作二次确认或管理员审批；优先容器/VM 隔离运行。</div>
+          <p>OpenClaw 原生支持 <span class="inline-code">exec.security=allowlist</span>、Docker 沙箱（<span class="inline-code">openclaw-sandbox:bookworm-slim</span>）、文件系统限制 <span class="inline-code">workspaceOnly</span>。</p>
+          <div class="config-block">
+            <div class="config-header"><span class="config-filename">openclaw.json</span><span class="config-lang">json</span></div>
+            <pre><code>{
+  "tools": {
+    "exec": {
+      "security": "allowlist",  // 仅允许白名单命令
+      "ask": "on-miss",         // 非白名单命令需审批
+      "host": "sandbox"         // 强制在 Docker 沙箱执行
+    },
+    "fs": {
+      "workspaceOnly": true     // 文件操作限定在 workspace
+    }
+  }
+}</code></pre>
+          </div>
+          <div class="config-block">
+            <div class="config-header"><span class="config-filename">Docker 沙箱启动（生产推荐）</span><span class="config-lang">bash</span></div>
+            <pre><code>docker run --read-only \
+  --network none \
+  -v ~/.openclaw/workspace:/workspace \
+  --memory 512m --cpus 1.0 \
+  openclaw-sandbox:bookworm-slim
+
+# 专用低权限服务账号
+sudo useradd -r -s /bin/false openclaw-svc
+sudo -u openclaw-svc openclaw gateway start</code></pre>
+          </div>
+          <div class="acceptance">
+            <div class="acceptance-label">验收标准</div>
+            <p><span class="inline-code">exec.security</span> 不为 <span class="inline-code">full</span>；运行账号非 root/admin；生产环境运行于 Docker 沙箱。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 要4 -->
+      <div class="rule-item" id="do4">
+        <div class="rule-header" onclick="toggle(this)">
+          <div class="rule-num do">要4</div>
+          <div class="rule-title">谨慎使用技能市场（ClawHub）</div>
+          <span class="rule-feasibility feas-modify">🔧 需流程改造</span>
+          <span class="rule-priority p1">P1</span>
+          <span style="color:var(--text3);font-size:18px;margin-left:8px">›</span>
+        </div>
+        <div class="rule-body">
+          <div class="mandate"><strong>监管要求：</strong>审慎下载 ClawHub 技能包；安装前审查 Skill 代码；已披露恶意 Skill 伪装 PDF 工具/加密货币助手窃取凭证。</div>
+          <p>OpenClaw 目前无内置 Skill 审核审批流程，需通过配置禁用自动安装 + 建立人工审查流程补充。</p>
+          <div class="config-block">
+            <div class="config-header"><span class="config-filename">阶段一：立即禁用自动安装</span><span class="config-lang">json</span></div>
+            <pre><code>{
+  "tools": {
+    "deny": ["clawhub.install", "clawhub.update"]
+  }
+}</code></pre>
+          </div>
+          <div class="config-block">
+            <div class="config-header"><span class="config-filename">skill-safety-check.sh</span><span class="config-lang">bash</span></div>
+            <pre><code>#!/bin/bash
+DANGEROUS_PATTERNS=("curl.*|.*sh" "wget.*|.*sh" "\.zip" "unzip"
+  "chmod.*+x" "sudo" "password|passwd|密码" "rm -rf")
+
+for pattern in "${DANGEROUS_PATTERNS[@]}"; do
+  grep -rqi "$pattern" "$1" &amp;&amp; \
+    echo "⚠️ 危险模式: $pattern" &amp;&amp; exit 1
+done
+echo "✅ 扫描通过"</code></pre>
+          </div>
+          <ul class="checklist">
+            <li>metadata.requires.bins 中的二进制来自官方包管理器</li>
+            <li>无访问 workspace 外路径的逻辑</li>
+            <li>无出网请求到非白名单域名</li>
+            <li>无硬编码密钥或可疑混淆代码</li>
+            <li>无要求"下载ZIP / 执行shell脚本 / 输入密码"的步骤</li>
+          </ul>
+          <div class="acceptance">
+            <div class="acceptance-label">验收标准</div>
+            <p>所有已安装 Skill 均有书面安全审查记录；<span class="inline-code">clawhub install</span> 命令不可由 Agent 自主执行。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 要5 -->
+      <div class="rule-item" id="do5">
+        <div class="rule-header" onclick="toggle(this)">
+          <div class="rule-num do">要5</div>
+          <div class="rule-title">防范社工攻击和浏览器劫持</div>
+          <span class="rule-feasibility feas-modify">🔧 需改造</span>
+          <span class="rule-priority p1">P1</span>
+          <span style="color:var(--text3);font-size:18px;margin-left:8px">›</span>
+        </div>
+        <div class="rule-body">
+          <div class="mandate"><strong>监管要求：</strong>使用浏览器沙箱/过滤器阻止可疑脚本；启用日志审计；遇可疑行为立即断网并重置密码。</div>
+          <div class="highlight-box">
+            <strong>⚠️ 重要：间接 Prompt Injection</strong><br>
+            工具返回内容（网页、文档、邮件）同样是注入载体。<span class="inline-code">web_fetch</span> / <span class="inline-code">read</span> 返回的内容必须过滤，防止恶意内容通过工具调用注入 Agent 上下文。这是本方案技术难度最高的一项。
+          </div>
+          <div class="config-block">
+            <div class="config-header"><span class="config-filename">应急响应 SOP（遭遇可疑行为时）</span><span class="config-lang">steps</span></div>
+            <pre><code>1. openclaw gateway stop          # 立即停止 Gateway
+2. openclaw config set gateway.auth.token $(openssl rand -hex 32)
+3. rm ~/.openclaw/credentials/*-allowFrom.json  # 吊销所有 Pairing
+4. 审查最近 24h 操作日志
+5. 确认无数据外泄后重新启动</code></pre>
+          </div>
+          <div class="acceptance">
+            <div class="acceptance-label">验收标准</div>
+            <p>web_fetch 域名受白名单限制；存在书面应急响应 SOP 文件；安全团队已培训。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 要6 -->
+      <div class="rule-item" id="do6">
+        <div class="rule-header" onclick="toggle(this)">
+          <div class="rule-num do">要6</div>
+          <div class="rule-title">建立长效防护机制</div>
+          <span class="rule-feasibility feas-direct">✅ 可直接实施</span>
+          <span class="rule-priority p1">P1</span>
+          <span style="color:var(--text3);font-size:18px;margin-left:8px">›</span>
+        </div>
+        <div class="rule-body">
+          <div class="mandate"><strong>监管要求：</strong>定期检查漏洞；关注工信部 NVDB 和 OpenClaw 官方安全公告；结合安全工具实时防护。</div>
+          <p>OpenClaw 内置 cron 调度系统，可直接配置定期安全检查。</p>
+          <div class="config-block">
+            <div class="config-header"><span class="config-filename">定期任务安排（cron 配置）</span><span class="config-lang">schedule</span></div>
+            <pre><code>每天 08:00   → openclaw doctor --non-interactive
+每周一 09:00 → 检查 OpenClaw 版本更新
+每周三 10:00 → 审查上周审计日志摘要
+每月 01 日   → 全量安全巡检（暴露面 + Skill + 凭证轮换）</code></pre>
+          </div>
+          <div class="acceptance">
+            <div class="acceptance-label">验收标准</div>
+            <p>有书面安全巡检记录；工信部 NVDB 公告已订阅；<span class="inline-code">openclaw doctor</span> 每日自动执行。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 六不要 -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <h2>六不要（Six Don'ts）— 可行性评审与实施</h2>
+      </div>
+
+      <!-- 不要1 -->
+      <div class="rule-item" id="dont1">
+        <div class="rule-header" onclick="toggle(this)">
+          <div class="rule-num dont">不要1</div>
+          <div class="rule-title">不要使用第三方镜像或历史版本</div>
+          <span class="rule-feasibility feas-direct">✅ 可直接实施</span>
+          <span class="rule-priority p0">P0</span>
+          <span style="color:var(--text3);font-size:18px;margin-left:8px">›</span>
+        </div>
+        <div class="rule-body">
+          <div class="mandate"><strong>监管要求：</strong>仅使用官方渠道安装，不使用第三方镜像或旧版本。</div>
+          <div class="config-block">
+            <div class="config-header"><span class="config-filename">包完整性校验</span><span class="config-lang">bash</span></div>
+            <pre><code># 确认来自官方 npm registry
+npm info openclaw dist.tarball  # 应为 registry.npmjs.org
+npm info openclaw version       # 确认为 latest
+
+# CI/CD 校验包哈希（与官方发布一致）
+npm pack openclaw | sha256sum</code></pre>
+          </div>
+          <div class="acceptance">
+            <div class="acceptance-label">管理措施</div>
+            <p>编写《OpenClaw 安装规范》：只能通过 <span class="inline-code">npm install -g openclaw</span> 从官方源安装；任何第三方下载链接视为违规事件。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 不要2 -->
+      <div class="rule-item" id="dont2">
+        <div class="rule-header" onclick="toggle(this)">
+          <div class="rule-num dont">不要2</div>
+          <div class="rule-title">不要将实例暴露到互联网</div>
+          <span class="rule-feasibility feas-direct">✅ 可直接实施</span>
+          <span class="rule-priority p0">P0</span>
+          <span style="color:var(--text3);font-size:18px;margin-left:8px">›</span>
+        </div>
+        <div class="rule-body">
+          <div class="mandate"><strong>监管要求：</strong>禁止将 OpenClaw 实例暴露公网（与"要二"互补，重点在固化基线和自动检测）。</div>
+          <div class="config-block">
+            <div class="config-header"><span class="config-filename">macOS 防火墙阻断</span><span class="config-lang">bash</span></div>
+            <pre><code>sudo /usr/libexec/ApplicationFirewall/socketfilterfw \
+  --blockapp $(which node)
+
+# 每日自动扫描 + 告警
+nmap -sT -p &lt;port&gt; &lt;public_ip&gt; | grep "open" &amp;&amp; \
+  echo "CRITICAL: Gateway 暴露公网" | 企微推送</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- 不要3 -->
+      <div class="rule-item" id="dont3">
+        <div class="rule-header" onclick="toggle(this)">
+          <div class="rule-num dont">不要3</div>
+          <div class="rule-title">不要使用管理员权限账号部署</div>
+          <span class="rule-feasibility feas-direct">✅ 可直接实施</span>
+          <span class="rule-priority p0">P0</span>
+          <span style="color:var(--text3);font-size:18px;margin-left:8px">›</span>
+        </div>
+        <div class="rule-body">
+          <div class="mandate"><strong>监管要求：</strong>不使用管理员/root 账号运行 OpenClaw 进程。</div>
+          <div class="config-block">
+            <div class="config-header"><span class="config-filename">macOS 专用服务账号创建</span><span class="config-lang">bash</span></div>
+            <pre><code># 创建专用低权限账号
+sudo dscl . -create /Users/openclaw-svc
+sudo dscl . -create /Users/openclaw-svc UserShell /usr/bin/false
+sudo dscl . -create /Users/openclaw-svc UniqueID 510
+
+# 配合 launchd 以服务账号运行
+# /Library/LaunchDaemons/ai.openclaw.gateway.plist
+# &lt;key&gt;UserName&lt;/key&gt;&lt;string&gt;openclaw-svc&lt;/string&gt;
+
+# 验证
+ps aux | grep openclaw  # 确认非 root/admin</code></pre>
+          </div>
+          <div class="acceptance">
+            <div class="acceptance-label">验收标准</div>
+            <p><span class="inline-code">ps aux | grep openclaw</span> 显示运行账号为专用服务账号，非 root 或管理员用户。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 不要4 -->
+      <div class="rule-item" id="dont4">
+        <div class="rule-header" onclick="toggle(this)">
+          <div class="rule-num dont">不要4</div>
+          <div class="rule-title">不要使用要求"下载ZIP/执行脚本/输入密码"的 Skill</div>
+          <span class="rule-feasibility feas-modify">🔧 需开发</span>
+          <span class="rule-priority p1">P1</span>
+          <span style="color:var(--text3);font-size:18px;margin-left:8px">›</span>
+        </div>
+        <div class="rule-body">
+          <div class="mandate"><strong>监管要求：</strong>拒绝使用包含高危操作的 Skill 包；工信部已披露此类伪装 Skill 大量存在。</div>
+          <p>OpenClaw 无自动检测机制，需在 Skill 审查流程加入自动扫描（参见要四中的扫描脚本）。任何触发以下行为的 Skill 一律拒绝：</p>
+          <div class="config-block">
+            <div class="config-header"><span class="config-filename">高危 Skill 特征</span><span class="config-lang">patterns</span></div>
+            <pre><code>❌ curl ... | bash / wget ... | sh
+❌ 要求下载 .zip 文件后解压执行
+❌ 要求用户输入密码或密钥
+❌ chmod +x + 执行未知二进制
+❌ rm -rf 非 workspace 路径
+❌ sudo / 提权操作</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- 不要5 -->
+      <div class="rule-item" id="dont5">
+        <div class="rule-header" onclick="toggle(this)">
+          <div class="rule-num dont">不要5</div>
+          <div class="rule-title">不要浏览来历不明的网站/链接/不可信文档</div>
+          <span class="rule-feasibility feas-modify">🔧 需改造</span>
+          <span class="rule-priority p2">P2</span>
+          <span style="color:var(--text3);font-size:18px;margin-left:8px">›</span>
+        </div>
+        <div class="rule-body">
+          <div class="mandate"><strong>监管要求：</strong>禁止通过 Agent 访问来路不明的 URL 或读取不可信文档。</div>
+          <p><span class="inline-code">web_fetch</span> 工具目前无内置域名白名单，需通过配置 + 插件开发实现。</p>
+          <div class="config-block">
+            <div class="config-header"><span class="config-filename">可信域名白名单（openclaw.json）</span><span class="config-lang">json</span></div>
+            <pre><code>{
+  "tools": {
+    "web": {
+      "fetch": {
+        "allowedDomains": [
+          "*.anthropic.com", "openrouter.ai",
+          "api.github.com", "qyapi.weixin.qq.com",
+          "doc.weixin.qq.com",
+          "generativelanguage.googleapis.com",
+          "api.telegram.org"
+        ]
+      }
+    }
+  }
+}</code></pre>
+          </div>
+          <div class="acceptance">
+            <div class="acceptance-label">中期目标（P2）</div>
+            <p>开发 Gateway 插件：在 web_fetch 调用前拦截非白名单域名；对工具返回内容进行 Prompt Injection 扫描；可疑访问记录审计日志。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 不要6 -->
+      <div class="rule-item" id="dont6">
+        <div class="rule-header" onclick="toggle(this)">
+          <div class="rule-num dont">不要6</div>
+          <div class="rule-title">不要禁用详细日志审计功能</div>
+          <span class="rule-feasibility feas-direct">✅ 可直接实施</span>
+          <span class="rule-priority p0">P0</span>
+          <span style="color:var(--text3);font-size:18px;margin-left:8px">›</span>
+        </div>
+        <div class="rule-body">
+          <div class="mandate"><strong>监管要求：</strong>保持日志审计开启；日志记录 Agent 所有操作；《网络安全法》要求保留 ≥ 180 天。</div>
+          <div class="config-block">
+            <div class="config-header"><span class="config-filename">/etc/logrotate.d/openclaw</span><span class="config-lang">conf</span></div>
+            <pre><code>~/.openclaw/logs/*.log {
+    daily
+    rotate 180
+    compress
+    delaycompress
+    missingok
+    notifempty
+    copytruncate
+}
+
+# 日志完整性保护（防篡改）
+sha256sum ~/.openclaw/logs/gateway.log \
+  >> ~/.openclaw/logs/integrity.sha256</code></pre>
+          </div>
+          <ul class="checklist">
+            <li>日志目录存在且持续写入</li>
+            <li>日志保留 ≥ 180 天</li>
+            <li>无任何配置关闭了 verbose logging</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 可行性汇总 -->
+    <section class="section" id="summary">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <h2>可行性评审汇总</h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>措施</th>
+              <th>可行性</th>
+              <th>优先级</th>
+              <th>预估工期</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>要1</td><td>使用官方最新版本</td><td><span style="color:var(--green)">✅ 直接实施</span></td><td><span class="compliance-badge p0">P0</span></td><td>1 天</td></tr>
+            <tr><td>要2</td><td>严控互联网暴露面</td><td><span style="color:var(--green)">✅ 直接实施</span></td><td><span class="compliance-badge p0">P0</span></td><td>1 天</td></tr>
+            <tr><td>要3</td><td>最小权限原则</td><td><span style="color:var(--green)">✅ 直接实施</span></td><td><span class="compliance-badge p0">P0</span></td><td>3 天</td></tr>
+            <tr><td>要4</td><td>谨慎使用 Skill 市场</td><td><span style="color:var(--orange)">🔧 流程改造</span></td><td><span class="compliance-badge p1">P1</span></td><td>1 周</td></tr>
+            <tr><td>要5</td><td>防社工 + 浏览器劫持</td><td><span style="color:var(--orange)">🔧 需改造</span></td><td><span class="compliance-badge p1">P1</span></td><td>2 周</td></tr>
+            <tr><td>要6</td><td>长效防护机制</td><td><span style="color:var(--green)">✅ 直接实施</span></td><td><span class="compliance-badge p1">P1</span></td><td>3 天</td></tr>
+            <tr><td>不要1</td><td>禁用第三方镜像</td><td><span style="color:var(--green)">✅ 直接实施</span></td><td><span class="compliance-badge p0">P0</span></td><td>1 天</td></tr>
+            <tr><td>不要2</td><td>禁止暴露公网</td><td><span style="color:var(--green)">✅ 直接实施</span></td><td><span class="compliance-badge p0">P0</span></td><td>1 天</td></tr>
+            <tr><td>不要3</td><td>禁用管理员账号部署</td><td><span style="color:var(--green)">✅ 直接实施</span></td><td><span class="compliance-badge p0">P0</span></td><td>1 天</td></tr>
+            <tr><td>不要4</td><td>拒绝高危 Skill</td><td><span style="color:var(--orange)">🔧 需开发</span></td><td><span class="compliance-badge p1">P1</span></td><td>1 周</td></tr>
+            <tr><td>不要5</td><td>拒绝不可信 URL</td><td><span style="color:var(--orange)">🔧 需改造</span></td><td><span class="compliance-badge p2">P2</span></td><td>2~4 周</td></tr>
+            <tr><td>不要6</td><td>禁止关闭日志</td><td><span style="color:var(--green)">✅ 直接实施</span></td><td><span class="compliance-badge p0">P0</span></td><td>1 天</td></tr>
+            <tr><td>补充</td><td>Pairing 强制认证</td><td><span style="color:var(--green)">✅ 直接实施</span></td><td><span class="compliance-badge p0">P0</span></td><td>即时</td></tr>
+            <tr><td>补充</td><td>Prompt Injection 防护</td><td><span style="color:var(--orange)">🔧 需开发</span></td><td><span class="compliance-badge p1">P1</span></td><td>3~4 周</td></tr>
+            <tr><td>补充</td><td>Zero Trust JIT 访问</td><td><span style="color:var(--orange)">🔧 需改造</span></td><td><span class="compliance-badge p2">P2</span></td><td>1~2 月</td></tr>
+            <tr><td>补充</td><td>SIEM 集成</td><td><span style="color:var(--orange)">🔧 需改造</span></td><td><span class="compliance-badge p2">P2</span></td><td>1~2 月</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 路线图 -->
+    <section class="section" id="roadmap">
+      <div class="section-header">
+        <span class="section-num">06</span>
+        <h2>实施路线图</h2>
+      </div>
+      <div class="roadmap">
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-label p0">P0 · 紧急基线</span>
+            <span class="phase-title">本周完成（2026-03-13 起）</span>
+          </div>
+          <div class="phase-items">
+            <div class="phase-item">📌 版本更新 + 暴露面检查 <span class="duration">Day 1</span></div>
+            <div class="phase-item">🔐 Pairing 强化 + 低权限账号 <span class="duration">Day 1</span></div>
+            <div class="phase-item">⚙️ exec.security=allowlist + 日志 logrotate <span class="duration">Day 2</span></div>
+            <div class="phase-item">🛡️ 防火墙规则 + 包完整性校验 <span class="duration">Day 3</span></div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-label p1">P1 · 流程改造</span>
+            <span class="phase-title">本月完成（2026-03-16 ~ 04-30）</span>
+          </div>
+          <div class="phase-items">
+            <div class="phase-item">🚫 禁用 Skill 自动安装 + 审查审批流程 <span class="duration">Week 1</span></div>
+            <div class="phase-item">🔍 Skill 扫描脚本部署 + 存量 Skill 审计 <span class="duration">Week 2</span></div>
+            <div class="phase-item">📋 应急响应 SOP 文档化 + 培训 <span class="duration">Week 3</span></div>
+            <div class="phase-item">🕐 cron 巡检 + NVDB 公告订阅 <span class="duration">Week 3</span></div>
+            <div class="phase-item">🧠 Prompt Injection 检测插件开发 <span class="duration">Week 4~6</span></div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-header">
+            <span class="phase-label p2">P2 · 深度加固</span>
+            <span class="phase-title">季度完成（2026-05-01 ~ 07-31）</span>
+          </div>
+          <div class="phase-items">
+            <div class="phase-item">🌐 web_fetch 域名白名单 Gateway 插件 <span class="duration">Month 1</span></div>
+            <div class="phase-item">🔑 Zero Trust JIT 访问架构改造 <span class="duration">Month 2</span></div>
+            <div class="phase-item">📊 SIEM 日志集成（Splunk/QRadar） <span class="duration">Month 2</span></div>
+            <div class="phase-item">📜 ISO/IEC 42001 合规审计 <span class="duration">Month 3</span></div>
+            <div class="phase-item">🎯 红队演练 <span class="duration">Month 3</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 合规 -->
+    <section class="section" id="compliance">
+      <div class="section-header">
+        <span class="section-num">07</span>
+        <h2>合规对齐矩阵</h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>监管要求</th><th>对应方案措施</th><th>实施阶段</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>工信部"六要六不要"（12条）</td><td>第三、四章逐条落地</td><td><span style="color:var(--red)">P0 已定义</span></td></tr>
+            <tr><td>《网络安全法》日志留存</td><td>logrotate 180天保留</td><td><span style="color:var(--red)">P0</span></td></tr>
+            <tr><td>《数据安全法》分类分级</td><td>workspace 隔离 + KMS 加密</td><td><span style="color:var(--red)">P0</span> / <span style="color:var(--accent)">P2</span></td></tr>
+            <tr><td>《个人信息保护法》</td><td>DLP 输出过滤 + 日志脱敏</td><td><span style="color:var(--orange)">P1</span></td></tr>
+            <tr><td>《生成式 AI 管理办法》</td><td>内容审计 + Pairing 实名接入</td><td><span style="color:var(--red)">P0</span> / <span style="color:var(--orange)">P1</span></td></tr>
+            <tr><td>NIST AI RMF</td><td>全方案对齐 Govern/Map/Measure/Manage</td><td>持续</td></tr>
+            <tr><td>ISO/IEC 42001</td><td>本文档可作认证基础材料</td><td><span style="color:var(--accent)">P2</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 配置速查 -->
+    <section class="section" id="config">
+      <div class="section-header">
+        <span class="section-num">08</span>
+        <h2>安全基线配置速查</h2>
+      </div>
+      <div class="config-block">
+        <div class="config-header"><span class="config-filename">~/.openclaw/openclaw.json · 安全基线</span><span class="config-lang">json</span></div>
+        <pre><code>{
+  "tools": {
+    "profile": "full",
+    "deny": ["clawhub.install", "clawhub.update"],
+    "exec": {
+      "security": "allowlist",
+      "ask": "on-miss"
+    },
+    "fs": {
+      "workspaceOnly": true
+    },
+    "web": {
+      "search": { "provider": "gemini" },
+      "fetch": {
+        "allowedDomains": [
+          "*.anthropic.com", "openrouter.ai",
+          "api.github.com", "qyapi.weixin.qq.com",
+          "doc.weixin.qq.com",
+          "generativelanguage.googleapis.com"
+        ]
+      }
+    }
+  },
+  "channels": {
+    "&lt;your_channel&gt;": { "dmPolicy": "pairing" }
+  }
+}</code></pre>
+      </div>
+
+      <div class="subsection-title">关键文件路径与权限</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>文件路径</th><th>用途</th><th>权限要求</th></tr></thead>
+          <tbody>
+            <tr><td>~/.openclaw/openclaw.json</td><td>主配置</td><td>600（仅所有者读写）</td></tr>
+            <tr><td>~/.openclaw/credentials/</td><td>Channel 凭证 + Pairing</td><td>700（仅所有者）</td></tr>
+            <tr><td>~/.openclaw/devices/</td><td>设备配对信息</td><td>700</td></tr>
+            <tr><td>~/.openclaw/logs/</td><td>审计日志</td><td>600</td></tr>
+            <tr><td>~/.openclaw/workspace/</td><td>Agent 工作目录</td><td>700</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section strategy-section" id="strategy">
+      <div class="section-header">
+        <span class="section-num">09</span>
+        <h2>产品策略补充</h2>
+      </div>
+
+      <div class="strategy-hero">
+        <div class="strategy-kicker">Product Strategy Extension</div>
+        <div class="strategy-main-title">企微管家 Claw：企业级 AI 资产风控与合规管理产品策略</div>
+        <div class="strategy-positioning">核心产品定位： 构建企业级 AI 交互的“合规黑匣子”与“算力中央枢纽”，在保障绝对数据安全的前提下，让 AI 深入业务流。</div>
+      </div>
+
+      <div class="strategy-grid">
+        <article class="strategy-block">
+          <div class="strategy-block-header">
+            <div class="strategy-index">一</div>
+            <div class="strategy-heading">
+              <h3>大模型管理中枢：统一大模型网关与资产池（集中采购与分配）</h3>
+              <p>产品方案：MaaS (Model-as-a-Service) 集中管理台</p>
+            </div>
+          </div>
+          <div class="strategy-body">
+            <div class="strategy-line">
+              <p>企业最怕的是员工各自用个人账号去注册各种大模型，这不仅导致费用无法管控，更面临严重的数据外泄风险。我们需要化身为类似 OpenRouter 的角色，将大模型能力收归企业统一管理。</p>
+            </div>
+            <div class="strategy-line">
+              <p><strong>统一底座：</strong> 微盛服务端作为唯一出口，整合腾讯混元、DeepSeek、智谱、Kimi、Minimax 等顶级模型接口。企业老板只需向微盛统一公对公采购算力/Token 包。</p>
+            </div>
+            <div class="strategy-line">
+              <p><strong>路由分发与配额：</strong> 在企业管理后台，按部门或员工分配额度。例如，客服部门默认路由至成本较低的模型处理常规问答；研发或核心销售可调用高推理能力的深度模型。</p>
+            </div>
+            <div class="strategy-line">
+              <p><strong>防泄漏脱敏：</strong> 在网关层设置“数据脱敏墙”，员工发送包含客户身份证、银行卡等敏感正则信息时，网关自动打码后再传给底层大模型。</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="strategy-block">
+          <div class="strategy-block-header">
+            <div class="strategy-index">二</div>
+            <div class="strategy-heading">
+              <h3>合规黑匣子：AI 时代的会话存档与智能质检 2.0</h3>
+              <p>产品方案：全量 AI 交互审计中台</p>
+            </div>
+          </div>
+          <div class="strategy-body">
+            <div class="strategy-line">
+              <p>过去在 SCRM 时代，会话存档是为了防飞单；现在，有了大模型的加持，我们可以实现“防守风控 + 进攻提效”的双向质检。监控所有的员工输入和输出，做违规排查和质检，是我们在企业侧落地的巨大发挥空间。</p>
+            </div>
+            <div class="strategy-line">
+              <p><strong>双向存档可视：</strong> 员工在企微端或关联的个人微信端 发送的每一条指令，以及 OpenClaw 返回的每一次结果、调用的每一个工具轨迹，全部结构化留存，支持管理员在后台按员工、按时间、按关键词全文检索。</p>
+            </div>
+            <div class="strategy-line">
+              <p><strong>AI 智能质检引擎：</strong> 抛弃死板的关键词正则预警，引入“用 AI 质检 AI”的模式。管理员可设置自然语言规则（如：“当销售向客户作出未经授权的降价承诺时报警”）。系统依靠智能体实时分析会话语义，一旦触发红线，立即熔断回复并向主管推送企微告警。</p>
+            </div>
+            <div class="strategy-line">
+              <p><strong>销冠策略提取：</strong> 质检不只是为了抓错。通过分析历史高质量问答，系统可以自动沉淀最佳实践库，反哺给其他员工。</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="strategy-block">
+          <div class="strategy-block-header">
+            <div class="strategy-index">三</div>
+            <div class="strategy-heading">
+              <h3>业务边界：细粒度的 Skills 技能池管控</h3>
+              <p>产品方案：基于 RBAC（角色权限控制）的技能分发市场</p>
+            </div>
+          </div>
+          <div class="strategy-body">
+            <div class="strategy-line">
+              <p>Skills 是极具杀伤力的武器（权限、能力都可以很大），但绝不能让所有员工随意使用。例如实习生不该拥有“调用财务系统报表”的 Skill。</p>
+            </div>
+            <div class="strategy-line">
+              <p><strong>企业私有技能库：</strong> 除了官方提供的通用 Skills（如智能表格同步、在线文档生成），企业可以将内部的 ERP、OA 接口封装为私有 Skills，仅在本企业内可见。</p>
+            </div>
+            <div class="strategy-line">
+              <p><strong>白名单下发机制：</strong> 管理员在后台以“应用商店”的形式管理 Skills。支持按组织架构精确授权：市场部只能看到并使用“全网热点搜集”、“营销文案生成”等工具；销售部只能调用“CRM 查单”、“自动打标签”等能力。企业需求预置哪些可用、哪些不能用，必须做到可视化管控。</p>
+            </div>
+            <div class="strategy-line">
+              <p><strong>下架与熔断：</strong> 一旦发现某个外部调用的 Skill 存在风险或接口失效，管理员可一键全局禁用，所有终端成员的该能力立即失效。</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="strategy-block">
+          <div class="strategy-block-header">
+            <div class="strategy-index">四</div>
+            <div class="strategy-heading">
+              <h3>物理沙箱：OpenClaw 实例终端的安全隔离</h3>
+              <p>产品方案：可视化终端权限沙箱</p>
+            </div>
+          </div>
+          <div class="strategy-body">
+            <div class="strategy-line">
+              <p>OpenClaw 是“长了手”的，它能读写文件、执行命令。对于部署在员工本地 Mac 或工作站上的实例，必须严格限制其活动范围，防止其失控读取本地机密。</p>
+            </div>
+            <div class="strategy-line">
+              <p><strong>环境隔离模式：</strong> 将后台复杂的配置文件转化为极简的开关。管理员可统一强制锁定部分岗位的 OpenClaw 运行模式。例如，普通客服仅开启 messaging（仅聊天模式），禁止其执行本地代码；高级数据分析师才允许开启 full 模式。</p>
+            </div>
+            <div class="strategy-line">
+              <p><strong>指定路径读写（文件夹白名单）：</strong> 强制限定 AI 只能读取和操作电脑中的特定文件夹（例如 ~/Documents/AI_Workspace）。这样即便被诱导，AI 也无法触碰桌面上 CEO 的薪资 Excel 表格。</p>
+            </div>
+            <div class="strategy-line">
+              <p><strong>在线状态守护机制：</strong> 针对“需要设备保持长连接以响应微信消息”的场景，我们在客户端底层加入进程守护逻辑，保障电脑在仅屏幕休眠、不断电联网的情况下 24 小时在线，让关联的个人微信或企微指令永不掉线。</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-left">
+      <p>文档版本 v2.0 · 维护：安全团队</p>
+      <p>下次审查：2026-06-01（P1 完成后）</p>
+    </div>
+    <div class="footer-refs">
+      <a href="https://www.miit.gov.cn" target="_blank">工信部 NVDB（2026-03-11）</a>
+      <a href="https://docs.openclaw.ai" target="_blank">OpenClaw 官方文档</a>
+      <a href="https://www.nist.gov/itl/ai-risk-management-framework" target="_blank">NIST AI RMF</a>
+      <a href="https://www.iso.org/standard/81230.html" target="_blank">ISO/IEC 42001</a>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+function toggle(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('span:last-child');
+  body.classList.toggle('open');
+  arrow.style.transform = body.classList.contains('open') ? 'rotate(90deg)' : '';
+  arrow.style.transition = 'transform 0.2s';
+}
+
+// Highlight active nav item on scroll
+const sections = document.querySelectorAll('[id]');
+const navItems = document.querySelectorAll('.nav-item');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navItems.forEach(item => item.classList.remove('active'));
+      const active = document.querySelector(`.nav-item[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+
+sections.forEach(s => observer.observe(s));
+
+// Auto-open first item
+document.querySelectorAll('.rule-header')[0]?.click();
+</script>
+
+</body>
+</html>

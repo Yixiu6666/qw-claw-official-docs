@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>企微管家Claw · 产品介绍</title>
+<style>
+@font-face{font-family:'TencentSans';src:local('TencentSans'),local('TencentSans-W7'),local('腾讯体');font-weight:700}
+@font-face{font-family:'TencentSans';src:local('TencentSans-W3'),local('TencentSans');font-weight:400}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px}
+body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;background:#0a0a0a;color:#1a1a2e;overflow:hidden;height:100vh;-webkit-font-smoothing:antialiased}
+:root{
+  --brand:#0052FF;--brand-dark:#003FCC;--brand-light:rgba(0,82,255,0.08);
+  --navy:#0F1B3D;--navy-light:#1E2D54;
+  --text-dark:#0F172A;--text-body:#334155;--text-muted:#64748B;
+  --white:#fff;--slide-w:1456px;--slide-h:816px;
+}
+.t-title{font-family:'TencentSans','Noto Serif SC','PingFang SC',serif}
+.t-body{font-family:'Noto Sans SC','PingFang SC',sans-serif;letter-spacing:0.02em}
+
+/* === Presentation === */
+.presentation{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:#111}
+.slide-viewport{width:var(--slide-w);height:var(--slide-h);position:relative;box-shadow:0 20px 80px rgba(0,0,0,0.5);border-radius:4px;overflow:hidden;transform-origin:center}
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;opacity:0;pointer-events:none;transition:opacity 0.5s ease;display:flex;flex-direction:column}
+.slide.active{opacity:1;pointer-events:auto}
+
+/* === Right-side Navigation === */
+.nav-panel{
+  position:fixed;right:24px;top:50%;transform:translateY(-50%);
+  z-index:100;display:flex;flex-direction:column;align-items:center;gap:12px;
+  background:rgba(15,23,42,0.75);backdrop-filter:blur(16px);
+  padding:16px 10px;border-radius:28px;border:1px solid rgba(255,255,255,0.08);
+}
+.nav-btn{
+  width:36px;height:36px;border-radius:50%;border:none;
+  background:rgba(255,255,255,0.1);color:#fff;font-size:14px;
+  cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;
+}
+.nav-btn:hover{background:var(--brand)}
+.nav-btn:disabled{opacity:0.25;cursor:not-allowed}
+.nav-btn:disabled:hover{background:rgba(255,255,255,0.1)}
+.nav-dots{display:flex;flex-direction:column;gap:6px;padding:4px 0}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all 0.3s;cursor:pointer}
+.nav-dot.active{background:var(--brand);transform:scale(1.4)}
+.nav-page{color:rgba(255,255,255,0.5);font-size:12px;font-weight:500;writing-mode:horizontal-tb;white-space:nowrap}
+.keyboard-hint{
+  position:fixed;bottom:16px;right:24px;
+  background:rgba(15,23,42,0.6);backdrop-filter:blur(8px);
+  padding:6px 14px;border-radius:6px;
+  color:rgba(255,255,255,0.35);font-size:11px;z-index:100;
+}
+.keyboard-hint kbd{background:rgba(255,255,255,0.1);padding:1px 5px;border-radius:3px;font-family:monospace}
+
+/* === Cover Slide === */
+.slide-cover{background-image:url('PPT制作参考/PPT首页背景图.png')}
+.cover-content{position:absolute;top:150px;left:88px;max-width:700px}
+.cover-title{font-size:52px;font-weight:900;color:var(--navy);line-height:1.25;letter-spacing:-1px;margin-bottom:16px}
+.cover-title .hl{color:var(--brand)}
+.cover-sub{font-size:24px;font-weight:600;color:var(--navy);opacity:0.65;margin-bottom:36px;line-height:1.6}
+.cover-tags{display:flex;gap:10px;flex-wrap:wrap}
+.cover-tag{padding:9px 22px;border-radius:8px;font-size:14px;font-weight:500;background:var(--brand-light);color:var(--brand);border:1px solid rgba(0,82,255,0.12)}
+.cover-footer{position:absolute;bottom:36px;left:88px;font-size:14px;color:var(--text-muted)}
+
+/* === Content Slide === */
+.slide-content{background-image:url('PPT制作参考/PPT正文页背景图.png');padding:0}
+.slide-header{padding:30px 0 0 56px;margin-bottom:0}
+.slide-title{font-size:38px;font-weight:900;color:var(--navy);line-height:1.3;letter-spacing:-0.5px;padding-top:4px}
+.slide-subtitle{font-size:16px;color:var(--text-muted);margin-top:4px;padding-left:56px}
+.slide-body{flex:1;padding:18px 56px 20px 56px;display:flex;flex-direction:column;justify-content:center}
+
+/* === Grid systems === */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.g23{display:grid;grid-template-columns:2fr 3fr;gap:28px}
+.g32{display:grid;grid-template-columns:3fr 2fr;gap:28px}
+.flex-col{display:flex;flex-direction:column;gap:12px}
+.flex-1{flex:1}
+
+/* === Cards === */
+.card{background:rgba(255,255,255,0.65);border:1px solid rgba(0,82,255,0.06);border-radius:14px;padding:26px 24px;transition:all 0.25s}
+.card:hover{background:rgba(255,255,255,0.92);box-shadow:0 6px 24px rgba(0,82,255,0.06);transform:translateY(-2px)}
+.card-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:10px}
+.ci-blue{background:rgba(0,82,255,0.1)}.ci-green{background:rgba(34,197,94,0.1)}.ci-purple{background:rgba(124,58,237,0.1)}
+.ci-orange{background:rgba(245,158,11,0.1)}.ci-cyan{background:rgba(6,182,212,0.1)}.ci-pink{background:rgba(236,72,153,0.1)}
+.ci-red{background:rgba(239,68,68,0.1)}
+.card h4{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.card p{font-size:15px;color:var(--text-body);line-height:1.75}
+.card-sm{padding:20px 22px}
+.card-sm h4{font-size:16.5px;margin-bottom:5px}
+.card-sm p{font-size:14.5px;line-height:1.75}
+
+/* === Product UI mockups === */
+.mockup{border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);border:1px solid rgba(0,0,0,0.06)}
+.mock-bar{height:26px;background:#f1f3f5;display:flex;align-items:center;padding:0 10px;gap:6px}
+.mock-dot{width:8px;height:8px;border-radius:50%}
+.mock-dot.r{background:#ff5f57}.mock-dot.y{background:#ffbd2e}.mock-dot.g{background:#28c840}
+.mock-body{background:#fff;padding:16px;font-size:13.5px;color:var(--text-body)}
+
+/* === Chat bubble UI === */
+.chat-mock{background:#ededed;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.chat-row{display:flex;gap:8px;align-items:flex-start}
+.chat-row.right{flex-direction:row-reverse}
+.chat-avatar{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.chat-avatar.user{background:#4285f4;color:#fff}
+.chat-avatar.ai{background:linear-gradient(135deg,#0052FF,#7C3AED);color:#fff}
+.chat-bubble{max-width:75%;padding:10px 14px;border-radius:10px;font-size:14px;line-height:1.7}
+.chat-bubble.user-b{background:#95ec69;color:#000;border-top-right-radius:2px}
+.chat-bubble.ai-b{background:#fff;color:var(--text-dark);border-top-left-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+
+/* === Table === */
+.tbl{width:100%;border-collapse:separate;border-spacing:0;border-radius:10px;overflow:hidden;font-size:14px}
+.tbl th{background:var(--navy);color:#fff;padding:12px 16px;text-align:left;font-weight:600}
+.tbl th:nth-child(2){background:var(--brand)}
+.tbl th:nth-child(3){background:#64748B}
+.tbl td{padding:10px 16px;border-bottom:1px solid rgba(0,82,255,0.06)}
+.tbl tr:nth-child(even) td{background:rgba(0,82,255,0.02)}
+.tbl .check{color:var(--brand);font-weight:700}
+.tbl .cross{color:#94A3B8}
+
+/* === Architecture === */
+.arch-box{border-radius:12px;padding:18px 22px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#fff}
+.arch-box h5{font-size:17px;font-weight:700}
+.arch-box p{font-size:14px;opacity:0.8;line-height:1.55}
+.ab-blue{background:linear-gradient(135deg,#0052FF,#3B82F6)}
+.ab-navy{background:linear-gradient(135deg,#0F172A,#1E3A5F)}
+.ab-indigo{background:linear-gradient(135deg,#4338CA,#6366F1)}
+.ab-purple{background:linear-gradient(135deg,#7C3AED,#A78BFA)}
+.ab-green{background:linear-gradient(135deg,#059669,#34D399)}
+.ab-light{background:rgba(255,255,255,0.6);border:1px solid rgba(0,82,255,0.1);color:var(--navy)}
+
+/* === Security layers === */
+.sec-layer{display:flex;align-items:center;gap:14px;padding:16px 22px;border-radius:12px;color:#fff}
+.sec-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+.sec-layer h5{font-size:16.5px;font-weight:700}
+.sec-layer p{font-size:13.5px;opacity:0.78;margin-top:2px}
+
+/* === Skills chips === */
+.skill-chip{display:flex;align-items:center;gap:8px;padding:13px 16px;background:rgba(255,255,255,0.6);border:1px solid rgba(0,82,255,0.05);border-radius:10px;font-size:14px;font-weight:600;color:var(--navy)}
+.skill-chip span.e{font-size:18px;flex-shrink:0}
+
+/* === Stats === */
+.stat{text-align:center}
+.stat .n{font-size:42px;font-weight:900;color:var(--brand);line-height:1}
+.stat .n span{font-size:16px;color:var(--text-muted)}
+.stat .l{font-size:13.5px;color:var(--text-muted);margin-top:6px}
+
+/* === Industry === */
+.ind-card{background:rgba(255,255,255,0.6);border:1px solid rgba(0,82,255,0.06);border-radius:14px;padding:22px 20px}
+.ind-card .hd{display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:2px solid rgba(0,82,255,0.08);margin-bottom:10px}
+.ind-card .hd span{font-size:22px}
+.ind-card .hd h4{font-size:18px;font-weight:700;color:var(--navy)}
+.ind-pt{font-size:14.5px;color:var(--text-body);line-height:1.8;padding-left:16px;position:relative;margin-bottom:6px}
+.ind-pt::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--brand)}
+
+/* === Bullet items === */
+.bullet{display:flex;gap:14px;align-items:flex-start;padding:16px 20px;background:rgba(255,255,255,0.5);border-radius:10px;border-left:3px solid var(--brand)}
+.bullet-n{width:28px;height:28px;background:var(--brand);color:#fff;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.bullet h5{font-size:16.5px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.bullet p{font-size:14.5px;color:var(--text-body);line-height:1.65}
+
+/* === CTA === */
+.cta-center{display:flex;align-items:center;justify-content:center;text-align:center;flex:1}
+.cta-center h2{font-size:44px;font-weight:900;color:var(--navy);line-height:1.35;margin-bottom:12px}
+.cta-center .sub{font-size:18px;color:var(--text-muted);margin-bottom:32px;line-height:1.7}
+.cta-btns{display:flex;justify-content:center;gap:14px}
+.cta-btn{padding:14px 36px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;border:none;transition:all 0.3s}
+.cta-primary{background:var(--brand);color:#fff;box-shadow:0 4px 20px rgba(0,82,255,0.3)}
+.cta-primary:hover{background:var(--brand-dark);transform:translateY(-2px)}
+.cta-outline{background:transparent;color:var(--brand);border:2px solid var(--brand)}
+.cta-features{display:flex;justify-content:center;gap:24px;margin-top:32px;font-size:14px;color:var(--text-body)}
+
+/* === Flow diagram === */
+.flow{display:flex;align-items:center;gap:0;justify-content:center}
+.flow-step{display:flex;flex-direction:column;align-items:center;gap:8px;width:140px}
+.flow-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff}
+.flow-arrow{font-size:18px;color:var(--brand);margin:0 4px;flex-shrink:0}
+
+/* === Highlight Box === */
+.hl-box{background:linear-gradient(135deg,var(--brand),#3B82F6);border-radius:14px;padding:26px;color:#fff}
+.hl-box h4{font-size:20px;font-weight:700;margin-bottom:5px}
+.hl-box p{font-size:15.5px;opacity:0.85;line-height:1.7}
+
+/* === QR code mock === */
+.qr-mock{width:130px;height:130px;border:2px solid #e2e8f0;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#fff;margin:0 auto}
+.qr-inner{width:100px;height:100px;background:repeating-conic-gradient(var(--navy) 0% 25%, #fff 0% 50%) 50%/24px 24px;border-radius:4px;opacity:0.15}
+
+/* === Badge === */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600}
+.badge-green{background:rgba(34,197,94,0.1);color:#16a34a;border:1px solid rgba(34,197,94,0.15)}
+.badge-blue{background:rgba(0,82,255,0.08);color:var(--brand);border:1px solid rgba(0,82,255,0.12)}
+.badge-purple{background:rgba(124,58,237,0.08);color:#7C3AED;border:1px solid rgba(124,58,237,0.12)}
+
+/* === QR Modal === */
+.qr-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center}
+.qr-modal.active{display:flex}
+.qr-modal-content{background:#fff;border-radius:16px;padding:32px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);max-width:360px}
+.qr-modal-content img{width:240px;height:240px;margin:16px 0;border-radius:8px}
+.qr-modal-content h3{font-size:20px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.qr-modal-content p{font-size:14px;color:var(--text-muted);margin-bottom:0}
+.qr-close{padding:8px 24px;background:var(--brand);color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer;margin-top:16px}
+
+/* === Responsive scaling === */
+@media(max-width:1500px){.slide-viewport{transform:scale(0.82)}}
+@media(max-width:1200px){.slide-viewport{transform:scale(0.62)}}
+@media(max-width:900px){.slide-viewport{transform:scale(0.48)}}
+</style>
+</head>
+<body>
+
+<div class="keyboard-hint"><kbd>&#x2190;</kbd><kbd>&#x2192;</kbd> 翻页 &middot; <kbd>F</kbd> 全屏</div>
+
+<div class="presentation">
+<div class="slide-viewport" id="slideViewport">
+
+<!-- ==================== Slide 1: Cover ==================== -->
+<div class="slide slide-cover active" data-index="0">
+  <div class="cover-content">
+    <div class="cover-title t-title">企微管家<span class="hl">Claw</span><br>AI Agent for 企业微信</div>
+    <div class="cover-sub t-title">让AI在企业微信里真正「干活」</div>
+    <div class="cover-tags">
+      <span class="cover-tag">&#x1F916; 企微&微信原生插件一键连接</span>
+      <span class="cover-tag">&#x1F510; 本地一键安装使用</span>
+      <span class="cover-tag">&#x1F9E9; 30+ Skills技能</span>
+      <span class="cover-tag">&#x1F4CA; 深度集成SCRM Skills</span>
+    </div>
+    <div style="margin-top:24px;display:flex;gap:20px;font-size:15px;color:var(--text-body)">
+      <span>&#x2705; 企微 + 微信 双通道接入</span>
+      <span>&#x2705; 扫码即连 零代码</span>
+      <span>&#x2705; OpenClaw 开源架构</span>
+    </div>
+  </div>
+  <div class="cover-footer t-body">微盛AI &middot; 企业微信官方服务商 &middot; 基于OpenClaw开源框架 &middot; 服务10,000+企业</div>
+</div>
+
+<!-- ==================== Slide 2: 市场背景 ==================== -->
+<div class="slide slide-content" data-index="1">
+  <div class="slide-header"><div class="slide-title t-title">企业AI落地的四大困境</div></div>
+  <div class="slide-subtitle t-body">为什么企业需要一个真正跑在企微里的AI Agent？</div>
+  <div class="slide-body">
+    <div class="g2" style="align-content:center">
+      <div class="card"><div class="card-icon ci-red">&#x1F62B;</div><h4 class="t-title">AI工具&ldquo;体外循环&rdquo;</h4><p class="t-body">ChatGPT、Kimi、DeepSeek等AI工具与企业微信完全割裂。员工在AI平台上生成内容，再手动复制粘贴到企微群、朋友圈、文档……效率大打折扣，数据断层严重。</p><div style="margin-top:8px;padding:6px 10px;background:rgba(239,68,68,0.06);border-radius:6px;font-size:12.5px;color:#dc2626">&#x1F4CA; 调研显示：83%员工每天在AI工具和企微之间来回切换超过20次</div></div>
+      <div class="card"><div class="card-icon ci-orange">&#x1F512;</div><h4 class="t-title">数据安全焦虑</h4><p class="t-body">将客户名单、商业秘密上传至SaaS大模型平台，合规风险巨大。金融、政务、医疗等行业明确要求数据不出企业，传统SaaS AI方案无法满足。</p><div style="margin-top:8px;padding:6px 10px;background:rgba(245,158,11,0.06);border-radius:6px;font-size:12.5px;color:#D97706">&#x26A0;&#xFE0F; 2024年多起数据泄露事件涉及AI平台上传的企业机密文件</div></div>
+      <div class="card"><div class="card-icon ci-purple">&#x1F9E9;</div><h4 class="t-title">能力碎片化严重</h4><p class="t-body">企业同时使用多个SaaS工具：会议用飞书、文档用腾讯、CRM用第三方、AI用另一个……工具孤岛导致信息不互通，管理成本攀升。</p><div style="margin-top:8px;padding:6px 10px;background:rgba(124,58,237,0.06);border-radius:6px;font-size:12.5px;color:#7C3AED">&#x1F4B0; 企业平均使用6.8个SaaS工具，每年工具订阅支出超10万元</div></div>
+      <div class="card"><div class="card-icon ci-cyan">&#x2699;&#xFE0F;</div><h4 class="t-title">技术门槛高不可及</h4><p class="t-body">想让AI接入企微？需要开发机器人、对接API、部署服务器、开发前后端……普通业务团队根本无法独立落地，只能望AI兴叹。</p><div style="margin-top:8px;padding:6px 10px;background:rgba(6,182,212,0.06);border-radius:6px;font-size:12.5px;color:#0891b2">&#x1F6A7; 传统AI企微集成：开发周期3-6个月，投入50-200万元</div></div>
+    </div>
+    <div style="display:flex;justify-content:center;gap:40px;margin-top:10px;padding-top:10px">
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#ef4444" class="t-title">83%</div><div style="font-size:12.5px;color:var(--text-muted)">员工AI工具与企微割裂</div></div>
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#f59e0b" class="t-title">6.8个</div><div style="font-size:12.5px;color:var(--text-muted)">企业平均SaaS工具数</div></div>
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#7c3aed" class="t-title">3-6月</div><div style="font-size:12.5px;color:var(--text-muted)">传统AI集成开发周期</div></div>
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#0891b2" class="t-title">50万+</div><div style="font-size:12.5px;color:var(--text-muted)">传统方案开发成本</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 3: 产品定位 ==================== -->
+<div class="slide slide-content" data-index="2">
+  <div class="slide-header"><div class="slide-title t-title">什么是企微管家Claw？</div></div>
+  <div class="slide-subtitle t-body">一句话定义：运行在企业微信+个人微信内的AI Agent智能体</div>
+  <div class="slide-body">
+    <div class="g32" style="flex:1;align-content:center">
+      <div class="flex-col" style="justify-content:center">
+        <div class="hl-box">
+          <h4 class="t-title">&#x1F99E; 核心理念</h4>
+          <p class="t-body">通过企微官方channel扫码接入+微信ClawBot插件接入，以对话驱动完成联网搜索、文档编辑、表格管理、PPT制作、SCRM营销、定时任务等企业级工作。AI不再是体外工具，而是企微里的一员。</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="card card-sm"><h4 class="t-title">&#x1F4F2; 扫码即连</h4><p class="t-body">企微扫码+微信扫码，5分钟双通道接入，无需开发</p></div>
+          <div class="card card-sm"><h4 class="t-title">&#x1F9E0; 永久记忆</h4><p class="t-body">跨对话持久化记忆，越用越懂你的工作习惯和偏好</p></div>
+          <div class="card card-sm"><h4 class="t-title">&#x23F0; 主动工作</h4><p class="t-body">定时任务驱动，不@也能按时干活推送，全自动化</p></div>
+          <div class="card card-sm"><h4 class="t-title">&#x1F3E0; 本地部署</h4><p class="t-body">数据不出企业，一键私有化安装，支持品牌定制</p></div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <span class="badge badge-green">&#x2713; 企微+微信双通道</span>
+          <span class="badge badge-blue">&#x2713; 私有化部署</span>
+          <span class="badge badge-purple">&#x2713; 开源可审计</span>
+        </div>
+      </div>
+      <div class="flex-col" style="justify-content:center">
+        <div class="chat-mock">
+          <div style="text-align:center;font-size:11.5px;color:var(--text-muted);padding:1px 0">&mdash; 企微群聊对话 &mdash;</div>
+          <div class="chat-row right"><div class="chat-avatar user">我</div><div class="chat-bubble user-b">帮我搜索最近一周AI行业动态，整理成5条要点，同步到智能表格</div></div>
+          <div class="chat-row"><div class="chat-avatar ai">&#x1F99E;</div><div class="chat-bubble ai-b">好的，我来执行这个任务：<br>1&#xFE0F;&#x20E3; 联网搜索AI行业最新动态…<br>2&#xFE0F;&#x20E3; 分析并提炼5条核心要点…<br>3&#xFE0F;&#x20E3; 同步到企微智能表格…<br><br>&#x2705; 已完成！5条行业要点已同步到「AI动态追踪」表格。</div></div>
+          <div class="chat-row right"><div class="chat-avatar user">我</div><div class="chat-bubble user-b">设置定时任务：每天9:00自动执行</div></div>
+          <div class="chat-row"><div class="chat-avatar ai">&#x1F99E;</div><div class="chat-bubble ai-b">&#x2705; 定时任务已设置：每天 09:00 自动搜索AI行业动态并推送到群聊。</div></div>
+        </div>
+        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:2px">&#x25B2; 企微对话界面实际效果 &middot; 支持单聊+群聊</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 4: 架构 ==================== -->
+<div class="slide slide-content" data-index="3">
+  <div class="slide-header"><div class="slide-title t-title">产品架构 · 五位一体</div></div>
+  <div class="slide-subtitle t-body">企业微信/个人微信 &#x2192; Claw AI中枢 &#x2192; Skills + SCRM + 运营服务</div>
+  <div class="slide-body">
+    <div class="flex-col" style="flex:1;gap:12px;justify-content:space-evenly">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="arch-box ab-blue" style="padding:14px"><h5 class="t-title">&#x1F4F1; 企业微信 · 官方Channel</h5><p class="t-body">智能机器人API · 单聊+群聊 · 原生体验 · 扫码接入</p></div>
+        <div class="arch-box" style="padding:14px;background:linear-gradient(135deg,#16a34a,#4ade80)"><h5 class="t-title">&#x1F4AC; 个人微信 · ClawBot</h5><p class="t-body">微信官方插件 · 扫码连接 · 同步企微能力 · 双通道</p></div>
+      </div>
+      <div style="text-align:center;font-size:18px;color:var(--brand);line-height:1">&#x25BC;</div>
+      <div style="display:grid;grid-template-columns:1fr;gap:0">
+        <div class="arch-box ab-navy" style="padding:16px"><h5 class="t-title">&#x1F9E0; 企微管家 Claw · AI 中枢引擎</h5><p class="t-body">OpenClaw框架 · 多模型支持(DeepSeek/Claude/GPT) · 永久记忆 · 定时任务 · MCP协议 · Skills调度 · 品牌定制</p></div>
+      </div>
+      <div style="text-align:center;font-size:18px;color:var(--brand);line-height:1">&#x25BC;</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+        <div class="arch-box ab-indigo" style="padding:14px"><h5 class="t-title">&#x1F9E9; 企微Skills</h5><p class="t-body">能力扩展引擎 · 20+预置技能<br>自定义Skill开发 · 技能市场</p></div>
+        <div class="arch-box ab-purple" style="padding:14px"><h5 class="t-title">&#x1F536; 微盛SCRM</h5><p class="t-body">业务运营引擎 · 客户管理<br>营销自动化 · 数据分析</p></div>
+        <div class="arch-box ab-green" style="padding:14px"><h5 class="t-title">&#x1F91D; 微盛运营服务</h5><p class="t-body">落地保障体系 · 行业方案<br>培训支持 · 持续优化</p></div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:10px;margin-top:2px;flex-wrap:wrap">
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F517;</span><h5 style="font-size:13px" class="t-title">MCP协议</h5></div>
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F4CA;</span><h5 style="font-size:13px" class="t-title">智能表格</h5></div>
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F4DD;</span><h5 style="font-size:13px" class="t-title">在线文档</h5></div>
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F5D3;&#xFE0F;</span><h5 style="font-size:13px" class="t-title">日程待办</h5></div>
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F310;</span><h5 style="font-size:13px" class="t-title">联网搜索</h5></div>
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F916;</span><h5 style="font-size:13px" class="t-title">扣子智能体</h5></div>
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F30D;</span><h5 style="font-size:13px" class="t-title">浏览器自动化</h5></div>
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F40D;</span><h5 style="font-size:13px" class="t-title">Python脚本</h5></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 5: 零代码接入（全新） ==================== -->
+<div class="slide slide-content" data-index="4">
+  <div class="slide-header"><div class="slide-title t-title">核心能力&#x2460; 扫码接入 · 企微+微信双通道</div></div>
+  <div class="slide-subtitle t-body">企业微信扫码直连 + 个人微信ClawBot插件 · 5分钟完成 · 无需开发</div>
+  <div class="slide-body">
+    <div class="g2" style="flex:1;align-content:center">
+      <!-- 左：企微接入 -->
+      <div class="flex-col" style="gap:10px">
+        <div class="hl-box" style="padding:16px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:20px">&#x1F4F1;</span><h4 class="t-title" style="margin:0">通道一：企业微信官方Channel</h4></div>
+          <p class="t-body">在Claw设置页 &#x2192; 企微官方Channel &#x2192; 使用企业微信扫描二维码即可完成连接。无需创建机器人、无需配置回调URL，扫码即用。</p>
+        </div>
+        <div style="display:flex;gap:10px">
+          <div class="bullet" style="flex:1;padding:10px 12px"><div class="bullet-n">1</div><div><h5 class="t-title">安装Claw</h5><p class="t-body">下载安装到本地电脑</p></div></div>
+          <div class="bullet" style="flex:1;padding:10px 12px"><div class="bullet-n">2</div><div><h5 class="t-title">打开设置</h5><p class="t-body">进入企微官方Channel</p></div></div>
+          <div class="bullet" style="flex:1;padding:10px 12px"><div class="bullet-n">3</div><div><h5 class="t-title">扫码连接</h5><p class="t-body">企微扫码即完成对接</p></div></div>
+        </div>
+        <div class="card card-sm" style="background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border:none">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">&#x1F4AC;</span><h4 class="t-title" style="margin:0;color:#fff">通道二：个人微信ClawBot</h4></div>
+          <p style="font-size:13px;opacity:0.9;line-height:1.6">微信官方推出「ClawBot」插件，在Claw设置页点击「安装\绑定微信」&#x2192; 微信扫描二维码 &#x2192; 一键连接OpenClaw到个人微信。</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x2705; 企微全部Skills</h4><p class="t-body">文档/日程/会议/待办等企微能力全覆盖</p></div>
+          <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x2705; 品牌定制</h4><p class="t-body">私有部署+品牌定制，专属AI形象</p></div>
+          <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x2705; SCRM打通</h4><p class="t-body">客户管理与营销能力无缝集成</p></div>
+          <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x2705; 一键付费接入</h4><p class="t-body">扫码支付即可接入多种AI大模型</p></div>
+        </div>
+      </div>
+      <!-- 右：UI mockup -->
+      <div style="display:flex;align-items:center">
+        <div class="mockup" style="width:100%">
+          <div class="mock-bar"><div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div><span style="font-size:13px;color:#666;margin-left:auto">企微管家 Claw - 设置面板</span></div>
+          <div class="mock-body" style="padding:18px;background:#f8f9ff">
+            <div style="margin-bottom:14px"><div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px">&#x1F517; Channel 连接管理</div></div>
+            <!-- 企微连接 -->
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;margin-bottom:10px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                <div style="display:flex;align-items:center;gap:8px"><span style="font-size:17px">&#x1F4F1;</span><span style="font-size:14px;font-weight:700;color:var(--navy)">企业微信官方Channel</span></div>
+                <div style="display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;border-radius:50%;background:#22c55e"></div><span style="font-size:12px;color:#22c55e;font-weight:600">已连接</span></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div class="qr-mock" style="width:80px;height:80px"><div class="qr-inner" style="width:60px;height:60px"></div></div>
+                <div style="font-size:12px;color:var(--text-muted);line-height:1.6">使用<strong style="color:var(--navy)">企业微信</strong>扫描左侧二维码<br>即可完成连接，无需其他配置<br><span style="color:#22c55e;font-weight:600">&#x2713; 扫码机器人已分配到群聊</span></div>
+              </div>
+            </div>
+            <!-- 微信连接 -->
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;margin-bottom:10px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                <div style="display:flex;align-items:center;gap:8px"><span style="font-size:17px">&#x1F4AC;</span><span style="font-size:14px;font-weight:700;color:var(--navy)">微信 ClawBot 插件</span></div>
+                <button style="padding:3px 10px;background:var(--brand);color:#fff;border:none;border-radius:4px;font-size:12px;cursor:pointer">安装\绑定微信</button>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px">
+                <div class="qr-mock" style="width:80px;height:80px"><div class="qr-inner" style="width:60px;height:60px"></div></div>
+                <div style="font-size:12px;color:var(--text-muted);line-height:1.6">使用<strong style="color:var(--navy)">个人微信</strong>扫描左侧二维码<br>连接ClawBot到微信，获得AI能力<br><span style="color:var(--brand);font-weight:600">&#x1F4F1; 微信官方插件 安全可靠</span></div>
+              </div>
+            </div>
+            <!-- 模型选择 -->
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px"><span style="font-size:11px;color:var(--text-muted)">AI模型：</span><span style="padding:2px 8px;background:var(--brand);color:#fff;border-radius:3px;font-size:11px">DeepSeek V3</span><span style="padding:2px 8px;background:#fff;border:1px solid #e2e8f0;border-radius:3px;font-size:11px;color:#666">Claude 4</span><span style="padding:2px 8px;background:#fff;border:1px solid #e2e8f0;border-radius:3px;font-size:11px;color:#666">GPT-4o</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 6: 定时任务+记忆 ==================== -->
+<div class="slide slide-content" data-index="5">
+  <div class="slide-header"><div class="slide-title t-title">核心能力&#x2461; 定时任务 + 永久记忆</div></div>
+  <div class="slide-subtitle t-body">AI不@也能干活 · 跨对话持久化记忆 · 越用越聪明</div>
+  <div class="slide-body">
+    <div class="g2" style="flex:1;align-content:center">
+      <div class="flex-col" style="gap:8px">
+        <div class="card card-sm" style="flex:1"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:20px">&#x23F0;</span><h4 class="t-title" style="margin:0;font-size:17px">定时任务系统</h4></div><p class="t-body">支持间隔执行（每隔2小时）和CRON表达式（每天9:00）等任意灵活设置。一句话即可创建定时任务，AI按时自动执行。</p>
+          <div style="margin-top:10px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:13.5px;padding:8px 14px;background:rgba(6,182,212,0.06);border-radius:8px;border-left:3px solid #06B6D4;display:flex;justify-content:space-between">
+              <span>&#x1F4F0; 每日9:00 行业资讯推送到群聊</span><span style="color:#06B6D4;font-weight:600">运行中</span></div>
+            <div style="font-size:13.5px;padding:8px 14px;background:rgba(6,182,212,0.06);border-radius:8px;border-left:3px solid #06B6D4;display:flex;justify-content:space-between">
+              <span>&#x1F4E6; 每晚21:20 库存安全水位检查预警</span><span style="color:#06B6D4;font-weight:600">运行中</span></div>
+            <div style="font-size:13.5px;padding:8px 14px;background:rgba(6,182,212,0.06);border-radius:8px;border-left:3px solid #06B6D4;display:flex;justify-content:space-between">
+              <span>&#x1F4CA; 每周五16:00 自动生成运营周报</span><span style="color:#06B6D4;font-weight:600">运行中</span></div>
+            <div style="font-size:13.5px;padding:8px 14px;background:rgba(6,182,212,0.06);border-radius:8px;border-left:3px solid #06B6D4;display:flex;justify-content:space-between">
+              <span>&#x1F3F7;&#xFE0F; 每天17:00 竞品动态监控日报</span><span style="color:#06B6D4;font-weight:600">运行中</span></div>
+            <div style="font-size:13.5px;padding:8px 14px;background:rgba(6,182,212,0.06);border-radius:8px;border-left:3px solid #06B6D4;display:flex;justify-content:space-between">
+              <span>&#x1F382; 节假日/生日 定时发送祝福</span><span style="color:#f59e0b;font-weight:600">待触发</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="flex-col" style="gap:8px">
+        <div class="card card-sm" style="flex:1"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:20px">&#x1F9E0;</span><h4 class="t-title" style="margin:0;font-size:17px">永久记忆系统</h4></div><p class="t-body">跨对话持久化记忆能力。AI记住你的偏好、工作习惯、客户信息、纠正过的错误，历史知识永不丢失。</p>
+          <div style="margin-top:8px">
+            <div class="chat-mock" style="padding:12px;gap:8px">
+              <div class="chat-row right"><div class="chat-avatar user" style="width:20px;height:20px;font-size:11px">我</div><div class="chat-bubble user-b" style="font-size:13px;padding:7px 11px">以后生成报告时，标题用宋体加粗</div></div>
+              <div class="chat-row"><div class="chat-avatar ai" style="width:20px;height:20px;font-size:11px">&#x1F99E;</div><div class="chat-bubble ai-b" style="font-size:13px;padding:7px 11px">&#x2705; 已记住：报告标题使用宋体加粗。此偏好已存入长期记忆。</div></div>
+              <div style="text-align:center;font-size:11px;color:var(--text-muted);padding:4px 0">&mdash; 3天后 &mdash;</div>
+              <div class="chat-row right"><div class="chat-avatar user" style="width:20px;height:20px;font-size:11px">我</div><div class="chat-bubble user-b" style="font-size:13px;padding:7px 11px">帮我生成Q1运营报告</div></div>
+              <div class="chat-row"><div class="chat-avatar ai" style="width:20px;height:20px;font-size:11px">&#x1F99E;</div><div class="chat-bubble ai-b" style="font-size:13px;padding:7px 11px">好的，已按您偏好使用宋体加粗标题。Q1运营报告已生成并同步到企微文档。</div></div>
+            </div>
+          </div>
+          <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div style="padding:8px 12px;background:rgba(236,72,153,0.05);border-radius:8px;font-size:13px;color:#be185d;text-align:center">&#x1F4DD; 记住格式偏好</div>
+            <div style="padding:8px 12px;background:rgba(236,72,153,0.05);border-radius:8px;font-size:13px;color:#be185d;text-align:center">&#x1F465; 记住客户信息</div>
+            <div style="padding:8px 12px;background:rgba(236,72,153,0.05);border-radius:8px;font-size:13px;color:#be185d;text-align:center">&#x1F504; 记住纠正内容</div>
+            <div style="padding:8px 12px;background:rgba(236,72,153,0.05);border-radius:8px;font-size:13px;color:#be185d;text-align:center">&#x1F4DA; 记住业务知识</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 7: Skills生态 ==================== -->
+<div class="slide slide-content" data-index="6">
+  <div class="slide-header"><div class="slide-title t-title">核心能力&#x2462; Skills技能生态</div></div>
+  <div class="slide-subtitle t-body">20+ 预置技能 · 自由扩展 · Skill Market一键安装 · 自定义Skill开发</div>
+  <div class="slide-body" style="justify-content:space-evenly">
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px">
+      <div class="skill-chip"><span class="e">&#x1F4CA;</span>智能表格同步</div>
+      <div class="skill-chip"><span class="e">&#x1F4DD;</span>在线文档生成</div>
+      <div class="skill-chip"><span class="e">&#x1F5D3;&#xFE0F;</span>日程/待办管理</div>
+      <div class="skill-chip"><span class="e">&#x1F4D1;</span>AI PPT生成</div>
+      <div class="skill-chip"><span class="e">&#x1F916;</span>调用扣子智能体</div>
+      <div class="skill-chip"><span class="e">&#x1F50D;</span>联网搜索</div>
+      <div class="skill-chip"><span class="e">&#x1F3A8;</span>AI海报生成</div>
+      <div class="skill-chip"><span class="e">&#x270D;&#xFE0F;</span>公众号文章创作</div>
+      <div class="skill-chip"><span class="e">&#x1F4D5;</span>小红书图片生成</div>
+      <div class="skill-chip"><span class="e">&#x1F504;</span>自我改进学习</div>
+      <div class="skill-chip"><span class="e">&#x1F5BC;&#xFE0F;</span>AI图片生成</div>
+      <div class="skill-chip"><span class="e">&#x1F3D7;&#xFE0F;</span>架构图/流程图</div>
+      <div class="skill-chip"><span class="e">&#x1F310;</span>精美网页设计</div>
+      <div class="skill-chip"><span class="e">&#x1F30D;</span>浏览器自动化</div>
+      <div class="skill-chip"><span class="e">&#x1F4E2;</span>招投标商机查找</div>
+      <div class="skill-chip"><span class="e">&#x1F536;</span>SCRM系列工具</div>
+      <div class="skill-chip"><span class="e">&#x1F4AC;</span>群聊智能摘要</div>
+      <div class="skill-chip"><span class="e">&#x1F40D;</span>Python脚本</div>
+      <div class="skill-chip"><span class="e">&#x1F6E0;&#xFE0F;</span>自定义Skill</div>
+      <div class="skill-chip"><span class="e">&#x2795;</span>持续上新…</div>
+    </div>
+    <div class="g3">
+      <div class="card card-sm" style="border-left:3px solid var(--brand)"><h4 class="t-title">&#x1F4E6; 技能市场安装</h4><p class="t-body">从官方技能市场一键安装，所有Skill经过安全审核和质量验证</p></div>
+      <div class="card card-sm" style="border-left:3px solid #7C3AED"><h4 class="t-title">&#x1F6E0;&#xFE0F; 自定义开发</h4><p class="t-body">用Markdown+YAML定义Skill，无需编程，自然语言即可创建专属技能</p></div>
+      <div class="card card-sm" style="border-left:3px solid #059669"><h4 class="t-title">&#x1F517; MCP协议扩展</h4><p class="t-body">通过MCP协议对接企微文档、智能表格、日程等原生能力，生态无限延展</p></div>
+    </div>
+    <div style="display:flex;gap:24px;justify-content:center;padding:8px 0;background:rgba(255,255,255,0.4);border-radius:10px">
+      <div style="text-align:center"><div style="font-size:22px;font-weight:900;color:var(--brand)" class="t-title">20+</div><div style="font-size:12px;color:var(--text-muted)">预置技能数</div></div>
+      <div style="text-align:center"><div style="font-size:22px;font-weight:900;color:#7C3AED" class="t-title">5min</div><div style="font-size:12px;color:var(--text-muted)">Skill创建时间</div></div>
+      <div style="text-align:center"><div style="font-size:22px;font-weight:900;color:#059669" class="t-title">100%</div><div style="font-size:12px;color:var(--text-muted)">开源可审计</div></div>
+      <div style="text-align:center"><div style="font-size:22px;font-weight:900;color:#D97706" class="t-title">&#x221E;</div><div style="font-size:12px;color:var(--text-muted)">MCP生态扩展</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 8: SCRM集成 ==================== -->
+<div class="slide slide-content" data-index="7">
+  <div class="slide-header"><div class="slide-title t-title">核心能力&#x2463; SCRM深度集成</div></div>
+  <div class="slide-subtitle t-body">AI + SCRM · 从营销内容生产到执行落地全链路自动化</div>
+  <div class="slide-body">
+    <div class="g2" style="flex:1;align-content:center">
+      <div class="flex-col" style="gap:8px;justify-content:center">
+        <div class="card card-sm"><h4 class="t-title">&#x1F465; 客户智能管理</h4><p class="t-body">自然语言查询客户列表、打标签、分析画像。"查一下我最近加的10个客户" &#x2192; AI自动调用SCRM API返回结果，支持条件筛选和导出。</p></div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F4E3; 营销任务编排</h4><p class="t-body">AI生成文案 &#x2192; SCRM创建朋友圈/群发任务 &#x2192; 销售一键执行 &#x2192; Claw自动催办未完成任务。全链路自动化。</p></div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F4CA; 数据分析洞察</h4><p class="t-body">群聊数据自动统计、客户标签分布分析、流失客户预警与挽回建议，AI驱动数据决策。</p></div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F3F7;&#xFE0F; 活码+欢迎语</h4><p class="t-body">通过对话创建员工活码、设置个性化欢迎语和自动标签，新客户扫码获得定制化体验。</p></div>
+        <div class="card card-sm" style="background:rgba(0,82,255,0.04);border-left:3px solid var(--brand)">
+          <p class="t-body" style="font-size:14px;margin:0">&#x26A1; 原来<strong>2小时</strong>的活动方案+文案+群发 &#x2192; 现在AI全链路<strong style="color:var(--brand)">20分钟</strong>搞定，效率提升<strong style="color:var(--brand)">6倍</strong></p>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:10px">
+        <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);border-radius:14px;padding:18px;color:#fff">
+          <div style="font-size:15px;font-weight:700;margin-bottom:12px" class="t-title">&#x1F504; AI营销全链路闭环</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:center;gap:10px"><div style="width:28px;height:28px;background:var(--brand);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px">&#x270D;&#xFE0F;</div><div><div style="font-size:14px;font-weight:600" class="t-body">Claw AI 生成营销文案</div><div style="font-size:12.5px;opacity:0.6">一键生成合规朋友圈/群发文案</div></div></div>
+            <div style="text-align:center;font-size:16px;opacity:0.3">&darr;</div>
+            <div style="display:flex;align-items:center;gap:10px"><div style="width:28px;height:28px;background:#4338CA;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px">&#x1F4CA;</div><div><div style="font-size:14px;font-weight:600" class="t-body">Skills 同步运营日历</div><div style="font-size:12.5px;opacity:0.6">自动写入智能表格排期</div></div></div>
+            <div style="text-align:center;font-size:16px;opacity:0.3">&darr;</div>
+            <div style="display:flex;align-items:center;gap:10px"><div style="width:28px;height:28px;background:#059669;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px">&#x1F536;</div><div><div style="font-size:14px;font-weight:600" class="t-body">SCRM 创建群发任务</div><div style="font-size:12.5px;opacity:0.6">自动分配到销售执行</div></div></div>
+            <div style="text-align:center;font-size:16px;opacity:0.3">&darr;</div>
+            <div style="display:flex;align-items:center;gap:10px"><div style="width:28px;height:28px;background:#D97706;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px">&#x1F4C8;</div><div><div style="font-size:14px;font-weight:600" class="t-body">Claw 自动催办 + 统计</div><div style="font-size:12.5px;opacity:0.6">未完成任务自动催、数据自动汇</div></div></div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <div style="text-align:center;padding:10px;background:rgba(255,255,255,0.5);border-radius:10px"><div style="font-size:22px;font-weight:900;color:var(--brand)" class="t-title">6x</div><div style="font-size:12px;color:var(--text-muted)">效率提升</div></div>
+          <div style="text-align:center;padding:10px;background:rgba(255,255,255,0.5);border-radius:10px"><div style="font-size:22px;font-weight:900;color:#059669" class="t-title">0</div><div style="font-size:12px;color:var(--text-muted)">人工复制粘贴</div></div>
+          <div style="text-align:center;padding:10px;background:rgba(255,255,255,0.5);border-radius:10px"><div style="font-size:22px;font-weight:900;color:#7C3AED" class="t-title">24h</div><div style="font-size:12px;color:var(--text-muted)">全自动运转</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 9: 安全架构 ==================== -->
+<div class="slide slide-content" data-index="8">
+  <div class="slide-header"><div class="slide-title t-title">五层安全防线</div></div>
+  <div class="slide-subtitle t-body">企业级安全合规 · 数据不出企业 · 满足金融/政务级要求</div>
+  <div class="slide-body">
+    <div class="g2" style="flex:1;align-content:center">
+      <div class="flex-col" style="gap:8px;justify-content:center">
+        <div class="sec-layer" style="background:linear-gradient(90deg,#0F172A,#1E3A5F)"><div class="sec-num" style="background:#0052FF">1</div><div><h5 class="t-title">本地部署层</h5><p class="t-body">Agent运行在用户本地电脑，数据全程不出企业网络边界</p></div></div>
+        <div class="sec-layer" style="background:linear-gradient(90deg,#1E293B,#2D4A6F)"><div class="sec-num" style="background:#4338CA">2</div><div><h5 class="t-title">传输加密层</h5><p class="t-body">TLS 1.3全链路加密 · 企微/微信官方API安全通道</p></div></div>
+        <div class="sec-layer" style="background:linear-gradient(90deg,#1E3050,#3B5998)"><div class="sec-num" style="background:#7C3AED">3</div><div><h5 class="t-title">权限控制层</h5><p class="t-body">Skills白名单审批 · 操作确认机制 · 管理员分级授权</p></div></div>
+        <div class="sec-layer" style="background:linear-gradient(90deg,#1A365D,#2B6CB0)"><div class="sec-num" style="background:#059669">4</div><div><h5 class="t-title">数据隔离层</h5><p class="t-body">每个Agent独立运行空间 · 跨组织数据完全隔离</p></div></div>
+        <div class="sec-layer" style="background:linear-gradient(90deg,#1D4ED8,#3B82F6)"><div class="sec-num" style="background:#D97706">5</div><div><h5 class="t-title">审计日志层</h5><p class="t-body">全操作可溯源 · 完整审计日志 · 合规报表导出</p></div></div>
+      </div>
+      <div class="flex-col" style="gap:8px;justify-content:center">
+        <div class="card card-sm" style="border-left:3px solid var(--brand)"><h4 class="t-title">&#x1F6E1;&#xFE0F; 开源透明</h4><p class="t-body">基于OpenClaw开源框架，核心逻辑100%可审计，没有后门和暗箱操作，代码完全透明开放。</p></div>
+        <div class="card card-sm" style="border-left:3px solid #059669"><h4 class="t-title">&#x1F510; Skill安全沙箱</h4><p class="t-body">每个Skill运行在安全沙箱中，人工审核上架，不可无授权访问企业数据。安装前需管理员审批。</p></div>
+        <div class="card card-sm" style="border-left:3px solid #7C3AED"><h4 class="t-title">&#x1F3E2; 适配高安全行业</h4><p class="t-body">满足银行、保险、政务等高合规行业数据安全要求。数据全程在本地处理，不上传任何第三方。</p></div>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:4px">
+          <span class="badge badge-green">&#x1F6E1;&#xFE0F; 金融级安全</span>
+          <span class="badge badge-blue">&#x1F512; 数据不出企业</span>
+          <span class="badge badge-purple">&#x1F50D; 全程可审计</span>
+          <span class="badge badge-green">&#x2705; 合规报表</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 10: 场景-定时任务 ==================== -->
+<div class="slide slide-content" data-index="9">
+  <div class="slide-header"><div class="slide-title t-title">使用场景&#x2460; 定时任务自动化</div></div>
+  <div class="slide-subtitle t-body">一句话设置 · AI按时主动工作 · 不@也能干活</div>
+  <div class="slide-body">
+    <div class="g32" style="flex:1;align-content:center">
+      <div class="flex-col" style="gap:8px;justify-content:center">
+        <div class="card card-sm"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><span style="font-size:17px">&#x1F4F0;</span><h4 class="t-title" style="margin:0">每日行业资讯自动推送</h4></div><p class="t-body">每天早上9:00，AI自动联网搜索指定行业的最新动态，整理成5条要点后推送到企微群聊。团队成员上班即看。</p></div>
+        <div class="card card-sm"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><span style="font-size:17px">&#x1F50D;</span><h4 class="t-title" style="margin:0">竞品动态监控日报</h4></div><p class="t-body">每天17:00自动搜索竞品公司动态（产品发布、融资、人事变动），汇总成分析报告推送给团队。</p></div>
+        <div class="card card-sm"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><span style="font-size:17px">&#x1F4E6;</span><h4 class="t-title" style="margin:0">库存安全水位预警</h4></div><p class="t-body">每晚21:20自动读取智能表格库存数据，当物料低于安全库存时自动报警提醒采购负责人。</p></div>
+        <div class="card card-sm"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><span style="font-size:17px">&#x1F4CA;</span><h4 class="t-title" style="margin:0">每周运营周报生成</h4></div><p class="t-body">每周五下午自动汇总本周运营数据，生成包含KPI进展和下周计划的结构化周报。</p></div>
+        <div class="card card-sm"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><span style="font-size:17px">&#x1F382;</span><h4 class="t-title" style="margin:0">客户生日/节日祝福</h4></div><p class="t-body">AI根据记忆中的客户生日信息，自动在当天发送个性化祝福消息，维护客户关系。</p></div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <div class="mockup" style="width:100%">
+          <div class="mock-bar"><div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div><span style="font-size:13px;color:#666;margin-left:auto">定时任务管理面板</span></div>
+          <div class="mock-body" style="padding:12px;background:#f8f9ff">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div style="font-size:14px;font-weight:700;color:var(--navy)">&#x1F4CB; 活跃定时任务</div><div style="font-size:12px;color:var(--brand);font-weight:600">5个运行中</div></div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:#fff;border-radius:6px;border:1px solid #e8eaf0">
+                <div><div style="font-size:14px;font-weight:600;color:var(--navy)">&#x1F4F0; 行业资讯推送</div><div style="font-size:11px;color:var(--text-muted)">每天 09:00 · 下次执行：明天</div></div>
+                <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:50%;background:#22c55e"></div><span style="font-size:11px;color:#22c55e">运行中</span></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:#fff;border-radius:6px;border:1px solid #e8eaf0">
+                <div><div style="font-size:14px;font-weight:600;color:var(--navy)">&#x1F50D; 竞品动态监控</div><div style="font-size:11px;color:var(--text-muted)">每天 17:00 · 今日已执行</div></div>
+                <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:50%;background:#22c55e"></div><span style="font-size:11px;color:#22c55e">运行中</span></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:#fff;border-radius:6px;border:1px solid #e8eaf0">
+                <div><div style="font-size:14px;font-weight:600;color:var(--navy)">&#x1F4E6; 库存预警检查</div><div style="font-size:11px;color:var(--text-muted)">每天 21:20 · 昨日触发2条预警</div></div>
+                <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:50%;background:#22c55e"></div><span style="font-size:11px;color:#22c55e">运行中</span></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:#fff;border-radius:6px;border:1px solid #e8eaf0">
+                <div><div style="font-size:14px;font-weight:600;color:var(--navy)">&#x1F4CA; 运营周报</div><div style="font-size:11px;color:var(--text-muted)">每周五 16:00 · 本周待执行</div></div>
+                <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:50%;background:#f59e0b"></div><span style="font-size:11px;color:#f59e0b">待执行</span></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:#fff;border-radius:6px;border:1px solid #e8eaf0">
+                <div><div style="font-size:14px;font-weight:600;color:var(--navy)">&#x1F382; 客户生日祝福</div><div style="font-size:11px;color:var(--text-muted)">按客户生日触发 · 本月3位</div></div>
+                <div style="display:flex;align-items:center;gap:3px"><div style="width:6px;height:6px;border-radius:50%;background:#22c55e"></div><span style="font-size:11px;color:#22c55e">运行中</span></div>
+              </div>
+            </div>
+            <div style="margin-top:8px;padding:6px 10px;background:rgba(0,82,255,0.04);border-radius:6px;font-size:11.5px;color:var(--text-muted);text-align:center">提示：发送「定时 每天9点搜索XX行业新闻」即可一句话创建定时任务</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 11: 场景-内容创作 ==================== -->
+<div class="slide slide-content" data-index="10">
+  <div class="slide-header"><div class="slide-title t-title">使用场景&#x2461; AI内容创作全矩阵</div></div>
+  <div class="slide-subtitle t-body">一句话生成 · 公众号+视频号+小红书+PPT+海报+网页全覆盖</div>
+  <div class="slide-body">
+    <div class="g23" style="flex:1;align-content:center">
+      <div class="flex-col" style="gap:4px;justify-content:center">
+        <div class="card card-sm" style="border-left:3px solid #7C3AED;padding:10px 16px"><h4 class="t-title" style="font-size:14.5px">&#x270D;&#xFE0F; 公众号文章</h4><p class="t-body" style="font-size:12.5px;line-height:1.5">AI联网搜索素材、分析趋势、生成完整推文，可直接同步到公众号草稿箱一键发布</p></div>
+        <div class="card card-sm" style="border-left:3px solid #EC4899;padding:10px 16px"><h4 class="t-title" style="font-size:14.5px">&#x1F4D5; 小红书图文</h4><p class="t-body" style="font-size:12.5px;line-height:1.5">长文拆解为信息图，生成可直接发布的图片+标题+话题标签，适配小红书排版</p></div>
+        <div class="card card-sm" style="border-left:3px solid #F59E0B;padding:10px 16px"><h4 class="t-title" style="font-size:14.5px">&#x1F3AC; 视频号脚本</h4><p class="t-body" style="font-size:12.5px;line-height:1.5">生成1分钟视频号拍摄脚本+分镜建议+字幕文案，适配短视频节奏和热点话题</p></div>
+        <div class="card card-sm" style="border-left:3px solid var(--brand);padding:10px 16px"><h4 class="t-title" style="font-size:14.5px">&#x1F4D1; 商务PPT</h4><p class="t-body" style="font-size:12.5px;line-height:1.5">指定客户行业和需求，一句话生成定制PPT+配套演讲话术+重点标注</p></div>
+        <div class="card card-sm" style="border-left:3px solid #059669;padding:10px 16px"><h4 class="t-title" style="font-size:14.5px">&#x1F3A8; 4K海报+网页</h4><p class="t-body" style="font-size:12.5px;line-height:1.5">战报海报、活动海报、精美网页一键生成，支持品牌色和LOGO自动嵌入</p></div>
+        <div class="card card-sm" style="border-left:3px solid #0891b2;padding:10px 16px"><h4 class="t-title" style="font-size:14.5px">&#x1F4CA; 行业深度研报</h4><p class="t-body" style="font-size:12.5px;line-height:1.5">AI联网搜索+数据分析，生成含图表的行业深度研究报告网页和PDF</p></div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <div class="mockup" style="width:100%">
+          <div class="mock-bar"><div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div><span style="font-size:13px;color:#666;margin-left:auto">AI生成的行业研报网页</span></div>
+          <div class="mock-body" style="padding:0;background:linear-gradient(135deg,#0F172A,#1E293B);color:#fff">
+            <div style="padding:20px 18px 10px">
+              <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:3px">行业研究报告 · 2026.03</div>
+              <div style="font-size:17px;font-weight:800;margin-bottom:4px;line-height:1.3">脑机接口行业深度研报</div>
+              <div style="font-size:11.5px;color:rgba(255,255,255,0.6);line-height:1.5">近十天重大技术突破、市场政策与投资趋势全景分析</div>
+            </div>
+            <div style="padding:0 18px 10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+              <div style="background:rgba(255,255,255,0.06);border-radius:8px;padding:10px">
+                <div style="font-size:10px;color:rgba(255,255,255,0.4)">市场规模</div>
+                <div style="font-size:17px;font-weight:800;color:#60A5FA">$4.2B</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.06);border-radius:8px;padding:10px">
+                <div style="font-size:10px;color:rgba(255,255,255,0.4)">增长率</div>
+                <div style="font-size:17px;font-weight:800;color:#34D399">+42%</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.06);border-radius:8px;padding:10px">
+                <div style="font-size:10px;color:rgba(255,255,255,0.4)">企业数</div>
+                <div style="font-size:17px;font-weight:800;color:#FBBF24">126</div>
+              </div>
+            </div>
+            <div style="padding:0 18px 10px">
+              <div style="font-size:11.5px;font-weight:600;color:rgba(255,255,255,0.8);margin-bottom:4px">&#x1F4CC; 核心发现</div>
+              <div style="font-size:10.5px;color:rgba(255,255,255,0.5);line-height:1.7">&bull; Neuralink完成第三例人体植入手术<br>&bull; 非侵入式BCI精度突破95%<br>&bull; 中国脑计划二期正式启动<br>&bull; FDA加速审批通道已开放<br>&bull; 2026年投资额同比增长67%</div>
+            </div>
+            <div style="padding:6px 18px 12px">
+              <div style="font-size:11.5px;font-weight:600;color:rgba(255,255,255,0.8);margin-bottom:4px">&#x1F4C8; 技术路线对比</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+                <div style="background:rgba(96,165,250,0.15);border-radius:4px;padding:6px 8px;font-size:10px;color:#93c5fd">侵入式BCI · 精度最高</div>
+                <div style="background:rgba(52,211,153,0.15);border-radius:4px;padding:6px 8px;font-size:10px;color:#6ee7b7">非侵入式 · 商业化快</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 12: 场景-智能表格+文档 ==================== -->
+<div class="slide slide-content" data-index="11">
+  <div class="slide-header"><div class="slide-title t-title">使用场景&#x2462; 智能表格 + 在线文档</div></div>
+  <div class="slide-subtitle t-body">口述/拍照录入 · 自动分析 · 双向同步企微原生能力</div>
+  <div class="slide-body">
+    <div class="g2" style="flex:1;align-content:center">
+      <div class="flex-col" style="gap:8px;justify-content:center">
+        <div class="card card-sm"><h4 class="t-title">&#x1F4CA; 运营日历自动生成</h4><p class="t-body">AI生成全年运营日历同步到智能表格，设置自动化规则分配执行人，到期自动提醒。</p></div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F4F7; 手写单据OCR入库</h4><p class="t-body">拍照手写出入库单 &#x2192; AI自动识别 &#x2192; 更新智能表格库存 &#x2192; 低库存预警通知。</p></div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F4DD; 调研报告自动生成</h4><p class="t-body">AI联网搜索、分析后生成结构化报告，直接同步到企微在线文档，支持协同编辑。</p></div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F4CB; 会议纪要自动提取</h4><p class="t-body">发送会议转写文本，AI提取关键决议和待办事项，同步到表格分配跟进。</p></div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F4E2; 招投标信息追踪</h4><p class="t-body">AI定时搜索招投标平台，自动抓取匹配项目并录入追踪表格，发现商机不遗漏。</p></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;justify-content:center">
+        <div class="mockup" style="width:100%">
+          <div class="mock-bar"><div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div><span style="font-size:13px;color:#666;margin-left:auto">企微智能表格 - 库存管理</span></div>
+          <div class="mock-body" style="padding:0;overflow:hidden">
+            <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+              <tr style="background:#f0f4ff"><th style="padding:7px 10px;text-align:left;font-weight:600;color:var(--navy);border-bottom:2px solid #dde4ff">物料名称</th><th style="padding:7px 10px;text-align:center;border-bottom:2px solid #dde4ff;color:var(--navy);font-weight:600">当前库存</th><th style="padding:7px 10px;text-align:center;border-bottom:2px solid #dde4ff;color:var(--navy);font-weight:600">安全库存</th><th style="padding:7px 10px;text-align:center;border-bottom:2px solid #dde4ff;color:var(--navy);font-weight:600">状态</th></tr>
+              <tr><td style="padding:6px 10px;border-bottom:1px solid #f0f0f0">A型螺丝</td><td style="padding:6px 10px;text-align:center;border-bottom:1px solid #f0f0f0">1,250</td><td style="padding:6px 10px;text-align:center;border-bottom:1px solid #f0f0f0">500</td><td style="padding:6px 10px;text-align:center;border-bottom:1px solid #f0f0f0"><span style="color:#22c55e;font-weight:600">&#x2713; 充足</span></td></tr>
+              <tr style="background:#fafafa"><td style="padding:6px 10px;border-bottom:1px solid #f0f0f0">B型垫片</td><td style="padding:6px 10px;text-align:center;border-bottom:1px solid #f0f0f0">80</td><td style="padding:6px 10px;text-align:center;border-bottom:1px solid #f0f0f0">200</td><td style="padding:6px 10px;text-align:center;border-bottom:1px solid #f0f0f0"><span style="color:#ef4444;font-weight:600">&#x26A0; 预警</span></td></tr>
+              <tr><td style="padding:6px 10px;border-bottom:1px solid #f0f0f0">C型铜管</td><td style="padding:6px 10px;text-align:center;border-bottom:1px solid #f0f0f0">620</td><td style="padding:6px 10px;text-align:center;border-bottom:1px solid #f0f0f0">300</td><td style="padding:6px 10px;text-align:center;border-bottom:1px solid #f0f0f0"><span style="color:#22c55e;font-weight:600">&#x2713; 充足</span></td></tr>
+              <tr style="background:#fafafa"><td style="padding:6px 10px;border-bottom:1px solid #f0f0f0">D型密封圈</td><td style="padding:6px 10px;text-align:center;border-bottom:1px solid #f0f0f0;color:#ef4444;font-weight:600">5</td><td style="padding:6px 10px;text-align:center;border-bottom:1px solid #f0f0f0">50</td><td style="padding:6px 10px;text-align:center;border-bottom:1px solid #f0f0f0"><span style="color:#ef4444;font-weight:600">&#x1F534; 严重</span></td></tr>
+              <tr><td style="padding:6px 10px;border-bottom:1px solid #f0f0f0">E型法兰</td><td style="padding:6px 10px;text-align:center;border-bottom:1px solid #f0f0f0">380</td><td style="padding:6px 10px;text-align:center;border-bottom:1px solid #f0f0f0">200</td><td style="padding:6px 10px;text-align:center;border-bottom:1px solid #f0f0f0"><span style="color:#22c55e;font-weight:600">&#x2713; 充足</span></td></tr>
+            </table>
+            <div style="padding:6px 10px;background:#fff8f0;border-top:1px solid #fde68a;font-size:11.5px;color:#D97706">&#x26A0; 2项物料低于安全库存，已自动通知仓库管理员补货</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <div style="flex:1;padding:8px;text-align:center;background:rgba(255,255,255,0.5);border-radius:8px"><div style="font-size:18px;font-weight:900;color:var(--brand)" class="t-title">95%</div><div style="font-size:11px;color:var(--text-muted)">OCR识别准确率</div></div>
+          <div style="flex:1;padding:8px;text-align:center;background:rgba(255,255,255,0.5);border-radius:8px"><div style="font-size:18px;font-weight:900;color:#059669" class="t-title">3s</div><div style="font-size:11px;color:var(--text-muted)">拍照到入库耗时</div></div>
+          <div style="flex:1;padding:8px;text-align:center;background:rgba(255,255,255,0.5);border-radius:8px"><div style="font-size:18px;font-weight:900;color:#7C3AED" class="t-title">24h</div><div style="font-size:11px;color:var(--text-muted)">自动监控运转</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 13: 场景-远程+浏览器 ==================== -->
+<div class="slide slide-content" data-index="12">
+  <div class="slide-header"><div class="slide-title t-title">使用场景&#x2463; 远程办公 + 浏览器自动化</div></div>
+  <div class="slide-subtitle t-body">出差在外也能调取文件 · AI控制浏览器抓取数据 · 深度学习企业文档</div>
+  <div class="slide-body">
+    <div class="g2" style="flex:1;align-content:center">
+      <div class="flex-col" style="justify-content:center;gap:8px">
+        <div class="hl-box" style="padding:16px">
+          <h4 class="t-title">&#x1F4F1; 远程文件调取</h4>
+          <p class="t-body">出差时通过个人微信/企微发消息给AI，AI在办公电脑上查找文件（支持模糊搜索），自动转换格式发回手机。再也不用麻烦同事帮忙找文件。</p>
+        </div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F30D; 浏览器自动化</h4><p class="t-body">AI控制浏览器自动登录企业网站、抓取后台数据、填写表单。保留登录态Cookie，可获取需要认证的页面信息。</p></div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F4D6; AI学习PPT/文档</h4><p class="t-body">上传公司149页产品PPT让AI学习，然后随时用自然语言提问——"介绍一下员工活码功能"，AI精准作答。</p></div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F4C2; 跨设备文件同步</h4><p class="t-body">AI自动在电脑上找到文件，转换为PDF/图片等手机友好格式，支持压缩打包批量发送。</p></div>
+        <div style="display:flex;gap:8px">
+          <span class="badge badge-green">&#x2705; 个人微信可用</span>
+          <span class="badge badge-blue">&#x2705; 企微可用</span>
+          <span class="badge badge-purple">&#x2705; 模糊搜索</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <div class="chat-mock" style="width:100%">
+          <div style="text-align:center;font-size:11.5px;color:var(--text-muted);padding:1px 0">&mdash; 个人微信对话(ClawBot) &mdash;</div>
+          <div class="chat-row right"><div class="chat-avatar user">我</div><div class="chat-bubble user-b">我在外面，帮我在电脑桌面找一个"Q1销售报告"的Excel发给我</div></div>
+          <div class="chat-row"><div class="chat-avatar ai">&#x1F99E;</div><div class="chat-bubble ai-b">正在搜索您的桌面文件…<br><br>&#x1F50D; 找到匹配文件：<br>&#x1F4C4; Q1销售业绩报告-2026.xlsx<br>&nbsp;&nbsp; 大小：2.3MB · 修改时间：3月18日<br><br>正在转换为PDF并发送…</div></div>
+          <div class="chat-row"><div class="chat-avatar ai">&#x1F99E;</div><div class="chat-bubble ai-b">&#x1F4CE; 已将文件转换为PDF发送给您。<br>如需原始Excel格式也可以告诉我。</div></div>
+          <div class="chat-row right"><div class="chat-avatar user">我</div><div class="chat-bubble user-b">再帮我打开公司OA，截图今天的审批列表</div></div>
+          <div class="chat-row"><div class="chat-avatar ai">&#x1F99E;</div><div class="chat-bubble ai-b">&#x1F310; 正在启动浏览器…已登录OA系统<br>&#x1F4F8; 截图已完成，为您发送审批待办列表截图。<br>共有3条待审批事项。</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 14: 行业解决方案 ==================== -->
+<div class="slide slide-content" data-index="13">
+  <div class="slide-header"><div class="slide-title t-title">行业解决方案</div></div>
+  <div class="slide-subtitle t-body">金融银行 · 制造工厂 · 零售电商 · 教育培训 · 医疗健康 · 多行业深度适配</div>
+  <div class="slide-body">
+    <div class="g5" style="align-content:center">
+      <div class="ind-card">
+        <div class="hd"><span>&#x1F3E6;</span><h4 class="t-title">金融银行</h4></div>
+        <div class="ind-pt">合规朋友圈文案生成</div>
+        <div class="ind-pt">理财产品营销素材创作</div>
+        <div class="ind-pt">客户经理任务督办</div>
+        <div class="ind-pt">战报海报按战区生成</div>
+        <div class="ind-pt">活动方案标准化输出</div>
+        <div class="ind-pt">客户画像智能分析</div>
+        <div style="margin-top:6px"><span class="badge badge-blue">合规安全</span></div>
+      </div>
+      <div class="ind-card">
+        <div class="hd"><span>&#x1F3ED;</span><h4 class="t-title">制造工厂</h4></div>
+        <div class="ind-pt">手写单据OCR识别</div>
+        <div class="ind-pt">库存安全水位预警</div>
+        <div class="ind-pt">物料口述录入表格</div>
+        <div class="ind-pt">生产数据自动日报</div>
+        <div class="ind-pt">替代传统ERP系统</div>
+        <div class="ind-pt">设备巡检记录管理</div>
+        <div style="margin-top:6px"><span class="badge badge-green">降本增效</span></div>
+      </div>
+      <div class="ind-card">
+        <div class="hd"><span>&#x1F6CD;&#xFE0F;</span><h4 class="t-title">零售电商</h4></div>
+        <div class="ind-pt">全年营销文案库</div>
+        <div class="ind-pt">运营日历自动排期</div>
+        <div class="ind-pt">社群消息智能摘要</div>
+        <div class="ind-pt">裂变活动快速生成</div>
+        <div class="ind-pt">流失客户分析挽回</div>
+        <div class="ind-pt">会员积分活动策划</div>
+        <div style="margin-top:6px"><span class="badge badge-purple">营销提效</span></div>
+      </div>
+      <div class="ind-card">
+        <div class="hd"><span>&#x1F393;</span><h4 class="t-title">教育培训</h4></div>
+        <div class="ind-pt">课程内容自动整理</div>
+        <div class="ind-pt">招生文案批量生成</div>
+        <div class="ind-pt">学员签到打卡统计</div>
+        <div class="ind-pt">群聊问答自动回复</div>
+        <div class="ind-pt">培训手册AI生成</div>
+        <div class="ind-pt">教师工作量统计</div>
+        <div style="margin-top:6px"><span class="badge badge-blue">智能教学</span></div>
+      </div>
+      <div class="ind-card">
+        <div class="hd"><span>&#x1F3E5;</span><h4 class="t-title">医疗健康</h4></div>
+        <div class="ind-pt">患者随访提醒管理</div>
+        <div class="ind-pt">医疗知识问答服务</div>
+        <div class="ind-pt">排班与值班通知</div>
+        <div class="ind-pt">病历摘要自动生成</div>
+        <div class="ind-pt">健康科普内容创作</div>
+        <div class="ind-pt">药品库存预警</div>
+        <div style="margin-top:6px"><span class="badge badge-green">数据合规</span></div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center;gap:40px;margin-top:12px;padding-top:14px">
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:var(--brand)" class="t-title">20+</div><div style="font-size:12px;color:var(--text-muted)">行业解决方案</div></div>
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#059669" class="t-title">100+</div><div style="font-size:12px;color:var(--text-muted)">行业应用场景</div></div>
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#7C3AED" class="t-title">10K+</div><div style="font-size:12px;color:var(--text-muted)">服务企业客户</div></div>
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#D97706" class="t-title">98%</div><div style="font-size:12px;color:var(--text-muted)">客户满意度</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 15: 100+玩法速览 ==================== -->
+<div class="slide slide-content" data-index="14">
+  <div class="slide-header"><div class="slide-title t-title">100+实战玩法速览</div></div>
+  <div class="slide-subtitle t-body">从定时任务到内容创作，从智能表格到SCRM营销，覆盖10大场景</div>
+  <div class="slide-body">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-content:center">
+      <div class="card card-sm"><div class="card-icon ci-cyan" style="width:32px;height:32px;font-size:17px;margin-bottom:6px">&#x23F0;</div><h4 class="t-title">定时任务</h4><p class="t-body">资讯推送 · 竞品监控 · 库存预警<br>健康提醒 · 周报生成 · 节日祝福<br>番茄钟 · 催办督促 · 日志汇总</p></div>
+      <div class="card card-sm"><div class="card-icon ci-purple" style="width:32px;height:32px;font-size:17px;margin-bottom:6px">&#x270D;&#xFE0F;</div><h4 class="t-title">内容创作</h4><p class="t-body">公众号推文 · 小红书图文<br>视频号脚本 · PPT制作 · 网页<br>海报设计 · 行业研报 · 宣传方案</p></div>
+      <div class="card card-sm"><div class="card-icon ci-green" style="width:32px;height:32px;font-size:17px;margin-bottom:6px">&#x1F4CA;</div><h4 class="t-title">智能表格</h4><p class="t-body">运营日历 · 库存管理 · OCR入库<br>招标信息 · 考勤签到 · 数据仪表盘<br>项目管理 · 客诉跟进 · 供应商库</p></div>
+      <div class="card card-sm"><div class="card-icon ci-orange" style="width:32px;height:32px;font-size:17px;margin-bottom:6px">&#x1F536;</div><h4 class="t-title">SCRM营销</h4><p class="t-body">客户查询 · 标签管理 · 群发任务<br>活码创建 · 群聊统计 · 流失分析<br>朋友圈任务 · 欢迎语 · 战报生成</p></div>
+      <div class="card card-sm"><div class="card-icon ci-blue" style="width:32px;height:32px;font-size:17px;margin-bottom:6px">&#x1F50D;</div><h4 class="t-title">联网搜索</h4><p class="t-body">品牌舆情 · 政策法规 · 技术趋势<br>企业背调 · 竞品追踪 · 热点简报<br>学术论文 · 市场调研 · 人才搜索</p></div>
+      <div class="card card-sm"><div class="card-icon ci-pink" style="width:32px;height:32px;font-size:17px;margin-bottom:6px">&#x1F9E9;</div><h4 class="t-title">Skills技能</h4><p class="t-body">扣子智能体 · AI生图 · 架构图<br>自我改进 · 浏览器自动化<br>Python脚本 · 自定义Skill</p></div>
+      <div class="card card-sm"><div class="card-icon ci-blue" style="width:32px;height:32px;font-size:17px;margin-bottom:6px">&#x1F4BC;</div><h4 class="t-title">办公提效</h4><p class="t-body">远程文件调取 · AI学习PPT<br>格式转换 · 多语翻译 · 长文摘要<br>SQL编写 · 合同审查 · 邮件撰写</p></div>
+      <div class="card card-sm"><div class="card-icon ci-red" style="width:32px;height:32px;font-size:17px;margin-bottom:6px">&#x1F680;</div><h4 class="t-title">进阶玩法</h4><p class="t-body">多Agent协作 · 知识共享<br>AI自我反省 · 跨系统集成<br>人格定制 · 工作流编排</p></div>
+    </div>
+    <div style="text-align:center;padding:8px 0;margin-top:8px;background:rgba(0,82,255,0.03);border-radius:10px">
+      <span style="font-size:14px;color:var(--text-body)">&#x1F4D6; 详细教程请查看 <strong style="color:var(--brand)">《企微管家Claw 100+使用教程》</strong> 完整指南</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 16: 技术对比 ==================== -->
+<div class="slide slide-content" data-index="15">
+  <div class="slide-header"><div class="slide-title t-title">技术优势 vs 传统方案</div></div>
+  <div class="slide-subtitle t-body">全面领先的企微AI Agent方案</div>
+  <div class="slide-body">
+    <div style="display:flex;flex-direction:column;gap:8px;justify-content:center">
+      <table class="tbl">
+        <tr><th style="width:24%">对比维度</th><th style="width:38%">企微管家 Claw</th><th style="width:38%">传统SaaS AI工具</th></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">部署方式</td><td class="check">&#x2705; 本地私有化部署</td><td class="cross">&#x2601;&#xFE0F; 云端SaaS，数据上传</td></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">数据安全</td><td class="check">&#x2705; 数据不出企业网络</td><td class="cross">&#x274C; 数据上传至第三方</td></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">接入方式</td><td class="check">&#x2705; 扫码即连·5分钟</td><td class="cross">&#x26A0;&#xFE0F; API开发·数周</td></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">企微集成深度</td><td class="check">&#x2705; 原生深度集成（表格/文档/日程）</td><td class="cross">&#x26A0;&#xFE0F; 浅层对接或不支持</td></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">微信支持</td><td class="check">&#x2705; ClawBot插件·企微微信双通道</td><td class="cross">&#x274C; 不支持个人微信</td></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">定时任务</td><td class="check">&#x2705; 原生支持CRON</td><td class="cross">&#x274C; 基本不支持</td></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">永久记忆</td><td class="check">&#x2705; 跨对话持久化记忆</td><td class="cross">&#x274C; 对话结束即忘</td></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">SCRM集成</td><td class="check">&#x2705; 全链路深度打通</td><td class="cross">&#x274C; 无该能力</td></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">代码透明度</td><td class="check">&#x2705; 开源可审计</td><td class="cross">&#x274C; 闭源黑盒</td></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">扩展能力</td><td class="check">&#x2705; Skills生态 + MCP协议</td><td class="cross">&#x26A0;&#xFE0F; 有限插件</td></tr>
+      </table>
+      <div style="display:flex;justify-content:center;gap:20px;margin-top:6px;padding:6px 0">
+        <div style="display:flex;align-items:center;gap:6px"><div style="width:16px;height:16px;background:var(--brand);border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:800">10</div><span style="font-size:13px;color:var(--navy);font-weight:600">项全面领先</span></div>
+        <div style="display:flex;align-items:center;gap:6px"><div style="width:16px;height:16px;background:#22c55e;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px">&#x2713;</div><span style="font-size:13px;color:var(--text-muted)">Claw全部具备</span></div>
+        <div style="display:flex;align-items:center;gap:6px"><div style="width:16px;height:16px;background:#ef4444;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px">&#x2717;</div><span style="font-size:13px;color:var(--text-muted)">传统方案缺失</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 17: 微盛实力 ==================== -->
+<div class="slide slide-content" data-index="16">
+  <div class="slide-header"><div class="slide-title t-title">微盛实力与背书</div></div>
+  <div class="slide-subtitle t-body">企业微信官方服务商 · 服务数万家企业 · 深耕企微生态</div>
+  <div class="slide-body" style="justify-content:space-evenly">
+    <div style="display:flex;justify-content:space-around">
+      <div class="stat"><div class="n t-title">10,000<span>+</span></div><div class="l t-body">服务企业数</div></div>
+      <div class="stat"><div class="n t-title">500<span>万+</span></div><div class="l t-body">终端用户覆盖</div></div>
+      <div class="stat"><div class="n t-title">8<span>年</span></div><div class="l t-body">企微生态深耕</div></div>
+      <div class="stat"><div class="n t-title">20<span>+</span></div><div class="l t-body">行业解决方案</div></div>
+      <div class="stat"><div class="n t-title">99.9<span>%</span></div><div class="l t-body">系统可用率</div></div>
+    </div>
+    <div class="g3">
+      <div class="card card-sm" style="border-left:3px solid var(--brand)">
+        <h4 class="t-title">&#x1F3C5; 企微官方服务商</h4>
+        <p class="t-body">微盛是企业微信官方认证服务商，深度参与企微生态建设，产品与企微原生能力紧密集成，确保接口稳定性和功能完整性。</p>
+      </div>
+      <div class="card card-sm" style="border-left:3px solid #7C3AED">
+        <h4 class="t-title">&#x1F513; OpenClaw开源架构</h4>
+        <p class="t-body">基于OpenClaw开源框架构建，代码100%可审计。任何企业和开发者都可以基于此构建自己的AI Agent，完全透明可信赖。</p>
+      </div>
+      <div class="card card-sm" style="border-left:3px solid #059669">
+        <h4 class="t-title">&#x1F91D; 全方位运营支持</h4>
+        <p class="t-body">不仅提供产品，更提供完整的落地方案——包含行业最佳实践、团队培训、持续优化迭代，确保AI真正用起来产生价值。</p>
+      </div>
+    </div>
+    <div class="g4">
+      <div style="padding:12px;background:rgba(255,255,255,0.5);border-radius:10px;text-align:center">
+        <div style="font-size:22px;margin-bottom:4px">&#x1F3E2;</div>
+        <div style="font-size:13px;font-weight:700;color:var(--navy)">金融行业</div>
+        <div style="font-size:11.5px;color:var(--text-muted)">多家银行 · 保险 · 证券</div>
+      </div>
+      <div style="padding:12px;background:rgba(255,255,255,0.5);border-radius:10px;text-align:center">
+        <div style="font-size:22px;margin-bottom:4px">&#x1F3ED;</div>
+        <div style="font-size:13px;font-weight:700;color:var(--navy)">制造业</div>
+        <div style="font-size:11.5px;color:var(--text-muted)">工厂 · 供应链 · 物流</div>
+      </div>
+      <div style="padding:12px;background:rgba(255,255,255,0.5);border-radius:10px;text-align:center">
+        <div style="font-size:22px;margin-bottom:4px">&#x1F6CD;&#xFE0F;</div>
+        <div style="font-size:13px;font-weight:700;color:var(--navy)">零售电商</div>
+        <div style="font-size:11.5px;color:var(--text-muted)">品牌 · 门店 · 社区团购</div>
+      </div>
+      <div style="padding:12px;background:rgba(255,255,255,0.5);border-radius:10px;text-align:center">
+        <div style="font-size:22px;margin-bottom:4px">&#x1F393;</div>
+        <div style="font-size:13px;font-weight:700;color:var(--navy)">教育培训</div>
+        <div style="font-size:11.5px;color:var(--text-muted)">K12 · 职业教育 · 企培</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 18: 快速开始 ==================== -->
+<div class="slide slide-content" data-index="17">
+  <div class="slide-header"><div class="slide-title t-title">快速开始 · 5分钟上手</div></div>
+  <div class="slide-subtitle t-body">从安装到使用，极简三步走 · 企微+微信双通道扫码即连</div>
+  <div class="slide-body">
+    <div style="display:flex;align-items:center;justify-content:center">
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-icon" style="background:linear-gradient(135deg,#0052FF,#3B82F6)">&#x1F4E5;</div>
+          <div style="font-size:16px;font-weight:700;color:var(--navy)" class="t-title">安装Claw</div>
+          <div style="font-size:12.5px;color:var(--text-muted);text-align:center;line-height:1.5" class="t-body">下载安装包<br>一键本地安装</div>
+        </div>
+        <div class="flow-arrow">&#x2192;</div>
+        <div class="flow-step">
+          <div class="flow-icon" style="background:linear-gradient(135deg,#4338CA,#6366F1)">&#x1F4F2;</div>
+          <div style="font-size:16px;font-weight:700;color:var(--navy)" class="t-title">扫码连接</div>
+          <div style="font-size:12.5px;color:var(--text-muted);text-align:center;line-height:1.5" class="t-body">企微扫码接入<br>微信ClawBot扫码</div>
+        </div>
+        <div class="flow-arrow">&#x2192;</div>
+        <div class="flow-step">
+          <div class="flow-icon" style="background:linear-gradient(135deg,#059669,#34D399)">&#x1F9E9;</div>
+          <div style="font-size:16px;font-weight:700;color:var(--navy)" class="t-title">安装Skills</div>
+          <div style="font-size:12.5px;color:var(--text-muted);text-align:center;line-height:1.5" class="t-body">从技能市场<br>一键安装所需技能</div>
+        </div>
+        <div class="flow-arrow">&#x2192;</div>
+        <div class="flow-step">
+          <div class="flow-icon" style="background:linear-gradient(135deg,#D97706,#FBBF24)">&#x1F4AC;</div>
+          <div style="font-size:16px;font-weight:700;color:var(--navy)" class="t-title">开始使用</div>
+          <div style="font-size:12.5px;color:var(--text-muted);text-align:center;line-height:1.5" class="t-body">@机器人或微信对话<br>AI即刻响应</div>
+        </div>
+      </div>
+    </div>
+    <div class="g4" style="margin-top:24px;margin-bottom:20px">
+      <div class="card card-sm" style="text-align:center"><h4 class="t-title" style="color:var(--brand);font-size:15px">Windows + Mac</h4><p class="t-body">支持主流操作系统<br>一键安装开机自启</p></div>
+      <div class="card card-sm" style="text-align:center"><h4 class="t-title" style="color:var(--brand);font-size:15px">扫码即连</h4><p class="t-body">企微+微信双通道<br>无需配置回调URL</p></div>
+      <div class="card card-sm" style="text-align:center"><h4 class="t-title" style="color:var(--brand);font-size:15px">自动更新</h4><p class="t-body">后台静默更新<br>始终保持最新版本</p></div>
+      <div class="card card-sm" style="text-align:center"><h4 class="t-title" style="color:var(--brand);font-size:15px">多模型接入</h4><p class="t-body">DeepSeek / Claude / GPT<br>扫码支付一键切换</p></div>
+    </div>
+    <div style="display:flex;gap:16px;justify-content:center;padding:10px 0;background:rgba(0,82,255,0.03);border-radius:10px">
+      <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-body)"><span style="color:#22c55e;font-weight:700;font-size:16px">&#x2713;</span> 无需服务器</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-body)"><span style="color:#22c55e;font-weight:700;font-size:16px">&#x2713;</span> 无需开发</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-body)"><span style="color:#22c55e;font-weight:700;font-size:16px">&#x2713;</span> 无需API对接</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-body)"><span style="color:#22c55e;font-weight:700;font-size:16px">&#x2713;</span> 扫码即用</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-body)"><span style="color:#22c55e;font-weight:700;font-size:16px">&#x2713;</span> 企微+微信</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 19: CTA ==================== -->
+<div class="slide slide-content" data-index="18">
+  <div class="slide-header" style="visibility:hidden"><div class="slide-title">.</div></div>
+  <div class="cta-center">
+    <div>
+      <div style="font-size:52px;margin-bottom:16px">&#x1F99E;</div>
+      <h2 class="t-title">让AI在企微里<br>真正为你工作</h2>
+      <div class="sub t-body">5分钟接入 · 扫码即连 · 本地安全部署 · 企微+微信双通道<br>企微管家Claw — 你的企业AI Agent</div>
+      <div class="cta-btns">
+        <button class="cta-btn cta-primary t-body" onclick="showQR()">立即体验 Claw</button>
+        <button class="cta-btn cta-outline t-body" onclick="showQR()">预约产品演示</button>
+      </div>
+      <div class="cta-features t-body">
+        <span>&#x2713; 企业微信官方服务商</span>
+        <span>&#x2713; OpenClaw开源架构</span>
+        <span>&#x2713; 微信ClawBot支持</span>
+        <span>&#x2713; 7&#xD7;24运营支持</span>
+        <span>&#x2713; 数据不出企业</span>
+      </div>
+      <div style="margin-top:24px;display:flex;justify-content:center;gap:20px">
+        <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:var(--brand)" class="t-title">10K+</div><div style="font-size:12px;color:var(--text-muted)">企业信赖</div></div>
+        <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#059669" class="t-title">500万+</div><div style="font-size:12px;color:var(--text-muted)">用户覆盖</div></div>
+        <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#7C3AED" class="t-title">20+</div><div style="font-size:12px;color:var(--text-muted)">Skills技能</div></div>
+        <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#D97706" class="t-title">100+</div><div style="font-size:12px;color:var(--text-muted)">使用场景</div></div>
+      </div>
+      <div style="margin-top:20px;font-size:15px;color:var(--text-muted)" class="t-body">微盛AI · 让AI落地企业微信</div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- Right-side Navigation -->
+<div class="nav-panel" id="navPanel">
+  <button class="nav-btn" id="prevBtn" onclick="prevSlide()">&#x25B2;</button>
+  <div class="nav-dots" id="navDots"></div>
+  <span class="nav-page" id="pageInd">1/19</span>
+  <button class="nav-btn" id="nextBtn" onclick="nextSlide()">&#x25BC;</button>
+</div>
+
+
+<div class="qr-modal" id="qrModal" onclick="hideQR()">
+  <div class="qr-modal-content" onclick="event.stopPropagation()">
+    <h3>扫码添加客服</h3>
+    <p>扫描下方二维码，添加客服好友咨询</p>
+    <img src="客服二维码图片.png" alt="客服二维码">
+    <button class="qr-close" onclick="hideQR()">关闭</button>
+  </div>
+</div>
+
+<script>
+const slides=document.querySelectorAll('.slide'),total=slides.length;
+let cur=0;
+function initDots(){const c=document.getElementById('navDots');for(let i=0;i<total;i++){const d=document.createElement('div');d.className='nav-dot'+(i===0?' active':'');d.onclick=()=>go(i);c.appendChild(d)}}
+function go(i){if(i<0||i>=total)return;slides[cur].classList.remove('active');cur=i;slides[cur].classList.add('active');upd()}
+function nextSlide(){go(cur+1)}
+function prevSlide(){go(cur-1)}
+function upd(){document.getElementById('pageInd').textContent=(cur+1)+'/'+total;document.getElementById('prevBtn').disabled=cur===0;document.getElementById('nextBtn').disabled=cur===total-1;document.querySelectorAll('.nav-dot').forEach(function(d,i){d.classList.toggle('active',i===cur)})}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();nextSlide()}if(e.key==='ArrowLeft'){e.preventDefault();prevSlide()}if(e.key==='f'||e.key==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}else{document.exitFullscreen&&document.exitFullscreen()}}});
+function scaleVP(){var vp=document.getElementById('slideViewport');var s=Math.min(window.innerWidth/1456,(window.innerHeight)/816)*0.85;vp.style.transform='scale('+s+')'}
+window.addEventListener('resize',scaleVP);
+function showQR(){document.getElementById('qrModal').classList.add('active')}
+function hideQR(){document.getElementById('qrModal').classList.remove('active')}
+initDots();upd();scaleVP();
+</script>
+</body>
+</html>

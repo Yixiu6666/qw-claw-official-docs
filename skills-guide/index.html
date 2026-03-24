@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>企业微信和企微管家Claw Skills 玩法使用指南</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ===== Reset & Base ===== */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px;scroll-padding-top:80px}
+body{
+  font-family:'IBM Plex Sans','PingFang SC','Noto Sans SC',sans-serif;
+  color:#2D3142;background:#FFF8F2;
+  -webkit-font-smoothing:antialiased;line-height:1.75;overflow-x:hidden;
+}
+a{text-decoration:none;color:inherit;transition:all .3s}
+::selection{background:#FF6B4A;color:#fff}
+
+/* ===== CSS Variables ===== */
+:root{
+  --coral:#FF6B4A;
+  --coral-deep:#E8523A;
+  --coral-glow:rgba(255,107,74,.12);
+  --navy:#0B1426;
+  --navy-mid:#1A2744;
+  --slate:#4A5568;
+  --muted:#8E99A8;
+  --cream:#FFF8F2;
+  --cream-deep:#FFF0E5;
+  --card:#FFFFFF;
+  --border:rgba(45,49,66,.08);
+  --shadow-sm:0 2px 8px rgba(11,20,38,.04);
+  --shadow-md:0 8px 32px rgba(11,20,38,.08);
+  --shadow-lg:0 24px 64px rgba(11,20,38,.12);
+  --max-w:1280px;
+  --radius:14px;
+  /* Category colors */
+  --c-timer:#0EA5E9;--c-content:#8B5CF6;--c-table:#10B981;
+  --c-doc:#3B82F6;--c-scrm:#F59E0B;--c-skill:#A855F7;
+  --c-search:#0891B2;--c-office:#6366F1;--c-life:#EC4899;--c-advanced:#EF4444;
+}
+
+/* ===== Reading Progress Bar ===== */
+.progress-bar{
+  position:fixed;top:0;left:0;height:3px;
+  background:linear-gradient(90deg,var(--coral),#FF8C42,var(--coral));
+  z-index:9999;transition:width .15s linear;width:0;
+}
+
+/* ===== Hero ===== */
+.hero{
+  position:relative;min-height:92vh;display:flex;align-items:center;
+  justify-content:center;overflow:hidden;
+  background:var(--navy);
+}
+.hero-mesh{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(255,107,74,.18) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(139,92,246,.12) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(14,165,233,.08) 0%, transparent 50%);
+  animation:meshShift 12s ease-in-out infinite alternate;
+}
+@keyframes meshShift{
+  0%{transform:scale(1) translate(0,0)}
+  50%{transform:scale(1.05) translate(-2%,3%)}
+  100%{transform:scale(1) translate(2%,-2%)}
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:64px 64px;
+}
+.hero-content{
+  position:relative;z-index:2;text-align:center;
+  max-width:900px;padding:40px 32px;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:8px 20px;border-radius:24px;
+  background:rgba(255,107,74,.12);border:1px solid rgba(255,107,74,.25);
+  color:#FF8C42;font-size:13px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:32px;
+}
+.hero-eyebrow .pulse{
+  width:8px;height:8px;border-radius:50%;background:var(--coral);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,74,.5)}50%{box-shadow:0 0 0 8px rgba(255,107,74,0)}}
+.hero h1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(36px,6vw,68px);font-weight:400;
+  color:#fff;line-height:1.15;margin-bottom:24px;
+  letter-spacing:-1px;
+}
+.hero-title-line{
+  display:inline-block;white-space:nowrap;
+  background:linear-gradient(135deg,#FFE8C9 0%,#FFB86C 34%,#FF8C69 68%,#FFD7A8 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  text-shadow:0 10px 30px rgba(255,140,105,.18);
+}
+.hero h1 em{
+  font-style:italic;
+  background:linear-gradient(135deg,#FF6B4A,#FF8C42,#FFB86C);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub{
+  font-size:18px;color:rgba(255,255,255,.55);
+  max-width:920px;margin:0 auto 48px;line-height:1.8;
+}
+.hero-sub-line{display:block;white-space:nowrap;}
+.hero-stats{
+  display:flex;justify-content:center;gap:56px;flex-wrap:wrap;
+}
+.hero-stat{text-align:center}
+.hero-stat .num{
+  font-family:'DM Serif Display',serif;
+  font-size:48px;color:#fff;line-height:1;
+  display:block;
+}
+.hero-stat .num span{font-size:18px;color:rgba(255,255,255,.4)}
+.hero-stat .lbl{font-size:13px;color:rgba(255,255,255,.35);margin-top:8px}
+.hero-scroll{
+  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:rgba(255,255,255,.3);font-size:12px;letter-spacing:2px;
+}
+.hero-scroll .arrow{
+  width:20px;height:20px;border-right:2px solid rgba(255,255,255,.3);
+  border-bottom:2px solid rgba(255,255,255,.3);
+  transform:rotate(45deg);animation:scrollBounce 2s infinite;
+}
+@keyframes scrollBounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(6px)}}
+
+/* ===== Sticky Filter Bar ===== */
+.filter-bar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,248,242,.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:14px 0;transition:box-shadow .3s;
+}
+.filter-bar.scrolled{box-shadow:0 4px 20px rgba(11,20,38,.06)}
+.filter-inner{
+  max-width:var(--max-w);margin:0 auto;padding:0 32px;
+  display:flex;align-items:center;gap:10px;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.filter-inner::-webkit-scrollbar{display:none}
+.filter-btn{
+  padding:7px 16px;border-radius:10px;font-size:13px;font-weight:600;
+  border:1.5px solid var(--border);background:transparent;
+  color:var(--slate);cursor:pointer;transition:all .25s;
+  white-space:nowrap;font-family:inherit;
+}
+.filter-btn:hover{border-color:var(--coral);color:var(--coral)}
+.filter-btn.active{
+  background:var(--navy);color:#fff;border-color:var(--navy);
+}
+.search-wrap{
+  margin-left:auto;position:relative;flex-shrink:0;
+}
+.search-wrap input{
+  width:220px;height:38px;padding:0 14px 0 38px;
+  border:1.5px solid var(--border);border-radius:10px;
+  font-size:13px;font-family:inherit;outline:none;
+  background:var(--card);color:var(--navy);
+  transition:all .25s;
+}
+.search-wrap input:focus{border-color:var(--coral);box-shadow:0 0 0 4px var(--coral-glow)}
+.search-wrap svg{
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  width:16px;height:16px;color:var(--muted);pointer-events:none;
+}
+
+/* ===== Main Layout ===== */
+.main{max-width:var(--max-w);margin:0 auto;padding:48px 32px 80px}
+
+/* ===== Category Section ===== */
+.cat-section{margin-bottom:64px;scroll-margin-top:80px}
+.cat-header{
+  display:flex;align-items:center;gap:16px;
+  margin-bottom:28px;padding-bottom:20px;
+  border-bottom:2px solid var(--border);
+  position:relative;
+}
+.cat-header::after{
+  content:'';position:absolute;bottom:-2px;left:0;
+  width:80px;height:2px;border-radius:1px;
+}
+.cat-header[data-color="timer"]::after{background:var(--c-timer)}
+.cat-header[data-color="content"]::after{background:var(--c-content)}
+.cat-header[data-color="table"]::after{background:var(--c-table)}
+.cat-header[data-color="doc"]::after{background:var(--c-doc)}
+.cat-header[data-color="scrm"]::after{background:var(--c-scrm)}
+.cat-header[data-color="skill"]::after{background:var(--c-skill)}
+.cat-header[data-color="search"]::after{background:var(--c-search)}
+.cat-header[data-color="office"]::after{background:var(--c-office)}
+.cat-header[data-color="life"]::after{background:var(--c-life)}
+.cat-header[data-color="advanced"]::after{background:var(--c-advanced)}
+.cat-icon{
+  width:48px;height:48px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;flex-shrink:0;
+}
+.cat-icon.timer{background:rgba(14,165,233,.1)}
+.cat-icon.content{background:rgba(139,92,246,.1)}
+.cat-icon.table{background:rgba(16,185,129,.1)}
+.cat-icon.doc{background:rgba(59,130,246,.1)}
+.cat-icon.scrm{background:rgba(245,158,11,.1)}
+.cat-icon.skill{background:rgba(168,85,247,.1)}
+.cat-icon.search{background:rgba(8,145,178,.1)}
+.cat-icon.office{background:rgba(99,102,241,.1)}
+.cat-icon.life{background:rgba(236,72,153,.1)}
+.cat-icon.advanced{background:rgba(239,68,68,.1)}
+.cat-title-text h2{
+  font-family:'DM Serif Display',serif;
+  font-size:26px;font-weight:400;color:var(--navy);
+  line-height:1.3;
+}
+.cat-title-text .cat-sub{
+  font-size:13px;color:var(--muted);margin-top:2px;
+}
+.cat-count{
+  margin-left:auto;font-size:12px;font-weight:700;
+  padding:4px 12px;border-radius:8px;
+  background:var(--cream-deep);color:var(--coral);
+  flex-shrink:0;
+}
+
+/* ===== Cards Grid ===== */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:18px;
+}
+
+/* ===== Play Card ===== */
+.card{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:24px;
+  transition:all .3s cubic-bezier(.22,1,.36,1);
+  cursor:pointer;position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  border-radius:var(--radius) var(--radius) 0 0;
+  opacity:0;transition:opacity .3s;
+}
+.card[data-cat="timer"]::before{background:var(--c-timer)}
+.card[data-cat="content"]::before{background:var(--c-content)}
+.card[data-cat="table"]::before{background:var(--c-table)}
+.card[data-cat="doc"]::before{background:var(--c-doc)}
+.card[data-cat="scrm"]::before{background:var(--c-scrm)}
+.card[data-cat="skill"]::before{background:var(--c-skill)}
+.card[data-cat="search"]::before{background:var(--c-search)}
+.card[data-cat="office"]::before{background:var(--c-office)}
+.card[data-cat="life"]::before{background:var(--c-life)}
+.card[data-cat="advanced"]::before{background:var(--c-advanced)}
+.card:hover{
+  border-color:transparent;
+  box-shadow:var(--shadow-lg);
+  transform:translateY(-4px);
+}
+.card:hover::before{opacity:1}
+.card-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
+.card-num{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;flex-shrink:0;
+  font-family:'JetBrains Mono',monospace;
+  color:var(--coral);background:var(--coral-glow);
+}
+.card-name{
+  font-size:16px;font-weight:600;color:var(--navy);
+  line-height:1.5;flex:1;
+}
+.card-desc{
+  font-size:13.5px;color:var(--slate);line-height:1.8;
+  margin-bottom:14px;
+}
+.card-tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{
+  font-size:11px;font-weight:600;padding:3px 10px;
+  border-radius:6px;white-space:nowrap;
+  letter-spacing:.3px;
+}
+.tag-timer{background:rgba(14,165,233,.08);color:#0284C7;border:1px solid rgba(14,165,233,.15)}
+.tag-content{background:rgba(139,92,246,.08);color:#7C3AED;border:1px solid rgba(139,92,246,.15)}
+.tag-table{background:rgba(16,185,129,.08);color:#059669;border:1px solid rgba(16,185,129,.15)}
+.tag-doc{background:rgba(59,130,246,.08);color:#2563EB;border:1px solid rgba(59,130,246,.15)}
+.tag-scrm{background:rgba(245,158,11,.08);color:#D97706;border:1px solid rgba(245,158,11,.15)}
+.tag-skill{background:rgba(168,85,247,.08);color:#7C3AED;border:1px solid rgba(168,85,247,.15)}
+.tag-search{background:rgba(8,145,178,.08);color:#0891B2;border:1px solid rgba(8,145,178,.15)}
+.tag-ai{background:rgba(255,107,74,.08);color:var(--coral);border:1px solid rgba(255,107,74,.15)}
+.tag-memory{background:rgba(236,72,153,.08);color:#DB2777;border:1px solid rgba(236,72,153,.15)}
+.tag-wecom{background:rgba(16,185,129,.08);color:#059669;border:1px solid rgba(16,185,129,.15)}
+
+/* ===== Card Expanded Prompt ===== */
+.card-prompt{
+  max-height:0;overflow:hidden;
+  transition:max-height .4s cubic-bezier(.22,1,.36,1),
+             margin .4s cubic-bezier(.22,1,.36,1),
+             padding .4s cubic-bezier(.22,1,.36,1);
+}
+.card.open .card-prompt{
+  max-height:300px;margin-top:16px;padding-top:16px;
+  border-top:1px dashed var(--border);
+}
+.prompt-label{
+  font-size:11px;font-weight:700;color:var(--muted);
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;
+}
+.prompt-text{
+  font-size:13px;color:var(--slate);line-height:1.8;
+  background:#F8FAFC;border:1px solid var(--border);
+  border-radius:10px;padding:14px 16px;
+  font-family:'JetBrains Mono','Menlo',monospace;
+  white-space:pre-wrap;word-break:break-all;
+  cursor:pointer;position:relative;transition:all .25s;
+}
+.prompt-text:hover{
+  background:var(--cream-deep);border-color:var(--coral);
+  box-shadow:0 2px 12px var(--coral-glow);
+}
+.prompt-text::after{
+  content:'📋 点击复制';position:absolute;right:10px;bottom:10px;
+  font-size:11px;font-family:'IBM Plex Sans',sans-serif;
+  color:var(--coral);opacity:0;transition:opacity .25s;pointer-events:none;
+}
+.prompt-text:hover::after{opacity:1}
+
+/* ===== Toast ===== */
+.toast{
+  position:fixed;bottom:24px;right:24px;z-index:9999;
+  background:var(--navy);color:#fff;
+  padding:14px 24px;border-radius:12px;
+  font-size:14px;font-weight:500;
+  box-shadow:var(--shadow-lg);
+  animation:toastIn .4s cubic-bezier(.22,1,.36,1);
+}
+@keyframes toastIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* ===== Back to Top ===== */
+.back-top{
+  position:fixed;bottom:32px;right:32px;z-index:100;
+  width:48px;height:48px;border-radius:14px;
+  background:var(--navy);color:#fff;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--shadow-md);
+  opacity:0;transform:translateY(20px);
+  transition:all .3s;pointer-events:none;
+}
+.back-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+.back-top:hover{background:var(--coral);transform:translateY(-2px)}
+
+/* ===== Quick Stats Banner ===== */
+.stats-banner{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:20px;margin:-60px auto 48px;
+  max-width:var(--max-w);padding:0 32px;
+  position:relative;z-index:3;
+  box-shadow:var(--shadow-md);
+}
+.stats-inner{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:0;
+}
+.stat-cell{
+  padding:32px 20px;text-align:center;
+  border-right:1px solid var(--border);
+}
+.stat-cell:last-child{border-right:none}
+.stat-cell .ico{font-size:28px;margin-bottom:8px}
+.stat-cell .val{
+  font-family:'DM Serif Display',serif;
+  font-size:32px;color:var(--navy);line-height:1;
+}
+.stat-cell .val small{font-size:14px;color:var(--muted)}
+.stat-cell .desc{font-size:12px;color:var(--muted);margin-top:6px}
+
+/* ===== TOC Sidebar (Desktop) ===== */
+.toc{
+  position:fixed;left:24px;top:50%;transform:translateY(-50%);
+  z-index:101;display:flex;flex-direction:column;gap:6px;
+}
+.toc a{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;background:var(--card);border:1px solid var(--border);
+  box-shadow:var(--shadow-sm);transition:all .25s;
+  position:relative;
+}
+.toc a:hover,.toc a.active{
+  background:var(--navy);border-color:var(--navy);
+  transform:scale(1.1);
+}
+.toc a .tip{
+  position:absolute;left:52px;top:50%;transform:translateY(-50%);
+  white-space:nowrap;background:var(--navy);color:#fff;
+  padding:6px 14px;border-radius:8px;font-size:12px;font-weight:500;
+  opacity:0;pointer-events:none;transition:all .25s;
+}
+.toc a:hover .tip{opacity:1;transform:translateY(-50%) translateX(4px)}
+
+/* ===== Footer ===== */
+.site-footer{
+  background:var(--navy);color:rgba(255,255,255,.5);
+  padding:64px 32px 48px;text-align:center;
+}
+.footer-brand{
+  font-family:'DM Serif Display',serif;
+  font-size:24px;color:#fff;margin-bottom:12px;
+}
+.footer-sub{font-size:14px;line-height:1.8;max-width:500px;margin:0 auto 32px}
+.footer-tags{
+  display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
+  margin-bottom:32px;
+}
+.footer-tag{
+  padding:6px 16px;border-radius:8px;font-size:12px;font-weight:500;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.5);
+}
+.footer-copy{font-size:12px;color:rgba(255,255,255,.25)}
+
+/* ===== No Results ===== */
+.no-results{
+  text-align:center;padding:80px 20px;display:none;
+}
+.no-results .big{font-size:56px;margin-bottom:16px}
+.no-results p{font-size:16px;color:var(--muted)}
+
+/* ===== Animations ===== */
+.reveal{opacity:0;transform:translateY(24px);transition:all .6s cubic-bezier(.22,1,.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ===== Responsive ===== */
+@media(max-width:1400px){.toc{display:none}}
+@media(max-width:900px){
+  .hero h1{font-size:32px}
+  .hero-sub-line{white-space:normal}
+  .hero-stats{gap:32px}
+  .stats-inner{grid-template-columns:repeat(3,1fr)}
+  .stat-cell:nth-child(4),.stat-cell:nth-child(5){border-top:1px solid var(--border)}
+  .cards{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .stats-inner{grid-template-columns:repeat(2,1fr)}
+  .stat-cell:nth-child(3){border-right:none}
+  .stat-cell:nth-child(3),.stat-cell:nth-child(4),.stat-cell:nth-child(5){border-top:1px solid var(--border)}
+  .main{padding:32px 16px 64px}
+  .filter-inner{padding:0 16px}
+  .hero-sub{font-size:15px}
+  .search-wrap input{width:160px}
+  .cat-header h2{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- Reading Progress -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Hero -->
+<header class="hero" id="top">
+  <div class="hero-mesh"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span class="pulse"></span>企微管家Claw · Skills 玩法指南</div>
+    <h1><span class="hero-title-line">企业微信 × 企微管家Claw Skills</span><br>112个玩法使用指南</h1>
+    <p class="hero-sub"><span class="hero-sub-line">基于企业微信生态 + 企微管家Claw，覆盖定时任务、内容创作、智能表格、在线文档、SCRM营销、</span><span class="hero-sub-line">Skills扩展等十大场景，112+ 实战玩法让 AI 在企微里真正干活</span></p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num">112<span>+</span></span><span class="lbl">实战玩法</span></div>
+      <div class="hero-stat"><span class="num">10<span>大</span></span><span class="lbl">场景分类</span></div>
+      <div class="hero-stat"><span class="num">30<span>+</span></span><span class="lbl">Skills技能</span></div>
+      <div class="hero-stat"><span class="num">∞</span><span class="lbl">扩展可能</span></div>
+    </div>
+  </div>
+  <div class="hero-scroll"><span>向下浏览</span><div class="arrow"></div></div>
+</header>
+
+<!-- Stats Banner -->
+<div class="stats-banner">
+  <div class="stats-inner">
+    <div class="stat-cell"><div class="ico">⏰</div><div class="val">12</div><div class="desc">定时任务</div></div>
+    <div class="stat-cell"><div class="ico">✍️</div><div class="val">18</div><div class="desc">内容创作</div></div>
+    <div class="stat-cell"><div class="ico">📊</div><div class="val">12</div><div class="desc">智能表格</div></div>
+    <div class="stat-cell"><div class="ico">🔶</div><div class="val">18</div><div class="desc">SCRM营销</div></div>
+    <div class="stat-cell"><div class="ico">🧩</div><div class="val">30+</div><div class="desc">Skills技能</div></div>
+  </div>
+</div>
+
+<!-- Filter Bar -->
+<nav class="filter-bar" id="filterBar">
+  <div class="filter-inner">
+    <button class="filter-btn active" data-cat="all">全部 112+</button>
+    <button class="filter-btn" data-cat="timer">⏰ 定时任务</button>
+    <button class="filter-btn" data-cat="content">✍️ 内容创作</button>
+    <button class="filter-btn" data-cat="table">📊 智能表格</button>
+    <button class="filter-btn" data-cat="doc">📝 在线文档</button>
+    <button class="filter-btn" data-cat="scrm">🔶 SCRM营销</button>
+    <button class="filter-btn" data-cat="skill">🧩 Skills技能</button>
+    <button class="filter-btn" data-cat="search">🔍 联网搜索</button>
+    <button class="filter-btn" data-cat="office">💼 办公提效</button>
+    <button class="filter-btn" data-cat="life">🌿 生活助手</button>
+    <button class="filter-btn" data-cat="advanced">🚀 进阶玩法</button>
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="searchInput" placeholder="搜索玩法关键词...">
+    </div>
+  </div>
+</nav>
+
+<!-- TOC Sidebar -->
+<nav class="toc" id="tocNav">
+  <a href="#sec-timer" data-section="timer">⏰<span class="tip">定时任务</span></a>
+  <a href="#sec-content" data-section="content">✍️<span class="tip">内容创作</span></a>
+  <a href="#sec-table" data-section="table">📊<span class="tip">智能表格</span></a>
+  <a href="#sec-doc" data-section="doc">📝<span class="tip">在线文档</span></a>
+  <a href="#sec-scrm" data-section="scrm">🔶<span class="tip">SCRM营销</span></a>
+  <a href="#sec-skill" data-section="skill">🧩<span class="tip">Skills技能</span></a>
+  <a href="#sec-search" data-section="search">🔍<span class="tip">联网搜索</span></a>
+  <a href="#sec-office" data-section="office">💼<span class="tip">办公提效</span></a>
+  <a href="#sec-life" data-section="life">🌿<span class="tip">生活助手</span></a>
+  <a href="#sec-advanced" data-section="advanced">🚀<span class="tip">进阶玩法</span></a>
+</nav>
+
+<!-- Main Content -->
+<main class="main" id="mainContent">
+
+<!-- No Results -->
+<div class="no-results" id="noResults">
+  <div class="big">🔍</div>
+  <p>没有找到匹配的玩法，试试其他关键词？</p>
+</div>
+
+<!-- ===== 一、定时任务 (1–12) ===== -->
+<section class="cat-section reveal" id="sec-timer" data-category="timer">
+  <div class="cat-header" data-color="timer">
+    <div class="cat-icon timer">⏰</div>
+    <div class="cat-title-text"><h2>定时任务</h2><div class="cat-sub">让 AI 主动帮你工作，再也不漏事</div></div>
+    <span class="cat-count">12 个玩法</span>
+  </div>
+  <div class="cards">
+    <div class="card" data-cat="timer" onclick="toggle(this)">
+      <div class="card-head"><span class="card-num">01</span><div class="card-name">每日行业资讯自动推送</div></div>
+      <div class="card-desc">设置每天早上9点，AI自动联网搜索指定行业的最新动态，整理成要点后推送到企微群聊。再也不用自己刷新闻APP。</div>
+      <div class="card-tags"><span class="tag tag-timer">定时任务</span><span class="tag tag-skill">联网搜索</span><span class="tag tag-wecom">群聊推送</span></div>
+      <div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">请帮我设置一个定时任务：每天早上9:00，联网搜索"AI行业最新动态"，整理成5条要点，推送到当前群聊</div></div>
+    </div>
+    <div class="card" data-cat="timer" onclick="toggle(this)">
+      <div class="card-head"><span class="card-num">02</span><div class="card-name">竞品动态监控日报</div></div>
+      <div class="card-desc">每天下午5点自动搜索竞品公司动态（官网更新、公众号文章等），汇总成分析报告推送给团队，保持信息领先。</div>
+      <div class="card-tags"><span class="tag tag-timer">定时任务</span><span class="tag tag-skill">联网搜索</span><span class="tag tag-ai">AI分析</span></div>
+      <div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">设置定时任务：每天17:00，搜索"OpenClaw 最新动态"相关信息，汇总形成竞品日报要点，推送给我</div></div>
+    </div>
+    <div class="card" data-cat="timer" onclick="toggle(this)">
+      <div class="card-head"><span class="card-num">03</span><div class="card-name">喝水/吃饭/运动健康提醒</div></div>
+      <div class="card-desc">设定每隔2小时提醒喝水、每天午饭和午休时间、下班前提醒起身运动。让AI做你的健康管家。</div>
+      <div class="card-tags"><span class="tag tag-timer">定时任务</span></div>
+      <div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我设置以下定时提醒：每2小时提醒喝水，12:00提醒吃午饭，13:00提醒午休，17:30提醒运动</div></div>
+    </div>
+    <div class="card" data-cat="timer" onclick="toggle(this)">
+      <div class="card-head"><span class="card-num">04</span><div class="card-name">番茄钟专注工作法</div></div>
+      <div class="card-desc">25分钟专注工作提醒 + 5分钟休息提醒，循环往复。把番茄工作法搬进企微，不需要额外APP。</div>
+      <div class="card-tags"><span class="tag tag-timer">定时任务</span></div>
+      <div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我用番茄钟模式工作：每25分钟提醒休息5分钟，从现在开始执行4个番茄钟</div></div>
+    </div>
+    <div class="card" data-cat="timer" onclick="toggle(this)">
+      <div class="card-head"><span class="card-num">05</span><div class="card-name">节日/纪念日自动祝福</div></div>
+      <div class="card-desc">提前录入重要节日和客户生日，到时间自动生成祝福文案并推送。维护客情不再遗漏。</div>
+      <div class="card-tags"><span class="tag tag-timer">定时任务</span><span class="tag tag-ai">AI文案</span></div>
+      <div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">设置定时任务：4月5日清明节早上8:00，生成一条温馨的节日问候，推送到客户群</div></div>
+    </div>
+    <div class="card" data-cat="timer" onclick="toggle(this)">
+      <div class="card-head"><span class="card-num">06</span><div class="card-name">每日工作总结自动汇报</div></div>
+      <div class="card-desc">每天下班前自动回顾当日对话记录，提取关键工作内容，生成工作日报发送给你或直属领导。</div>
+      <div class="card-tags"><span class="tag tag-timer">定时任务</span><span class="tag tag-memory">记忆能力</span></div>
+      <div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">设置定时任务：每天18:00，回顾今天的所有对话和任务，生成一份工作日报（含完成事项+待办事项）</div></div>
+    </div>
+    <div class="card" data-cat="timer" onclick="toggle(this)">
+      <div class="card-head"><span class="card-num">07</span><div class="card-name">库存预警定时监控</div></div>
+      <div class="card-desc">每晚9:20自动读取智能表格库存数据，当物料低于安全库存时自动报警提醒，适合中小工厂。</div>
+      <div class="card-tags"><span class="tag tag-timer">定时任务</span><span class="tag tag-table">智能表格</span></div>
+      <div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">设置定时任务：每天21:20，检查智能表格中的库存数据，如果任何物料库存低于10，发送预警消息</div></div>
+    </div>
+    <div class="card" data-cat="timer" onclick="toggle(this)">
+      <div class="card-head"><span class="card-num">08</span><div class="card-name">每周运营周报自动生成</div></div>
+      <div class="card-desc">每周五下午自动汇总本周运营数据，生成包含KPI进展、亮点动作、下周计划的结构化周报。</div>
+      <div class="card-tags"><span class="tag tag-timer">定时任务</span><span class="tag tag-doc">在线文档</span></div>
+      <div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">设置定时任务：每周五16:00，汇总本周工作内容，生成运营周报（含数据概览、亮点、下周计划），同步到企微在线文档</div></div>
+    </div>
+    <div class="card" data-cat="timer" onclick="toggle(this)">
+      <div class="card-head"><span class="card-num">09</span><div class="card-name">晨会议程自动提醒</div></div>
+      <div class="card-desc">每天早上8:50推送今日晨会议程和重点关注事项，帮助团队快速进入工作状态。</div>
+      <div class="card-tags"><span class="tag tag-timer">定时任务</span></div>
+      <div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">设置定时任务：每天8:50在团队群推送今日议程提醒，包含待处理事项和重点关注客户</div></div>
+    </div>
+    <div class="card" data-cat="timer" onclick="toggle(this)">
+      <div class="card-head"><span class="card-num">10</span><div class="card-name">定时搜索招投标信息</div></div>
+      <div class="card-desc">每天定时搜索企业微信/SCRM相关招投标项目，自动过滤整理后推送，不再错过商机。</div>
+      <div class="card-tags"><span class="tag tag-timer">定时任务</span><span class="tag tag-skill">联网搜索</span><span class="tag tag-table">智能表格</span></div>
+      <div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">设置定时任务：每天10:00，搜索2026年企业微信、SCRM相关招标项目，整理成表格推送给我</div></div>
+    </div>
+    <div class="card" data-cat="timer" onclick="toggle(this)">
+      <div class="card-head"><span class="card-num">11</span><div class="card-name">每日早间问候+天气播报</div></div>
+      <div class="card-desc">每天早上8:00向团队群发送温馨问候+当日天气+注意事项，营造团队氛围。</div>
+      <div class="card-tags"><span class="tag tag-timer">定时任务</span><span class="tag tag-skill">联网搜索</span></div>
+      <div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">设置定时任务：每天8:00，搜索今日天气情况，生成一条包含天气+温馨提醒的早间问候推送到群里</div></div>
+    </div>
+    <div class="card" data-cat="timer" onclick="toggle(this)">
+      <div class="card-head"><span class="card-num">12</span><div class="card-name">客户跟进到期提醒</div></div>
+      <div class="card-desc">根据客户跟进计划表，在跟进日期到来前自动提醒销售，避免遗忘重要客户。</div>
+      <div class="card-tags"><span class="tag tag-timer">定时任务</span><span class="tag tag-scrm">SCRM</span></div>
+      <div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">检查智能表格中的客户跟进记录，如果有客户3天内需要跟进，提前1天提醒我</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 二、内容创作 (13–26) ===== -->
+<section class="cat-section reveal" id="sec-content" data-category="content">
+  <div class="cat-header" data-color="content">
+    <div class="cat-icon content">✍️</div>
+    <div class="cat-title-text"><h2>内容创作</h2><div class="cat-sub">AI 帮你写文案、做报告、生成 PPT</div></div>
+    <span class="cat-count">18 个玩法</span>
+  </div>
+  <div class="cards">
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">13</span><div class="card-name">全年朋友圈营销文案库</div></div><div class="card-desc">联网搜索品牌信息，结合节日节点生成全年365天朋友圈文案，同步到智能表格供销售团队使用。</div><div class="card-tags"><span class="tag tag-ai">AI文案</span><span class="tag tag-table">智能表格</span><span class="tag tag-skill">联网搜索</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">搜索"片仔癀"品牌信息，为其生成2026年全年12个月的朋友圈营销文案，每月至少8条，同步到智能表格</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">14</span><div class="card-name">银行合规朋友圈文案</div></div><div class="card-desc">针对银行客户经理，生成符合广告法和行业合规的产品推广文案，自动校验敏感词。</div><div class="card-tags"><span class="tag tag-ai">AI文案</span><span class="tag tag-skill">自定义Skill</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我写一条推广银行理财产品的朋友圈文案，要求：合规、不含夸大收益承诺、有行动号召、3行以内</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">15</span><div class="card-name">公众号文章自动创作</div></div><div class="card-desc">给定主题，AI联网搜索素材、分析行业趋势、生成完整的公众号推文，支持同步到企微文档和公众号草稿箱。</div><div class="card-tags"><span class="tag tag-ai">AI文案</span><span class="tag tag-skill">公众号创作</span><span class="tag tag-doc">在线文档</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我写一篇关于"AI如何改变企业微信办公"的公众号文章，2000字左右，同步到企微在线文档</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">16</span><div class="card-name">视频号拍摄脚本生成</div></div><div class="card-desc">输入内容要点，AI生成1分钟视频号拍摄脚本+拍摄建议（镜头、背景、表情），适配短视频节奏。</div><div class="card-tags"><span class="tag tag-ai">AI文案</span><span class="tag tag-table">智能表格</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">根据这篇公众号文章内容，帮我生成3条1分钟的视频号拍摄脚本，包含拍摄建议，同步到智能表格管理</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">17</span><div class="card-name">小红书图文内容生成</div></div><div class="card-desc">将长文拆解为适合小红书发布的信息图格式，生成可直接发布的图片+标题+话题标签。</div><div class="card-tags"><span class="tag tag-skill">小红书图片Skill</span><span class="tag tag-ai">AI文案</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">将这篇文章转换为3张小红书信息图，每张图包含清晰的标题和要点，适合种草分享</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">18</span><div class="card-name">标准化活动方案一键生成</div></div><div class="card-desc">输入活动关键参数（时间、礼品、目标），自动生成完整活动方案+QA文档+朋友圈文案，20分钟搞定原来2小时的活。</div><div class="card-tags"><span class="tag tag-skill">自定义Skill</span><span class="tag tag-ai">AI文案</span><span class="tag tag-table">智能表格</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我生成一份裂变活动方案：时间3月26日10点，礼品京东卡50元88张，目标新增500好友，包含活动方案+朋友圈文案+客服QA</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">19</span><div class="card-name">竞品分析报告生成</div></div><div class="card-desc">联网搜索竞品最近动态，生成包含版本迭代、功能对比、安全评估、战略建议的专业分析报告。</div><div class="card-tags"><span class="tag tag-skill">联网搜索</span><span class="tag tag-ai">AI分析</span><span class="tag tag-doc">在线文档</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">搜索最近七天国内各大厂商AI Agent动态，整理成详细分析报告（含执行摘要、竞品对比、战略建议），同步到企微文档</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">20</span><div class="card-name">行业研究报告生成</div></div><div class="card-desc">指定行业主题（如脑机接口），AI自动搜索公众号+网络信息，生成包含技术突破、市场政策、关键里程碑的完整研报。</div><div class="card-tags"><span class="tag tag-skill">联网搜索</span><span class="tag tag-ai">AI分析</span><span class="tag tag-skill">网页生成</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我调研"脑机接口"行业近十天动态，生成完整的行业研究报告，并发布为精美网页</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">21</span><div class="card-name">AI口语化改写</div></div><div class="card-desc">将AI生成的"机器味"文案改写为更自然口语化的风格，读起来像真人说的话。</div><div class="card-tags"><span class="tag tag-skill">口语化Skill</span><span class="tag tag-ai">AI文案</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我把这段文案改写得更口语化、更接地气，像朋友间聊天的语气</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">22</span><div class="card-name">多版方案/文案头脑风暴</div></div><div class="card-desc">一次生成多个版本的文案/方案供选择，快速找到最佳方向，减少反复修改。</div><div class="card-tags"><span class="tag tag-ai">AI文案</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我写5个版本的产品slogan，要求：简洁有力、突出AI+企微的定位，风格分别是专业/活泼/情感/数据驱动/极简</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">23</span><div class="card-name">销售PPT一键定制</div></div><div class="card-desc">指定客户行业和核心诉求，AI生成定制PPT（痛点分析→优势展示→行动号召），同时生成配套演讲话术。</div><div class="card-tags"><span class="tag tag-skill">PPT生成Skill</span><span class="tag tag-ai">AI文案</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我做一份给动漫设计行业客户的产品介绍PPT，5页，包含痛点分析、核心优势、能力展示、选择理由、行动号召，同时生成演讲话术Word文档</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">24</span><div class="card-name">麦肯锡风格汇报PPT</div></div><div class="card-desc">选择麦肯锡/科技/简约等风格，AI生成高质量商务汇报PPT，可在线预览编辑。</div><div class="card-tags"><span class="tag tag-skill">PPT生成Skill</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我做一份企微管家Claw产品介绍PPT，10页，麦肯锡风格，微盛浅蓝色调，包含90天实施落地计划</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">25</span><div class="card-name">精美网页一键生成发布</div></div><div class="card-desc">将文字内容或报告自动生成带动效的精美网页，一键发布获取在线链接，可直接分享给客户。</div><div class="card-tags"><span class="tag tag-skill">网页设计Skill</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">将以下内容生成一个精美的产品介绍网页，要有动画效果，发布上线并给我链接</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">26</span><div class="card-name">项目简报结构化生成</div></div><div class="card-desc">输入项目内容，AI按不同汇报层级生成差异化简报——高层版提炼战略、执行层版详列数据。</div><div class="card-tags"><span class="tag tag-ai">AI文案</span><span class="tag tag-doc">在线文档</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我根据这些项目数据，分别生成给总监看的战略简报版和给执行团队看的详细数据版</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">101</span><div class="card-name">产品命名与 Slogan 创意生成</div></div><div class="card-desc">输入产品定位、目标客群和差异化卖点，AI快速产出多套命名方案、Slogan 和传播语气，适合新品孵化和提案场景。</div><div class="card-tags"><span class="tag tag-ai">AI文案</span><span class="tag tag-skill">头脑风暴</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">我们要做一款面向企业微信运营团队的 AI 助手，核心卖点是自动化和安全合规，请给我 10 个产品名和 10 条 Slogan，分为专业版、增长版、科技版三种风格</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">102</span><div class="card-name">直播脚本与互动环节全案设计</div></div><div class="card-desc">围绕直播主题自动生成开场、转场、福利钩子、评论区互动和收尾成交脚本，让直播节奏和互动率一起提升。</div><div class="card-tags"><span class="tag tag-ai">AI文案</span><span class="tag tag-scrm">营销活动</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">围绕“企微管家Claw 在企业微信里的 10 个提效玩法”设计一场 40 分钟直播脚本，包含开场破冰、3 次互动提问、2 次福利引导和结尾转化话术</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">103</span><div class="card-name">SEO 文章批量生成与内链优化</div></div><div class="card-desc">按关键词矩阵批量生成 SEO 文章，自动补充标题、摘要、内链建议和收录优化说明，适合官网内容运营。</div><div class="card-tags"><span class="tag tag-ai">AI文案</span><span class="tag tag-search">关键词研究</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">围绕“企业微信 AI 助手”“企微自动化运营”“Claw Skills”这 3 个关键词，各生成 1 篇适合官网发布的 SEO 文章，并给出文章之间的内链布局建议</div></div></div>
+    <div class="card" data-cat="content" onclick="toggle(this)"><div class="card-head"><span class="card-num">104</span><div class="card-name">社交媒体内容矩阵差异化生成</div></div><div class="card-desc">同一个主题自动拆分为公众号、视频号、小红书、朋友圈等不同平台版本，兼顾语气、结构和转化目标。</div><div class="card-tags"><span class="tag tag-ai">AI文案</span><span class="tag tag-skill">多平台分发</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">把“AI 如何帮助企业微信团队提效”这个主题拆成公众号长文、视频号口播稿、小红书图文标题和朋友圈短文案，各输出 1 版，风格要明显区分</div></div></div>
+  </div>
+</section>
+
+<!-- ===== 三、智能表格 (27–38) ===== -->
+<section class="cat-section reveal" id="sec-table" data-category="table">
+  <div class="cat-header" data-color="table">
+    <div class="cat-icon table">📊</div>
+    <div class="cat-title-text"><h2>智能表格</h2><div class="cat-sub">数据管理自动化，口述即可操作</div></div>
+    <span class="cat-count">12 个玩法</span>
+  </div>
+  <div class="cards">
+    <div class="card" data-cat="table" onclick="toggle(this)"><div class="card-head"><span class="card-num">27</span><div class="card-name">运营日历自动生成+任务分配</div></div><div class="card-desc">AI生成全年运营日历同步到智能表格，设置自动化规则：文案列@销售、社群列@运营，实现内容生产到落地执行闭环。</div><div class="card-tags"><span class="tag tag-table">智能表格</span><span class="tag tag-ai">AI生成</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我生成3月份的运营日历，包含节日节点、朋友圈文案、社群文案、执行人列，同步到智能表格</div></div></div>
+    <div class="card" data-cat="table" onclick="toggle(this)"><div class="card-head"><span class="card-num">28</span><div class="card-name">物料库存出入库管理</div></div><div class="card-desc">用AI+智能表格管理物料。口述或拍照告知出入库信息，AI自动识别并更新库存表。适合没有ERP的中小企业。</div><div class="card-tags"><span class="tag tag-table">智能表格</span><span class="tag tag-ai">OCR识别</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">物料A出库50个，物料B入库100个，请更新智能表格中的库存数据</div></div></div>
+    <div class="card" data-cat="table" onclick="toggle(this)"><div class="card-head"><span class="card-num">29</span><div class="card-name">手写单据OCR拍照入库</div></div><div class="card-desc">工厂手写出入库单拍照发给AI，AI自动识别潦草字迹、判断出入库类型、更新库存表格。真正的零门槛。</div><div class="card-tags"><span class="tag tag-table">智能表格</span><span class="tag tag-ai">OCR识别</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">[发送手写单据照片] 请识别这张出入库单据并更新智能表格中对应物料的库存</div></div></div>
+    <div class="card" data-cat="table" onclick="toggle(this)"><div class="card-head"><span class="card-num">30</span><div class="card-name">群聊办公用品领用统计</div></div><div class="card-desc">AI进入部门群，成员@机器人报领用需求（如"圆珠笔2 胶水1"），AI自动创建领用表、汇总发给负责人。</div><div class="card-tags"><span class="tag tag-table">智能表格</span><span class="tag tag-wecom">群聊</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我在群里收集大家的办公用品需求，创建领用统计表格，下班前汇总发给行政负责人</div></div></div>
+    <div class="card" data-cat="table" onclick="toggle(this)"><div class="card-head"><span class="card-num">31</span><div class="card-name">体重/健康数据追踪</div></div><div class="card-desc">每天发一个数字（如78.5），AI自动识别为体重数据并记录到表格，设定减肥目标并监控进度。</div><div class="card-tags"><span class="tag tag-table">智能表格</span><span class="tag tag-memory">记忆能力</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">今天体重78.5。帮我记录到体重追踪表，我的目标是3个月内减到72公斤</div></div></div>
+    <div class="card" data-cat="table" onclick="toggle(this)"><div class="card-head"><span class="card-num">32</span><div class="card-name">视频号脚本状态管理看板</div></div><div class="card-desc">多条脚本同步到智能表格，每条标注状态（待拍摄/拍摄中/已发布），实现短视频团队的内容排期。</div><div class="card-tags"><span class="tag tag-table">智能表格</span><span class="tag tag-ai">AI生成</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">将生成的5条视频号脚本同步到智能表格，添加"状态"列（待拍摄/拍摄中/已发布）和"负责人"列</div></div></div>
+    <div class="card" data-cat="table" onclick="toggle(this)"><div class="card-head"><span class="card-num">33</span><div class="card-name">招投标商机汇总表</div></div><div class="card-desc">AI联网搜索招标信息，按企业名称、项目名称、预算、联系方式等字段整理到智能表格，每日更新。</div><div class="card-tags"><span class="tag tag-table">智能表格</span><span class="tag tag-skill">联网搜索</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">搜索2026年企业微信、SCRM相关招标信息，整理到智能表格，字段包含企业名称、项目名称、预算金额、联系方式</div></div></div>
+    <div class="card" data-cat="table" onclick="toggle(this)"><div class="card-head"><span class="card-num">34</span><div class="card-name">数据表格自动分析+仪表盘</div></div><div class="card-desc">上传Excel数据，AI分析并同步到智能表格，自动创建可视化仪表盘，快速获得数据洞察。</div><div class="card-tags"><span class="tag tag-table">智能表格</span><span class="tag tag-ai">AI分析</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">分析桌面上的销售数据.xlsx，提取关键指标并同步到智能表格，帮我创建仪表盘视图</div></div></div>
+    <div class="card" data-cat="table" onclick="toggle(this)"><div class="card-head"><span class="card-num">35</span><div class="card-name">客户信息搜索+建档</div></div><div class="card-desc">联网搜索目标客户的公开信息（注册资本、行业、规模），自动整理到智能表格建立客户档案。</div><div class="card-tags"><span class="tag tag-table">智能表格</span><span class="tag tag-skill">联网搜索</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">搜索"XX科技有限公司"的工商信息、行业类型、注册资本等，整理到客户档案智能表格</div></div></div>
+    <div class="card" data-cat="table" onclick="toggle(this)"><div class="card-head"><span class="card-num">36</span><div class="card-name">会议记录+待办提取</div></div><div class="card-desc">发送会议录音转写文本，AI自动提取关键决议和待办事项并同步到智能表格，分配负责人和截止日期。</div><div class="card-tags"><span class="tag tag-table">智能表格</span><span class="tag tag-ai">AI分析</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">分析这段会议纪要，提取所有待办事项，包含负责人、截止日期，同步到待办跟踪智能表格</div></div></div>
+    <div class="card" data-cat="table" onclick="toggle(this)"><div class="card-head"><span class="card-num">37</span><div class="card-name">报价单/合同要素提取</div></div><div class="card-desc">上传报价单或合同文件，AI自动提取关键要素（金额、条款、期限）并整理到表格，便于比价和管理。</div><div class="card-tags"><span class="tag tag-table">智能表格</span><span class="tag tag-ai">AI分析</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">读取桌面上的3份供应商报价单，提取产品名称、单价、数量、总价等要素，整理到智能表格便于比价</div></div></div>
+    <div class="card" data-cat="table" onclick="toggle(this)"><div class="card-head"><span class="card-num">38</span><div class="card-name">考勤/签到数据统计</div></div><div class="card-desc">群内成员在群里@AI打卡签到，AI自动记录并按日/周/月生成考勤统计报表。</div><div class="card-tags"><span class="tag tag-table">智能表格</span><span class="tag tag-wecom">群聊</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">在群里收集大家的打卡信息，记录到签到表格中，每周五汇总一次考勤统计</div></div></div>
+  </div>
+</section>
+
+<!-- ===== 四、在线文档 (39–48) ===== -->
+<section class="cat-section reveal" id="sec-doc" data-category="doc">
+  <div class="cat-header" data-color="doc">
+    <div class="cat-icon doc">📝</div>
+    <div class="cat-title-text"><h2>在线文档</h2><div class="cat-sub">协作与知识沉淀，AI 同步到企微文档</div></div>
+    <span class="cat-count">10 个玩法</span>
+  </div>
+  <div class="cards">
+    <div class="card" data-cat="doc" onclick="toggle(this)"><div class="card-head"><span class="card-num">39</span><div class="card-name">客户调研报告→在线文档</div></div><div class="card-desc">联网搜索+分析后生成结构化调研报告，直接通过MCP同步到企微在线文档，团队可在线协作编辑。</div><div class="card-tags"><span class="tag tag-doc">在线文档</span><span class="tag tag-skill">MCP协议</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">搜索"XX品牌"的市场情况，生成客户调研报告，同步到企微在线文档方便团队查看</div></div></div>
+    <div class="card" data-cat="doc" onclick="toggle(this)"><div class="card-head"><span class="card-num">40</span><div class="card-name">产品需求文档(PRD)辅助撰写</div></div><div class="card-desc">描述功能需求，AI生成结构化的PRD文档（含背景、用户故事、功能描述、验收标准），同步到企微文档。</div><div class="card-tags"><span class="tag tag-doc">在线文档</span><span class="tag tag-ai">AI生成</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我写一个"客户标签自动推荐"功能的PRD文档，包含需求背景、用户故事、功能描述、验收标准，同步到企微文档</div></div></div>
+    <div class="card" data-cat="doc" onclick="toggle(this)"><div class="card-head"><span class="card-num">41</span><div class="card-name">培训手册自动生成</div></div><div class="card-desc">基于产品知识库文档，AI自动生成新员工培训手册，按模块分章节，同步到企微文档供团队学习。</div><div class="card-tags"><span class="tag tag-doc">在线文档</span><span class="tag tag-ai">AI生成</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">读取桌面上的产品介绍PPT，生成一份新员工培训手册，按功能模块分章节，同步到企微在线文档</div></div></div>
+    <div class="card" data-cat="doc" onclick="toggle(this)"><div class="card-head"><span class="card-num">42</span><div class="card-name">公众号文章搜索+整合发布</div></div><div class="card-desc">搜索指定公众号最近文章，AI汇总分析内容要点，整合发布为精美网页或同步到企微文档。</div><div class="card-tags"><span class="tag tag-skill">公众号搜索</span><span class="tag tag-doc">在线文档</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">搜索"企业微信官方"公众号最近10篇文章，汇总核心内容生成一篇综述文档</div></div></div>
+    <div class="card" data-cat="doc" onclick="toggle(this)"><div class="card-head"><span class="card-num">43</span><div class="card-name">多Agent配置教程生成</div></div><div class="card-desc">AI自动生成操作教程文档（步骤说明+配置方法+注意事项），同步到在线文档供团队参考。</div><div class="card-tags"><span class="tag tag-doc">在线文档</span><span class="tag tag-ai">AI生成</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我写一份"如何配置多个企微AI机器人"的操作教程，包含详细步骤和注意事项，同步到企微文档</div></div></div>
+    <div class="card" data-cat="doc" onclick="toggle(this)"><div class="card-head"><span class="card-num">44</span><div class="card-name">日/周/月报模板自动填充</div></div><div class="card-desc">提供报告模板和原始数据，AI自动填充并生成格式化的报告文档，减少重复性排版工作。</div><div class="card-tags"><span class="tag tag-doc">在线文档</span><span class="tag tag-ai">AI生成</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">按照周报模板格式，用以下数据填充本周运营周报：（提供数据）</div></div></div>
+    <div class="card" data-cat="doc" onclick="toggle(this)"><div class="card-head"><span class="card-num">45</span><div class="card-name">知识库文档自动整理</div></div><div class="card-desc">读取多个本地文件，AI按主题分类整理成结构化知识库文档，方便团队查询和学习。</div><div class="card-tags"><span class="tag tag-doc">在线文档</span><span class="tag tag-ai">AI分析</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">读取桌面上"产品资料"文件夹中的所有文档，按主题分类整理成一份结构化知识库文档</div></div></div>
+    <div class="card" data-cat="doc" onclick="toggle(this)"><div class="card-head"><span class="card-num">46</span><div class="card-name">投标书/方案模板生成</div></div><div class="card-desc">输入项目需求和公司优势，AI生成包含资质介绍、方案设计、实施计划、报价的投标方案模板。</div><div class="card-tags"><span class="tag tag-doc">在线文档</span><span class="tag tag-ai">AI生成</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我生成一份SCRM项目投标方案模板，包含公司介绍、技术方案、实施计划、服务承诺、报价表</div></div></div>
+    <div class="card" data-cat="doc" onclick="toggle(this)"><div class="card-head"><span class="card-num">47</span><div class="card-name">日程/待办事项管理</div></div><div class="card-desc">通过对话管理日程和待办，AI自动创建企微日程提醒，再也不会遗漏重要事项。</div><div class="card-tags"><span class="tag tag-doc">日程/待办</span><span class="tag tag-skill">日程管理Skill</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我创建一个日程：明天下午3点与XX公司客户会议，提前30分钟提醒</div></div></div>
+    <div class="card" data-cat="doc" onclick="toggle(this)"><div class="card-head"><span class="card-num">48</span><div class="card-name">会议纪要AI整理</div></div><div class="card-desc">把会议录音文字稿发给AI，自动提炼核心议题、关键决议和待办事项，生成规范会议纪要。</div><div class="card-tags"><span class="tag tag-doc">在线文档</span><span class="tag tag-ai">AI分析</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">整理以下会议转写文本为规范会议纪要格式，提取核心决议和待办事项，同步到企微文档</div></div></div>
+  </div>
+</section>
+
+<!-- ===== 五、SCRM营销 (49–62) ===== -->
+<section class="cat-section reveal" id="sec-scrm" data-category="scrm">
+  <div class="cat-header" data-color="scrm">
+    <div class="cat-icon scrm">🔶</div>
+    <div class="cat-title-text"><h2>SCRM 营销</h2><div class="cat-sub">AI 驱动客户运营与营销全链路</div></div>
+    <span class="cat-count">18 个玩法</span>
+  </div>
+  <div class="cards">
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">49</span><div class="card-name">客户列表智能查询</div></div><div class="card-desc">用自然语言查询SCRM客户数据，如"查一下我最近加的10个客户"，AI自动调用API返回结果。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-skill">S3工具Skill</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我查一下我的客户列表，显示最近添加的10位客户的名称、类型和添加时间</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">50</span><div class="card-name">客户标签洞察分析</div></div><div class="card-desc">查询客户标签分布，AI自动统计各标签组的客户数量、生成洞察报告，找出高价值客户群体。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-ai">AI分析</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">统计我所有客户的标签分布情况，按标签组分类，分析高意向客户占比</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">51</span><div class="card-name">语音打标签</div></div><div class="card-desc">通过语音或文字描述给客户打标签："给李先生打上高意向标签"，AI自动调用SCRM API完成操作。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-skill">S3工具Skill</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">给客户"李先生"打上"高意向"和"需要跟进"标签</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">52</span><div class="card-name">朋友圈群发任务创建</div></div><div class="card-desc">告诉AI文案内容和发送时间，自动在SCRM创建朋友圈群发任务，销售团队只需一键执行。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-ai">AI文案</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我创建一个朋友圈群发任务，文案："春季限时优惠..."，明天上午10点发送给所有销售</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">53</span><div class="card-name">个人1V1群发任务</div></div><div class="card-desc">创建个人消息群发任务，支持文字+图片，批量触达目标客户。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">创建个人群发任务：给标签为"待回访"的客户发送产品更新通知</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">54</span><div class="card-name">AI生成文案→SCRM创建任务闭环</div></div><div class="card-desc">让AI先调用扣子智能体生成营销文案，然后自动创建SCRM群发任务。内容生产+执行一条龙。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-skill">扣子智能体</span><span class="tag tag-ai">AI文案</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">先帮我生成一条促销文案，然后创建朋友圈群发任务，定于明天10:00执行</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">55</span><div class="card-name">员工活码创建+欢迎语设置</div></div><div class="card-desc">通过对话创建员工活码，自动设置个性化欢迎语和标签，新客户扫码即获得定制化体验。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-skill">S3工具Skill</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我创建一个员工活码，设置欢迎语为"您好，很高兴认识您！"，自动打上"线下活动"标签</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">56</span><div class="card-name">流失客户分析报告</div></div><div class="card-desc">查询流失客户列表，AI分析流失原因分布和趋势，输出挽回建议。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-ai">AI分析</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">查询最近30天的流失客户列表，分析流失原因和趋势，给出挽回建议</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">57</span><div class="card-name">群聊数据统计分析</div></div><div class="card-desc">自动获取所有客户群的成员数据，统计每个群的人数、活跃度、退群率，生成社群健康度报告。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-ai">AI分析</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">获取我管理的所有客户群列表，统计每个群的总人数、客户数和退群率</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">58</span><div class="card-name">营销任务督办提醒</div></div><div class="card-desc">监控SCRM任务执行进度，未按时完成的自动提醒对应销售，确保任务不掉地。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-timer">定时任务</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">检查昨天创建的朋友圈任务执行情况，未完成的督促对应销售执行</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">59</span><div class="card-name">海报素材快速生成</div></div><div class="card-desc">基于数据生成战报海报、活动海报、庆祝海报，4K高清文字准确，可直接用于SCRM素材库。</div><div class="card-tags"><span class="tag tag-skill">AI图片生成</span><span class="tag tag-scrm">SCRM</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">根据Q1业绩数据生成一张"战区业绩排行榜"海报，TOP5展示新增客户数和培训覆盖率</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">60</span><div class="card-name">客户跟进记录语音录入</div></div><div class="card-desc">拜访客户后通过微信语音告知跟进情况，AI自动润色并同步到SCRM跟进记录。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-ai">AI润色</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">今天下午拜访了XX公司张总，对方对AI办公很感兴趣，需要一份详细方案，请记录这次跟进</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">61</span><div class="card-name">AI营销全链路闭环</div></div><div class="card-desc">Claw生成文案→Skills同步表格→SCRM创建任务→企微销售执行→Claw统计催办。AI驱动完整营销链路。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-ai">AI生成</span><span class="tag tag-table">智能表格</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我执行完整营销流程：生成国庆促销文案→同步到运营日历表格→创建朋友圈群发任务→设置3天后催办未执行的</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">62</span><div class="card-name">新客户自动画像分析</div></div><div class="card-desc">新加客户后，AI自动分析客户来源渠道、标签特征，生成客户画像推送给对应销售。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-ai">AI分析</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">查询最近一周新增的客户，分析来源渠道分布和标签特征，生成新客户画像报告</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">105</span><div class="card-name">零售行业商品营销文案批量定制</div></div><div class="card-desc">针对零售门店的商品、节日节点和促销目标，批量生成不同门店和导购可直接使用的营销文案与话术。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-ai">AI文案</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">为女装门店的春季上新活动生成 20 条朋友圈营销文案，区分新品种草、限时促销、会员专享三种场景，并附导购私聊跟进话术</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">106</span><div class="card-name">教育行业课程内容分层生成</div></div><div class="card-desc">围绕不同年级、家长关注点和转化阶段，生成试听邀约、课程介绍、续费提醒等分层内容，提升教培私域转化效率。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-ai">AI文案</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">为少儿英语课程设计一套私域内容，分别生成试听前预热、试听后跟进、老带新裂变 3 个阶段的话术和朋友圈文案</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">107</span><div class="card-name">制造业工艺文档标准化编写</div></div><div class="card-desc">把工艺说明、质检规范和操作流程标准化为统一模板，方便销售、交付和客户成功团队对外输出专业资料。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-doc">行业资料</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">根据这份制造业产品资料，整理成一版标准化工艺说明文档，要求适合销售发给客户阅读，突出流程规范、品质控制和交付优势</div></div></div>
+    <div class="card" data-cat="scrm" onclick="toggle(this)"><div class="card-head"><span class="card-num">108</span><div class="card-name">人力资源招聘 JD 与文案定制生成</div></div><div class="card-desc">根据岗位职责、团队画像和招聘渠道，快速生成 JD、招聘海报文案和候选人沟通话术，减少 HR 重复写作成本。</div><div class="card-tags"><span class="tag tag-scrm">SCRM</span><span class="tag tag-ai">AI文案</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我生成一份企业微信运营经理的招聘 JD，同时输出 BOSS 直聘打招呼文案和朋友圈招聘海报文案，风格专业但有吸引力</div></div></div>
+  </div>
+</section>
+
+<!-- ===== 六、Skills技能 (63–74) ===== -->
+<section class="cat-section reveal" id="sec-skill" data-category="skill">
+  <div class="cat-header" data-color="skill">
+    <div class="cat-icon skill">🧩</div>
+    <div class="cat-title-text"><h2>Skills 技能</h2><div class="cat-sub">扩展无限可能，像 App Store 一样安装技能</div></div>
+    <span class="cat-count">12 个玩法</span>
+  </div>
+  <div class="cards">
+    <div class="card" data-cat="skill" onclick="toggle(this)"><div class="card-head"><span class="card-num">63</span><div class="card-name">调用扣子智能体</div></div><div class="card-desc">在企微中直接调用扣子平台搭建的智能体，把分散在不同平台的能力统一收口到企微入口。</div><div class="card-tags"><span class="tag tag-skill">扣子应用Skill</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">使用扣子智能体帮我分析这段客户反馈的情感倾向和核心诉求</div></div></div>
+    <div class="card" data-cat="skill" onclick="toggle(this)"><div class="card-head"><span class="card-num">64</span><div class="card-name">AI图片/头像生成</div></div><div class="card-desc">接入通义万相等图片模型，通过文字描述生成图片、头像、宣传图。AI还能按对自己的理解生成自画像。</div><div class="card-tags"><span class="tag tag-skill">AI图片生成Skill</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我生成一张可爱风格的AI助手头像，蓝色调，眼神友善</div></div></div>
+    <div class="card" data-cat="skill" onclick="toggle(this)"><div class="card-head"><span class="card-num">65</span><div class="card-name">架构图/流程图自动生成</div></div><div class="card-desc">一句话描述，AI自动生成分层架构图或业务流程图，自动配色布局，可用于技术文档或方案PPT。</div><div class="card-tags"><span class="tag tag-skill">演示生成器Skill</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我生成企微管家Claw与企业微信的数据交互架构图，分层展示用户层→接口层→业务逻辑层→数据层</div></div></div>
+    <div class="card" data-cat="skill" onclick="toggle(this)"><div class="card-head"><span class="card-num">66</span><div class="card-name">自我改进持续学习</div></div><div class="card-desc">AI犯错被纠正后，将经验保存到专门文件，下次遇到类似问题不再犯错。越用越聪明的AI助手。</div><div class="card-tags"><span class="tag tag-skill">自我改进Skill</span><span class="tag tag-memory">记忆能力</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">你上次生成的报表格式有误，正确格式应该是XXX，请记住并以后按此执行</div></div></div>
+    <div class="card" data-cat="skill" onclick="toggle(this)"><div class="card-head"><span class="card-num">67</span><div class="card-name">自定义业务Skill创建</div></div><div class="card-desc">通过自然语言与AI对话，把你的业务经验沉淀为标准化Skill，以后一句话即可触发完整流程。</div><div class="card-tags"><span class="tag tag-skill">Skill开发</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我创建一个"银行朋友圈文案生成"技能，目标用户是客户经理，产品包含贷款、存款、基金，文案要合规</div></div></div>
+    <div class="card" data-cat="skill" onclick="toggle(this)"><div class="card-head"><span class="card-num">68</span><div class="card-name">招投标商机查找Skill</div></div><div class="card-desc">创建自定义Skill自动搜索招标信息，过滤关键词、年份，整理成文档并定时推送。</div><div class="card-tags"><span class="tag tag-skill">自定义Skill</span><span class="tag tag-search">联网搜索</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我创建一个"招投标商机查找"技能，关键词为企业微信和SCRM，过滤2026年之前的项目，整理成表格</div></div></div>
+    <div class="card" data-cat="skill" onclick="toggle(this)"><div class="card-head"><span class="card-num">69</span><div class="card-name">浏览器自动化操作</div></div><div class="card-desc">AI控制浏览器，自动登录网站、抓取数据、填写表单。保留登录状态，可获取需要认证的信息。</div><div class="card-tags"><span class="tag tag-skill">浏览器自动化</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我打开企微管家后台，抓取今天的客户数据概览并整理成报告</div></div></div>
+    <div class="card" data-cat="skill" onclick="toggle(this)"><div class="card-head"><span class="card-num">70</span><div class="card-name">MCP协议连接企微文档</div></div><div class="card-desc">通过MCP协议直连企微文档和智能表格，更稳定高效的双向同步能力。</div><div class="card-tags"><span class="tag tag-skill">MCP协议</span><span class="tag tag-wecom">企微生态</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">使用MCP工具安装企微文档连接：[粘贴从企微机器人后台复制的MCP配置链接]</div></div></div>
+    <div class="card" data-cat="skill" onclick="toggle(this)"><div class="card-head"><span class="card-num">71</span><div class="card-name">Python脚本自动执行</div></div><div class="card-desc">AI编写Python脚本处理需要确定性逻辑的任务（数据计算、格式转换等），确保结果100%准确。</div><div class="card-tags"><span class="tag tag-skill">脚本执行</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我写一个Python脚本，查询这些企业的工商信息（注册资本、行业类型），保存到桌面Excel</div></div></div>
+    <div class="card" data-cat="skill" onclick="toggle(this)"><div class="card-head"><span class="card-num">72</span><div class="card-name">Skill技能市场安装</div></div><div class="card-desc">从技能市场一键安装官方审核过的安全Skill，目前已有30+预置技能可用。</div><div class="card-tags"><span class="tag tag-skill">技能市场</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我安装"AI PPT生成"和"联网搜索"技能</div></div></div>
+    <div class="card" data-cat="skill" onclick="toggle(this)"><div class="card-head"><span class="card-num">73</span><div class="card-name">群聊智能摘要助手</div></div><div class="card-desc">AI自动总结群聊消息，提取关键信息和决策，避免你翻完999+消息找重点。</div><div class="card-tags"><span class="tag tag-skill">群聊摘要Skill</span><span class="tag tag-wecom">群聊</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我总结今天群聊中的重要消息和决策，列出需要我关注的重点</div></div></div>
+    <div class="card" data-cat="skill" onclick="toggle(this)"><div class="card-head"><span class="card-num">74</span><div class="card-name">错误自诊断+自修复</div></div><div class="card-desc">系统出错时让AI自行排查问题、分析原因、修复代码、重启服务，两分钟搞定。</div><div class="card-tags"><span class="tag tag-skill">自我改进Skill</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">系统好像出了问题，帮我排查一下原因并尝试修复</div></div></div>
+  </div>
+</section>
+
+<!-- ===== 七、联网搜索 (75–82) ===== -->
+<section class="cat-section reveal" id="sec-search" data-category="search">
+  <div class="cat-header" data-color="search">
+    <div class="cat-icon search">🔍</div>
+    <div class="cat-title-text"><h2>联网搜索</h2><div class="cat-sub">实时信息获取，AI 帮你看全网</div></div>
+    <span class="cat-count">8 个玩法</span>
+  </div>
+  <div class="cards">
+    <div class="card" data-cat="search" onclick="toggle(this)"><div class="card-head"><span class="card-num">75</span><div class="card-name">品牌舆情实时监控</div></div><div class="card-desc">联网搜索品牌在各平台的提及，自动分析正面/负面评价比例，生成舆情监控报告。</div><div class="card-tags"><span class="tag tag-search">联网搜索</span><span class="tag tag-ai">AI分析</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">搜索最近一周"微盛企微管家"在网上的讨论和评价，生成舆情分析报告</div></div></div>
+    <div class="card" data-cat="search" onclick="toggle(this)"><div class="card-head"><span class="card-num">76</span><div class="card-name">政策法规速递</div></div><div class="card-desc">搜索特定行业最新政策法规变化，自动解读对业务的影响并推送给相关团队。</div><div class="card-tags"><span class="tag tag-search">联网搜索</span><span class="tag tag-ai">AI分析</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">搜索最近一个月AI行业相关政策法规变化，解读对企业微信AI应用的影响</div></div></div>
+    <div class="card" data-cat="search" onclick="toggle(this)"><div class="card-head"><span class="card-num">77</span><div class="card-name">技术趋势速报</div></div><div class="card-desc">每周自动搜索AI/大模型技术最新进展，整理成技术趋势简报推送给研发团队。</div><div class="card-tags"><span class="tag tag-search">联网搜索</span><span class="tag tag-timer">定时任务</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">搜索本周大模型技术领域重要进展，整理成技术速报并推送到研发群</div></div></div>
+    <div class="card" data-cat="search" onclick="toggle(this)"><div class="card-head"><span class="card-num">78</span><div class="card-name">搜索→记忆→知识积累</div></div><div class="card-desc">搜索结果不仅推送一次，还存入长期记忆。以后问"上次搜到什么"能准确回忆，形成知识积累闭环。</div><div class="card-tags"><span class="tag tag-search">联网搜索</span><span class="tag tag-memory">记忆能力</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">搜索最新的OpenClaw版本更新信息，存入我的长期记忆，以后我可以随时调阅</div></div></div>
+    <div class="card" data-cat="search" onclick="toggle(this)"><div class="card-head"><span class="card-num">79</span><div class="card-name">公众号文章批量搜索分析</div></div><div class="card-desc">搜索指定公众号近期文章，提取核心观点和数据，生成内容摘要。</div><div class="card-tags"><span class="tag tag-skill">公众号搜索</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">搜索"36氪"公众号最近发布的关于AI的文章，总结核心观点</div></div></div>
+    <div class="card" data-cat="search" onclick="toggle(this)"><div class="card-head"><span class="card-num">80</span><div class="card-name">目标企业背调</div></div><div class="card-desc">输入企业名称，AI联网搜索其工商信息、融资历程、技术实力、口碑评价，生成尽调报告。</div><div class="card-tags"><span class="tag tag-search">联网搜索</span><span class="tag tag-ai">AI分析</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我对"XX科技有限公司"做一份背调报告，包含工商信息、融资情况、核心产品、市场口碑</div></div></div>
+    <div class="card" data-cat="search" onclick="toggle(this)"><div class="card-head"><span class="card-num">81</span><div class="card-name">竞品功能更新追踪</div></div><div class="card-desc">持续追踪竞品产品更新，对比功能差异，输出竞品功能对比矩阵。</div><div class="card-tags"><span class="tag tag-search">联网搜索</span><span class="tag tag-table">智能表格</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">搜索最近一个月主要SCRM产品的功能更新，整理成功能对比矩阵表同步到智能表格</div></div></div>
+    <div class="card" data-cat="search" onclick="toggle(this)"><div class="card-head"><span class="card-num">82</span><div class="card-name">热点事件快速简报</div></div><div class="card-desc">突发热点事件时，AI快速搜索多个信源，5分钟生成全景式事件简报。</div><div class="card-tags"><span class="tag tag-search">联网搜索</span><span class="tag tag-ai">AI分析</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">搜索今天科技圈最大的热点事件，从多个来源交叉验证，生成一份客观全面的事件简报</div></div></div>
+  </div>
+</section>
+
+<!-- ===== 八、办公提效 (83–92) ===== -->
+<section class="cat-section reveal" id="sec-office" data-category="office">
+  <div class="cat-header" data-color="office">
+    <div class="cat-icon office">💼</div>
+    <div class="cat-title-text"><h2>办公提效</h2><div class="cat-sub">日常效率翻倍，AI 是你的超级助手</div></div>
+    <span class="cat-count">14 个玩法</span>
+  </div>
+  <div class="cards">
+    <div class="card" data-cat="office" onclick="toggle(this)"><div class="card-head"><span class="card-num">83</span><div class="card-name">微信远程调取电脑文件</div></div><div class="card-desc">出差或外出时通过微信发消息给AI，AI在电脑上查找文件（支持模糊搜索），转换格式发回手机。</div><div class="card-tags"><span class="tag tag-ai">远程访问</span><span class="tag tag-wecom">个人微信</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我在电脑桌面找一个2025年的销售报告Excel文件发给我</div></div></div>
+    <div class="card" data-cat="office" onclick="toggle(this)"><div class="card-head"><span class="card-num">84</span><div class="card-name">AI学习PPT+知识考核</div></div><div class="card-desc">上传公司产品PPT让AI学习，然后对AI进行考核——指定功能让它讲解，验证掌握程度。</div><div class="card-tags"><span class="tag tag-ai">AI学习</span><span class="tag tag-memory">记忆能力</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">请学习桌面上的"微盛产品介绍.pptx"（149页），学完后给我介绍"员工活码"功能</div></div></div>
+    <div class="card" data-cat="office" onclick="toggle(this)"><div class="card-head"><span class="card-num">85</span><div class="card-name">邮件/消息模板自动回复</div></div><div class="card-desc">设置常见场景的回复模板，AI根据来信内容智能选择并定制化回复，提高沟通效率。</div><div class="card-tags"><span class="tag tag-ai">AI回复</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我回复这封客户咨询邮件，语气礼貌专业，强调我们的安全性和服务优势</div></div></div>
+    <div class="card" data-cat="office" onclick="toggle(this)"><div class="card-head"><span class="card-num">86</span><div class="card-name">文档格式批量转换</div></div><div class="card-desc">批量将Word转PDF、Markdown转HTML、CSV转表格等，一句话搞定格式转换。</div><div class="card-tags"><span class="tag tag-ai">文件处理</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">把桌面上"方案"文件夹里所有的Word文件转换为PDF格式</div></div></div>
+    <div class="card" data-cat="office" onclick="toggle(this)"><div class="card-head"><span class="card-num">87</span><div class="card-name">多语言翻译助手</div></div><div class="card-desc">在企微中直接翻译文档、消息或网页内容，支持中英日韩等多语言互译。</div><div class="card-tags"><span class="tag tag-ai">AI翻译</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我把这份产品介绍翻译成英文，保持专业术语准确</div></div></div>
+    <div class="card" data-cat="office" onclick="toggle(this)"><div class="card-head"><span class="card-num">88</span><div class="card-name">长文档速读摘要</div></div><div class="card-desc">上传长文档或粘贴大段文字，AI快速提炼核心观点、数据指标和关键结论。</div><div class="card-tags"><span class="tag tag-ai">AI分析</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">读取桌面上的"行业报告.pdf"，提炼核心观点，生成500字以内的速读摘要</div></div></div>
+    <div class="card" data-cat="office" onclick="toggle(this)"><div class="card-head"><span class="card-num">89</span><div class="card-name">代码/SQL辅助编写</div></div><div class="card-desc">描述需求，AI直接编写SQL查询语句、Python脚本或配置文件，减少重复性技术工作。</div><div class="card-tags"><span class="tag tag-ai">AI编程</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我写一条SQL查询：统计每个销售的客户数量，按数量降序排列</div></div></div>
+    <div class="card" data-cat="office" onclick="toggle(this)"><div class="card-head"><span class="card-num">90</span><div class="card-name">AI主动反问确认</div></div><div class="card-desc">AI不会盲目执行模糊指令，而是先反问确认关键细节（客户规模、痛点、方向），再输出精准方案。</div><div class="card-tags"><span class="tag tag-ai">智能对话</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我做一个客户方案（AI会主动问：客户行业？规模？核心痛点？预算范围？）</div></div></div>
+    <div class="card" data-cat="office" onclick="toggle(this)"><div class="card-head"><span class="card-num">91</span><div class="card-name">定制AI人格/灵魂设定</div></div><div class="card-desc">为AI设定"内核"人格——专业严谨的分析师、温暖亲切的客服、犀利直接的战略顾问，匹配不同使用场景。</div><div class="card-tags"><span class="tag tag-ai">人格设定</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">设定你的人格为"高级商务顾问"，风格：专业严谨、数据驱动、战略视角，称呼我为"老板"</div></div></div>
+    <div class="card" data-cat="office" onclick="toggle(this)"><div class="card-head"><span class="card-num">92</span><div class="card-name">任务管理可视化看板</div></div><div class="card-desc">查看所有定时任务的状态、执行情况，暂停/恢复/关闭任务，AI还能自动排查未执行任务的原因。</div><div class="card-tags"><span class="tag tag-ai">任务管理</span><span class="tag tag-timer">定时任务</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">查看我所有的定时任务列表和状态，有没有未执行的任务？帮我分析原因</div></div></div>
+    <div class="card" data-cat="office" onclick="toggle(this)"><div class="card-head"><span class="card-num">109</span><div class="card-name">本地数据自动化备份与安全保障</div></div><div class="card-desc">设定备份目录、频率和目标位置后，AI自动执行本地文件备份、版本留存和异常提醒，降低误删与设备故障风险。</div><div class="card-tags"><span class="tag tag-ai">文件处理</span><span class="tag tag-timer">定时任务</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我把桌面上的“客户方案”和“合同资料”两个文件夹每天晚上 11 点自动备份到移动硬盘，并保留最近 7 个版本</div></div></div>
+    <div class="card" data-cat="office" onclick="toggle(this)"><div class="card-head"><span class="card-num">110</span><div class="card-name">文件批量重命名与格式转换</div></div><div class="card-desc">按统一规则批量重命名本地文件，并同时完成格式转换、归档整理，适合合同、发票、图片、课件等高频场景。</div><div class="card-tags"><span class="tag tag-ai">文件处理</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">把下载文件夹里的发票图片按“日期-供应商-金额”格式批量重命名，并统一转成 PDF 后放进“财务归档”文件夹</div></div></div>
+    <div class="card" data-cat="office" onclick="toggle(this)"><div class="card-head"><span class="card-num">111</span><div class="card-name">发票 / 名片 OCR 识别与结构化提取</div></div><div class="card-desc">拍照或上传发票、名片后，AI自动抽取关键信息并整理成结构化数据，便于报销归档和客户录入。</div><div class="card-tags"><span class="tag tag-ai">OCR识别</span><span class="tag tag-table">智能表格</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">识别这张名片和这 3 张发票图片，提取姓名、公司、手机号、邮箱以及发票金额、日期、抬头，整理成一张表格</div></div></div>
+    <div class="card" data-cat="office" onclick="toggle(this)"><div class="card-head"><span class="card-num">112</span><div class="card-name">工作流程自动化设计与落地</div></div><div class="card-desc">从“需求描述”直接生成流程拆解、执行节点、责任人和自动化建议，帮助团队把零散动作固化成标准流程。</div><div class="card-tags"><span class="tag tag-ai">流程设计</span><span class="tag tag-skill">自动化编排</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">把“线索收集-客户分配-首次触达-跟进提醒-复盘汇总”这套销售流程拆成可执行 SOP，并指出哪些环节可以交给企微管家Claw 自动化完成</div></div></div>
+  </div>
+</section>
+
+<!-- ===== 九、生活助手 (93–96) ===== -->
+<section class="cat-section reveal" id="sec-life" data-category="life">
+  <div class="cat-header" data-color="life">
+    <div class="cat-icon life">🌿</div>
+    <div class="cat-title-text"><h2>生活助手</h2><div class="cat-sub">工作生活两不误，AI 关心你的日常</div></div>
+    <span class="cat-count">4 个玩法</span>
+  </div>
+  <div class="cards">
+    <div class="card" data-cat="life" onclick="toggle(this)"><div class="card-head"><span class="card-num">93</span><div class="card-name">灵感速记本</div></div><div class="card-desc">随时通过微信发送灵感、想法，AI自动分类记录，需要时一句话调取。通勤路上的idea不再丢失。</div><div class="card-tags"><span class="tag tag-memory">记忆能力</span><span class="tag tag-wecom">个人微信</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">记住这个灵感：可以做一个AI自动化客户旅程追踪的功能</div></div></div>
+    <div class="card" data-cat="life" onclick="toggle(this)"><div class="card-head"><span class="card-num">94</span><div class="card-name">读书笔记摘要</div></div><div class="card-desc">发送书的名字或段落，AI生成结构化读书笔记+核心观点+行动建议。</div><div class="card-tags"><span class="tag tag-ai">AI分析</span><span class="tag tag-memory">记忆能力</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我生成《AI新世界》的读书笔记，提炼核心观点和对我们业务的启发</div></div></div>
+    <div class="card" data-cat="life" onclick="toggle(this)"><div class="card-head"><span class="card-num">95</span><div class="card-name">旅行行程规划</div></div><div class="card-desc">告诉AI目的地、天数和偏好，自动规划详细行程、预算和注意事项。</div><div class="card-tags"><span class="tag tag-search">联网搜索</span><span class="tag tag-ai">AI规划</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我规划一个3天的杭州之旅，偏好文艺路线，预算3000元，包含住宿和美食推荐</div></div></div>
+    <div class="card" data-cat="life" onclick="toggle(this)"><div class="card-head"><span class="card-num">96</span><div class="card-name">学习计划制定与跟踪</div></div><div class="card-desc">设定学习目标（如30天学会Python），AI制定每日学习计划并定期提醒、检验进度。</div><div class="card-tags"><span class="tag tag-timer">定时任务</span><span class="tag tag-memory">记忆能力</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我制定一个30天学习Python的计划，每天学1小时，每天早上9点提醒我当日学习内容</div></div></div>
+  </div>
+</section>
+
+<!-- ===== 十、进阶玩法 (97–100) ===== -->
+<section class="cat-section reveal" id="sec-advanced" data-category="advanced">
+  <div class="cat-header" data-color="advanced">
+    <div class="cat-icon advanced">🚀</div>
+    <div class="cat-title-text"><h2>进阶玩法</h2><div class="cat-sub">解锁高阶能力，多 Agent 协作与自我进化</div></div>
+    <span class="cat-count">4 个玩法</span>
+  </div>
+  <div class="cards">
+    <div class="card" data-cat="advanced" onclick="toggle(this)"><div class="card-head"><span class="card-num">97</span><div class="card-name">多Agent协作</div></div><div class="card-desc">配置多个AI机器人，每个专精不同领域（销售助手、技术顾问、运营管家），各司其职互不干扰。</div><div class="card-tags"><span class="tag tag-ai">多Agent</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我设计一个多Agent方案：1号负责客户服务，2号负责数据分析，3号负责内容创作</div></div></div>
+    <div class="card" data-cat="advanced" onclick="toggle(this)"><div class="card-head"><span class="card-num">98</span><div class="card-name">跨Agent知识共享</div></div><div class="card-desc">群聊中多个Agent互相引用对方消息、交叉学习，实现团队级AI知识传递和积累。</div><div class="card-tags"><span class="tag tag-ai">多Agent</span><span class="tag tag-memory">记忆能力</span><span class="tag tag-wecom">群聊</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">引用群里另一个机器人的回复，学习并存入你的知识库</div></div></div>
+    <div class="card" data-cat="advanced" onclick="toggle(this)"><div class="card-head"><span class="card-num">99</span><div class="card-name">AI自我反省机制</div></div><div class="card-desc">AI发现自己漏执行任务后，主动生成反省记录，分析原因并制定改进措施，下次不再遗漏。</div><div class="card-tags"><span class="tag tag-skill">自我改进Skill</span><span class="tag tag-memory">记忆能力</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">检查你最近的定时任务执行记录，有没有遗漏？如果有请分析原因并确保不再发生</div></div></div>
+    <div class="card" data-cat="advanced" onclick="toggle(this)"><div class="card-head"><span class="card-num">100</span><div class="card-name">跨系统数据迁移集成</div></div><div class="card-desc">通过API将CRM/ERP等不同系统的数据迁移整合，实现企业数据的统一管理和AI驱动分析。</div><div class="card-tags"><span class="tag tag-ai">系统集成</span><span class="tag tag-skill">API对接</span></div><div class="card-prompt"><div class="prompt-label">示例指令</div><div class="prompt-text" onclick="copy(this,event)">帮我对接XX系统的API，将客户数据迁移到企微智能表格，并生成数据分析报告</div></div></div>
+  </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-brand">🦞 微盛·企微管家Claw</div>
+  <div class="footer-sub">让 AI 真正在企业微信里干活<br>企业微信官方服务商 · 基于 OpenClaw · 一键本地部署 · 安全合规</div>
+  <div class="footer-tags">
+    <span class="footer-tag">定时任务</span>
+    <span class="footer-tag">内容创作</span>
+    <span class="footer-tag">智能表格</span>
+    <span class="footer-tag">在线文档</span>
+    <span class="footer-tag">SCRM营销</span>
+    <span class="footer-tag">Skills技能</span>
+    <span class="footer-tag">联网搜索</span>
+    <span class="footer-tag">办公提效</span>
+  </div>
+  <div class="footer-copy">微盛AI · 点击卡片可展开查看示例指令 · 共 112 个实战玩法</div>
+</footer>
+
+<!-- Back to Top -->
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0})">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m18 15-6-6-6 6"/></svg>
+</button>
+
+<script>
+// Toggle card expand
+function toggle(el){el.classList.toggle('open')}
+
+// Copy prompt text
+function copy(el,e){
+  e.stopPropagation();
+  const text=el.textContent.trim();
+  navigator.clipboard.writeText(text).then(()=>{
+    const t=document.createElement('div');
+    t.className='toast';t.textContent='✓ 已复制到剪贴板';
+    document.body.appendChild(t);
+    setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),300)},2000);
+  });
+}
+
+// Filter
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat=btn.dataset.cat;
+    let visible=0;
+    document.querySelectorAll('.cat-section').forEach(s=>{
+      const show=cat==='all'||s.dataset.category===cat;
+      s.style.display=show?'':'none';
+      if(show)visible++;
+    });
+    document.getElementById('noResults').style.display=visible?'none':'block';
+    // Reset search
+    document.getElementById('searchInput').value='';
+    document.querySelectorAll('.card').forEach(c=>c.style.display='');
+  });
+});
+
+// Search
+document.getElementById('searchInput').addEventListener('input',function(){
+  const q=this.value.toLowerCase().trim();
+  // Show all categories first
+  document.querySelectorAll('.cat-section').forEach(s=>s.style.display='');
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.filter-btn[data-cat="all"]').classList.add('active');
+
+  let visible=0;
+  document.querySelectorAll('.card').forEach(c=>{
+    const show=!q||c.textContent.toLowerCase().includes(q);
+    c.style.display=show?'':'none';
+    if(show)visible++;
+  });
+
+  // Hide empty categories
+  document.querySelectorAll('.cat-section').forEach(s=>{
+    const cards=s.querySelectorAll('.card');
+    const hasVisible=[...cards].some(c=>c.style.display!=='none');
+    s.style.display=hasVisible?'':'none';
+  });
+
+  document.getElementById('noResults').style.display=visible?'none':'block';
+});
+
+// Progress bar & back-to-top
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  const pct=h.scrollTop/(h.scrollHeight-h.clientHeight)*100;
+  document.getElementById('progressBar').style.width=pct+'%';
+  document.getElementById('backTop').classList.toggle('visible',h.scrollTop>600);
+  document.getElementById('filterBar').classList.toggle('scrolled',h.scrollTop>100);
+});
+
+// Scroll reveal
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// TOC active state
+const tocObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.dataset.category;
+      document.querySelectorAll('.toc a').forEach(a=>a.classList.toggle('active',a.dataset.section===id));
+    }
+  });
+},{threshold:0.15,rootMargin:'-80px 0px -60% 0px'});
+document.querySelectorAll('.cat-section').forEach(el=>tocObs.observe(el));
+</script>
+</body>
+</html>
