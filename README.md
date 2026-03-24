@@ -1,12 +1,19 @@
-# docs-claw.wshoto.com 发布目录
+# 企微管家Claw 官方材料页面汇总
 
-GitHub Pages 统一发布目录。
+GitHub 仓库：[Yixiu6666/qw-claw-official-docs](https://github.com/Yixiu6666/qw-claw-official-docs)  
+在线访问：https://docs-claw.wshoto.com/
 
-- 根路径导航页：index.html
-- 导航页副本：pages/index.html
-- 安全方案页：security/index.html
-- 市场推广页：marketing/index.html
-- 产品介绍 PPT：ppt/index.html
-- Skills 使用指南：skills-guide/index.html
-- Skills 玩法手册：skills-playbook/index.html
-- 自定义域名：docs-claw.wshoto.com
+## 页面目录
+
+| 路径 | 页面标题 |
+|---|---|
+| / | 官方材料页面汇总（导航首页）|
+| /security/ | 企微管家 Claw 企业安全解决方案 |
+| /marketing/ | 企微管家 Claw — 不只是聊天，是你的 AI 员工 |
+| /ppt/ | 企微管家 Claw · 产品介绍 |
+| /skills-guide/ | 企业微信 × 企微管家Claw Skills 112个玩法使用指南 |
+| /skills-playbook/ | 企业微信 × 企微管家Claw Skills 玩法使用指南 |
+
+## 更新方式
+
+在对应子目录内修改 `index.html`，提交后推送即可触发 GitHub Pages 自动发布。新增页面只需在仓库根目录新建子目录并放入 `index.html`，同时更新根路径导航页。
