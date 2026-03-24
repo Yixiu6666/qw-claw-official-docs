@@ -1,0 +1,2264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>企微管家Claw 直播内容合集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0a0c10;
+  --bg-card: #12151c;
+  --bg-card-hover: #181c26;
+  --bg-tab: #0e1117;
+  --accent: #e8523f;
+  --accent-glow: rgba(232, 82, 63, 0.35);
+  --accent-soft: #ff6b54;
+  --accent-warm: #ff8a65;
+  --text-primary: #e8e6e3;
+  --text-secondary: #9da3ae;
+  --text-muted: #5c6370;
+  --border: rgba(255,255,255,0.06);
+  --border-active: rgba(232, 82, 63, 0.4);
+  --tag-bg: rgba(232, 82, 63, 0.12);
+  --tag-text: #ff8a65;
+  --table-header: #1a1e28;
+  --table-row-alt: rgba(255,255,255,0.02);
+  --blockquote-border: #e8523f;
+  --blockquote-bg: rgba(232, 82, 63, 0.05);
+  --shadow-lg: 0 25px 60px rgba(0,0,0,0.5);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.8;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== Background texture ===== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 0%, rgba(232,82,63,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(232,82,63,0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== Hero Header ===== */
+.hero {
+  position: relative;
+  text-align: center;
+  padding: 80px 24px 50px;
+  z-index: 1;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-active), transparent);
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 6px 20px;
+  border: 1px solid var(--border-active);
+  border-radius: 100px;
+  font-size: 13px;
+  color: var(--accent-soft);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  background: var(--tag-bg);
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.hero h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #fff 30%, var(--accent-warm));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 18px;
+  animation: fadeInDown 0.8s ease-out 0.1s both;
+}
+
+.hero p {
+  color: var(--text-secondary);
+  font-size: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  animation: fadeInDown 0.8s ease-out 0.2s both;
+}
+
+/* ===== Container ===== */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Tab navigation ===== */
+.tab-nav {
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+  background: var(--bg-card);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  margin-bottom: 36px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  animation: fadeIn 0.6s ease-out 0.3s both;
+}
+
+.tab-nav::-webkit-scrollbar { display: none; }
+
+.tab-btn {
+  flex: 1;
+  min-width: max-content;
+  padding: 14px 20px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  position: relative;
+}
+
+.tab-btn:hover {
+  color: var(--text-secondary);
+  background: rgba(255,255,255,0.03);
+}
+
+.tab-btn.active {
+  color: #fff;
+  background: var(--accent);
+  box-shadow: 0 4px 20px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+.tab-btn .tab-date {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 2px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.tab-btn .tab-host {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+/* ===== Tab content ===== */
+.tab-panel {
+  display: none;
+  animation: fadeInUp 0.45s ease-out;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+/* ===== Article card ===== */
+.article {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 56px 60px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.article::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-warm), transparent);
+}
+
+@media (max-width: 768px) {
+  .article { padding: 32px 20px; border-radius: 16px; }
+  .hero { padding: 50px 16px 30px; }
+}
+
+/* ===== Markdown content styling ===== */
+.md-content h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 900;
+  font-size: 2rem;
+  line-height: 1.35;
+  color: #fff;
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--border);
+}
+
+.md-content h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 700;
+  font-size: 1.45rem;
+  color: #fff;
+  margin-top: 48px;
+  margin-bottom: 16px;
+  padding-left: 16px;
+  border-left: 4px solid var(--accent);
+  line-height: 1.4;
+}
+
+.md-content h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent-warm);
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
+
+.md-content h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+.md-content p {
+  margin-bottom: 14px;
+  color: var(--text-primary);
+  font-size: 15.5px;
+  line-height: 1.85;
+}
+
+.md-content strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+.md-content em {
+  color: var(--accent-warm);
+  font-style: italic;
+}
+
+.md-content ul, .md-content ol {
+  margin-bottom: 16px;
+  padding-left: 24px;
+}
+
+.md-content li {
+  margin-bottom: 8px;
+  font-size: 15px;
+  color: var(--text-primary);
+  line-height: 1.8;
+}
+
+.md-content li::marker {
+  color: var(--accent-soft);
+}
+
+.md-content blockquote {
+  border-left: 3px solid var(--blockquote-border);
+  background: var(--blockquote-bg);
+  padding: 16px 20px;
+  margin: 20px 0;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 14.5px;
+  color: var(--text-secondary);
+}
+
+.md-content blockquote p {
+  margin-bottom: 6px;
+  font-size: 14.5px;
+  color: var(--text-secondary);
+}
+
+.md-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.md-content hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-active), transparent);
+  margin: 40px 0;
+}
+
+/* ===== Tables ===== */
+.md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  font-size: 14px;
+}
+
+.md-content thead {
+  background: var(--table-header);
+}
+
+.md-content th {
+  padding: 14px 18px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--accent-warm);
+  border-bottom: 2px solid var(--border-active);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+.md-content td {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.md-content tr:nth-child(even) td {
+  background: var(--table-row-alt);
+}
+
+.md-content tr:hover td {
+  background: rgba(232,82,63,0.04);
+}
+
+/* ===== Inline code ===== */
+.md-content code {
+  background: rgba(232,82,63,0.1);
+  color: var(--accent-soft);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+}
+
+/* ===== Speaker labels ===== */
+.md-content p > strong:first-child:only-child,
+.md-content p > strong:first-child {
+  /* Speaker name styling handled by content */
+}
+
+/* ===== Info banner inside blockquote ===== */
+.md-content > blockquote:first-child,
+.md-content > h1 + blockquote {
+  border-left-color: var(--text-muted);
+  background: rgba(255,255,255,0.02);
+}
+
+/* ===== Scroll-to-top ===== */
+.scroll-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 48px;
+  height: 48px;
+  background: var(--accent);
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 24px var(--accent-glow);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-top:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px var(--accent-glow);
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 640px) {
+  .tab-btn { padding: 10px 14px; }
+  .tab-btn .tab-date { font-size: 15px; }
+  .tab-btn .tab-host { font-size: 10px; }
+  .md-content h1 { font-size: 1.5rem; }
+  .md-content h2 { font-size: 1.2rem; }
+  .article { padding: 24px 16px; }
+  .md-content table { font-size: 12px; }
+  .md-content th, .md-content td { padding: 8px 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-badge">Live Broadcast Archive</div>
+  <h1>企微管家Claw 直播内容合集</h1>
+  <p>3.11 — 3.16 连续六场直播精华，从产品首秀到深度实战，完整记录每一次迭代与突破</p>
+</header>
+
+<!-- Main -->
+<main class="container">
+
+  <!-- Tab Navigation -->
+  <nav class="tab-nav" role="tablist" aria-label="直播日期切换">
+    <button class="tab-btn active" role="tab" aria-selected="true" data-tab="tab-311">
+      <span class="tab-date">3.11</span>
+      <span class="tab-host">一休 &amp; 云御 · 口语整理版</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-312">
+      <span class="tab-date">3.12</span>
+      <span class="tab-host">云御 + CTO · 新增内容</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-313">
+      <span class="tab-date">3.13</span>
+      <span class="tab-host">云御 + 西罗 · 新增内容</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-314">
+      <span class="tab-date">3.14</span>
+      <span class="tab-host">云御独立 · 新增内容</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-315">
+      <span class="tab-date">3.15</span>
+      <span class="tab-host">西罗独立 · 新增内容</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-316">
+      <span class="tab-date">3.16</span>
+      <span class="tab-host">云御 + 智悟 + 牧文 · 新增内容</span>
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="tab-handbook">
+      <span class="tab-date">手册</span>
+      <span class="tab-host">直播手册 v2.0</span>
+    </button>
+  </nav>
+
+  <!-- ========== 3.11 ========== -->
+  <div class="tab-panel active" id="tab-311" role="tabpanel">
+    <article class="article">
+      <div class="md-content">
+<h1>3月11日直播分享：一休 &amp; 云御｜口语整理版</h1>
+
+<blockquote>
+<p>说明</p>
+<p>这是一份偏口语表达的整理版，尽量保留直播中的讲话方式、转场节奏和互动感，但去掉了大量重复、卡顿、无效口头语和设备调试噪声。适合在内部复盘时快速感受直播原貌。</p>
+</blockquote>
+
+<h2>开场</h2>
+
+<p><strong>云御：</strong></p>
+
+<p>各位老板下午好，欢迎来到我们的直播间。我是今天的主持人云御，旁边是一休，是我们产品负责人。</p>
+
+<p>最近大家应该都知道，全网都在刷"养龙虾"这个事情。企业微信上周也支持了类似玩法，我们第一时间做了封装和适配，所以有了今天要给大家演示的企微管家Claw。</p>
+
+<p>今天这场直播我们不讲虚的，就讲一件事情：怎么在你的企业微信上，把企微管家Claw 真正用起来，让你的企业微信从以前很多事情都靠人工、很累、很碎的状态，升级成一个能让 AI 帮你干活的入口。</p>
+
+<p>我们今天带来的不是概念，是解决方案。会有现场实操，会有真实案例，也会讲避坑。大家听完以后，回去就能落地。</p>
+
+<h2>为什么做这个产品</h2>
+
+<p><strong>云御：</strong></p>
+
+<p>大家这段时间应该看过很多 OpenClaw 相关教程，但说实话，很多教程对普通人不友好。要写代码、要做适配、要配环境，对很多运营、销售、人事或者老板来说，门槛还是挺高的。</p>
+
+<p>我们做企微管家Claw，核心就想解决这个问题。我们想把它做得足够简单，简单到什么程度？就是不懂代码、不懂 API 的人，也能通过点几下鼠标，把企业微信和 OpenClaw 连接起来。</p>
+
+<p>这不是一句宣传话术，是真的想把门槛降下来。</p>
+
+<h2>大家现在最常见的问题</h2>
+
+<p><strong>云御：</strong></p>
+
+<p>我们最近接触客户，大家最常见的问题其实就这些：</p>
+
+<p>装不上，版本不对；</p>
+
+<p>Windows 不知道怎么配；</p>
+
+<p>本地文件喂不进去；</p>
+
+<p>改了配置，但机器人效果没变化；</p>
+
+<p>没有长期记忆；</p>
+
+<p>电脑性能差一点就跑崩；</p>
+
+<p>不知道该选哪个模型，也不知道怎么买、怎么配。</p>
+
+<p>所以今天这场直播，不是泛泛聊 AI，而是把这些实际问题拆开给大家看。</p>
+
+<h2>为什么一定要接企业微信</h2>
+
+<p><strong>云御：</strong></p>
+
+<p>很多人都在讲怎么本地部署 OpenClaw，但我们更关心的是，为什么要把它接进企业微信。</p>
+
+<p>因为企业微信是大家每天都在打开的地方。你如果还要再开一个网页、再进一个平台、再切一个窗口，那绝大多数人其实用不起来，或者坚持不下来。</p>
+
+<p>但如果把 AI 直接放进企业微信，让它变成一个你随手就能找到、随手就能叫它做事的助理，那事情就不一样了。它就不只是一个聊天工具，而是开始进入业务流程、执行流程、回传结果。</p>
+
+<h2>微盛内部怎么用</h2>
+
+<p><strong>云御：</strong></p>
+
+<p>我们公司内部其实已经从上周开始在全员用这个安装包做部署，并且接到了企业微信里。以前大家碰到问题，可能要开豆包、开元宝，等结果出来，再复制回企业微信。中间一旦任务复杂、时间长，人就切走了，甚至会忘掉原来要干什么。</p>
+
+<p>现在接进企微以后，大家就是在企微里直接找"小龙虾助理"，提问、下任务、拿结果，一条链就走完了。</p>
+
+<p>而且我们也发现，原来不怎么用 AI 的同事，现在也开始慢慢把自己的龙虾养起来了。它会越来越了解业务，也会越来越了解个人习惯。</p>
+
+<h2>OpenClaw 和普通聊天机器人有什么区别</h2>
+
+<p><strong>云御：</strong></p>
+
+<p>像豆包、元宝这种，更像是问一句答一句。</p>
+
+<p>但 OpenClaw 不是，它是"长了手"的。它不只是回答你，它能调用工具、能读文件、能查历史、能执行动作，能真正帮你干活。所以我们觉得，把这种能力接进企业微信，价值很大。</p>
+
+<h2>安装演示开始</h2>
+
+<p><strong>一休：</strong></p>
+
+<p>好，下面我从零开始给大家演示一下怎么安装我们的企微管家Claw。</p>
+
+<p>这个安装包支持 Windows 和 Mac，我今天演示的是 Mac 版。大家拿到安装包以后，双击打开，像安装普通软件一样，把它拖到应用程序文件夹里就可以了。</p>
+
+<p>如果第一次打开的时候系统提示"无法打开"或者"已阻止打开"，这是正常情况。很多外部下载的软件都会这样。你去系统设置里找到"隐私与安全性"，允许它继续打开，再输入开机密码，就可以进到部署界面。</p>
+
+<h2>第一次部署怎么配</h2>
+
+<p><strong>一休：</strong></p>
+
+<p>进到部署界面以后，要先配大模型的信息。我们现在支持的模型服务商挺多的，比如腾讯云 CODING plan、DeepSeek、Kimi、Minimax、智谱，还有 OpenRouter 这些。</p>
+
+<p>以腾讯云 CODING plan 为例，它比较适合大部分普通办公场景，便宜、够用、稳定。你只要把模型服务商、API Key、请求地址、模型名这些按示例填进去，然后点"保存并自动部署"，它就会自动开始跑。</p>
+
+<p>这一步其实已经被我们尽量做简单了，不需要你懂底层代码。</p>
+
+<h2>官方版和我们这个版本有什么区别</h2>
+
+<p><strong>一休：</strong></p>
+
+<p>你可以把开源版理解成一只刚从水里抓出来的龙虾，后面怎么做、怎么炒、怎么调味，都要你自己来。</p>
+
+<p>但企微管家Claw 更像是一道已经给你做好的菜。很多配套的步骤、企业微信的适配、常用的企微 skills，我们已经提前给你处理好了。你拿到手以后，能更快地上手，能更快地用起来。</p>
+
+<h2>安全问题怎么理解</h2>
+
+<p><strong>一休：</strong></p>
+
+<p>直播里大家问得最多的就是安全。</p>
+
+<p>我的看法是，真正的风险不在于"接不接企业微信"，而在于你的权限怎么配。开源裸跑，很多时候才更危险。我们这个安装包做了比较可视化的权限管理，而且我们自己内部已经用了挺长时间了。</p>
+
+<p>它可以是企业统一用的机器人，也可以是个人专属的机器人。如果你担心本地隐私数据，那就把权限调低，比如只保留聊天能力，不让它读写文件、不让它执行命令。后面我们也会做更细的权限控制，比如只放开某个文件夹。</p>
+
+<h2>模型是不是能随时换</h2>
+
+<p><strong>一休：</strong></p>
+
+<p>可以。你一开始配的是哪个模型，后面如果用着觉得不合适，想换成别的模型，直接在后台改配置就行，不需要重新安装整个程序。</p>
+
+<h2>接入企业微信</h2>
+
+<p><strong>一休：</strong></p>
+
+<p>部署完成以后，进入 channel 页面，就能直接看到企业微信插件。这个是因为我们已经把企业微信官方 channel 集成到安装包里了。</p>
+
+<p>接下来要做的事情也很简单：</p>
+
+<p>去企业微信通讯录里找到"智能机器人"；</p>
+
+<p>创建一个新的机器人；</p>
+
+<p>选手动创建；</p>
+
+<p>再选 API 模式；</p>
+
+<p>把机器人名称、头像这些基础信息填好。</p>
+
+<p>现在企业微信出了长连接方式，这一点特别重要。以前很多企业卡在要域名、要 IP，现在不需要了。你只要拿到 bot ID 和 secret，把这两个值复制到我们后台，更新一下配置，就能启用。</p>
+
+<p>然后回到企业微信，给机器人发一句"你好"，它返回配对信息，就说明已经接通了。</p>
+
+<p>整个过程不写一行代码，全部都是页面操作。</p>
+
+<h2>接通以后能干什么</h2>
+
+<p><strong>云御：</strong></p>
+
+<p>接通以后，其实就是从"装好了一个工具"变成了"企业微信里多了一个智能助理"。</p>
+
+<p>后面重点就不是"能不能装"，而是"它能帮你做什么"。</p>
+
+<h2>场景一：定时任务</h2>
+
+<p><strong>一休：</strong></p>
+
+<p>第一个很直观的场景，就是定时任务。</p>
+
+<p>比如说你让它每天上午 10 点，联网搜一下 OpenClaw 的热点资讯，整理完以后推给你。那你第二天上班的时候，企微里就已经躺着一份整理好的内容了。</p>
+
+<p>再比如中午提醒吃饭、每小时提醒喝水、下班提醒打卡、重要节日提醒准备礼物或者发祝福，这些它都能做。</p>
+
+<p>而且不是死板地重复一句提醒，它会结合上下文，生成不同的表达，还会记住你之前的反馈。</p>
+
+<h2>场景二：品牌内容生成</h2>
+
+<p><strong>一休：</strong></p>
+
+<p>第二个场景，是帮你做内容。</p>
+
+<p>比如你让它搜一个品牌的信息，然后生成这个品牌一整年的节假日朋友圈营销文案，再同步到企业微信智能表格里。以前这种事情靠人工做很慢，现在你只要给它一句任务，它就能先搜、再整理、再写、再同步。</p>
+
+<p>这里用到的是我们预置的企微 skills。安装好相关技能以后，龙虾就不只是"会说"，而是真的能把结果写进企微表格里。</p>
+
+<p>这样后面运营、销售、客户成功都可以基于这张表去继续执行。</p>
+
+<h2>场景三：在线文档同步</h2>
+
+<p><strong>一休：</strong></p>
+
+<p>第三个场景，是把调研结果同步到企微在线文档。</p>
+
+<p>比如你让它搜某个品牌、某个竞品、最近 7 天的更新信息，然后整理成报告。它做完以后，不是给你扔一段聊天回复，而是直接返回一个企微在线文档链接。你点开就能看，也能转发给同事。</p>
+
+<p>直播里我们现场演示了搜"微盛企微管家Claw"的公开信息，然后同步成企微文档。出来的效果其实挺不错的，定位、能力、案例、链接都整理进去了。</p>
+
+<h2>场景四：做 PPT</h2>
+
+<p><strong>一休：</strong></p>
+
+<p>还有一个很实用的场景，就是做 PPT。</p>
+
+<p>你装好对应技能以后，直接在企业微信里告诉它：帮我做一个某某主题的 PPT，或者基于我本地这份材料做一套产品介绍 PPT。它就可以结合联网信息和本地资料，直接给你生成在线 PPT。</p>
+
+<p>后面还可以进一步把演讲稿、讲解话术一起生成出来。</p>
+
+<h2>场景五：调用其他智能体</h2>
+
+<p><strong>一休：</strong></p>
+
+<p>还有更进阶一点的玩法，就是让龙虾去调用别的平台上的智能体，比如扣子。</p>
+
+<p>很多团队以前已经在扣子上做过智能体了，但入口很分散。现在如果把这些能力封成 skill，接进企微管家Claw，那你以后就只需要在企业微信里说一句话，龙虾就能替你调用对应智能体。</p>
+
+<p>我们直播里也演示了让它调用扣子的营销话术智能体，生成企微管家Claw 的产品推广话术。这个思路是很重要的：未来不是你去找一堆工具，而是企业微信里这个助理替你调度这些工具。</p>
+
+<h2>和 SCRM 的关系</h2>
+
+<p><strong>云御 / 一休：</strong></p>
+
+<p>企微管家Claw 不是 SCRM，但它可以和 SCRM 联动。</p>
+
+<p>举个例子：</p>
+
+<p>先让龙虾生成朋友圈营销文案；</p>
+
+<p>再调用 SCRM 的能力创建一个朋友圈任务；</p>
+
+<p>确认没问题以后下发给销售；</p>
+
+<p>最后再让龙虾去统计谁完成了、谁没完成，并继续提醒。</p>
+
+<p>这就不是单纯"写文案"了，而是进入了业务执行闭环。</p>
+
+<h2>直播里反复回答的几个问题</h2>
+
+<p><strong>云御：</strong></p>
+
+<p>Windows 可以装。</p>
+
+<p>已经装了开源版也不冲突。</p>
+
+<p>外部群目前还不支持，主要支持企业微信内部场景。</p>
+
+<p>如果企业开了会话存档，后面很多数据分析能力也可以逐步接上。</p>
+
+<p>不需要先建数据库，安装好就能用。</p>
+
+<h2>这场直播最核心的一句话</h2>
+
+<p><strong>云御：</strong></p>
+
+<p>我们今天真正想表达的是：企业微信不只是聊天软件，它会变成一个 AI 的工作入口。</p>
+
+<p>龙虾也不只是一个陪你聊天的机器人，而是一个能记住你、能调用工具、能持续做事的数字助理。</p>
+
+<p>而企微管家Claw 想做的，就是把这件事从技术玩家的能力，变成普通岗位也能真正上手的能力。</p>
+
+<h2>收尾</h2>
+
+<p>直播最后，他们再次提醒大家：</p>
+
+<p>想获取安装包、详细教程、skills 更新和后续直播通知，可以添加企业微信客服或扫码领取资料。</p>
+
+<p>当天直播接近两小时，最后大家还开玩笑说，刚好龙虾提醒该去吃饭了，于是就在这样的氛围里结束了整场直播。</p>
+
+<p><strong>云御：</strong></p>
+
+<p>感谢大家，拜拜。</p>
+
+<p><strong>一休：</strong></p>
+
+<p>拜拜，后面我们继续更新，大家加好友领安装包和文档。</p>
+      </div>
+    </article>
+  </div>
+
+  <!-- ========== 3.12 ========== -->
+  <div class="tab-panel" id="tab-312" role="tabpanel">
+    <article class="article">
+      <div class="md-content">
+<h1>3.12直播 新增内容总结（对比3.11一休首播）</h1>
+
+<blockquote>
+<p><strong>直播日期</strong>: 3月12日</p>
+<p><strong>主讲人</strong>: 云御（主持）+ 夏京安/Gentoo/安哥（CTO）</p>
+<p><strong>对比基准</strong>: 3月11日一休&amp;云御首播内容</p>
+</blockquote>
+
+<hr>
+
+<h2>一、CTO出场 — 五层安全架构深度讲解（全新）</h2>
+
+<p>3.11仅简单提及权限分级和安全概念，3.12由CTO系统性地阐述了<strong>企业级五层安全体系</strong>：</p>
+
+<ol>
+<li><strong>用户访问层</strong>: 用户身份识别与准入控制</li>
+<li><strong>访问控制层</strong>: 零信任架构、多因素认证（MFA）、身份鉴权</li>
+<li><strong>内容审计层</strong>: 输入/处理/输出三层过滤机制，<strong>Prompt注入检测</strong>（全新概念）</li>
+<li><strong>网关层</strong>: Skill沙箱隔离、技能市场审核机制——公开skill约10%存在安全隐患（20万+公开skill中），禁止未授权skill安装</li>
+<li><strong>数据与网络层</strong>: 审计日志<strong>180天留存</strong>、SSRF防护、域名白名单</li>
+</ol>
+
+<h2>二、工信部「六要六不要」合规详细对照（全新）</h2>
+
+<p>CTO逐条将工信部3月11日发布的AI使用「六要六不要」安全指南与企微管家Claw的安全措施进行了<strong>一一对照映射</strong>，展示了每条要求的具体落地方案。3.11未涉及此内容。</p>
+
+<h2>三、Windows安装演示（3.11仅演示Mac）</h2>
+
+<p>3.11一休仅演示了Mac安装流程，3.12首次补充了<strong>Windows电脑的完整安装过程</strong>。</p>
+
+<h2>四、灵魂/人格（"内核"）设计深度讲解（全新）</h2>
+
+<p>CTO夏京安引入了<strong>阳明心学</strong>「知行合一」的哲学理念来解释AI人格/灵魂的设定：</p>
+<ul>
+<li>"内核"概念：如何定义AI的核心价值观与行为准则</li>
+<li>知行合一原则在AI人设设计中的应用</li>
+<li>超越简单提示词，构建有深度的AI性格体系</li>
+</ul>
+
+<blockquote>
+<p>3.11仅演示了基础的人设设置（名字、风格、称呼等），未涉及哲学层面。</p>
+</blockquote>
+
+<h2>五、Token费用详细估算（全新）</h2>
+
+<p>CTO给出了具体的费用数据，3.11仅笼统提及"很便宜"：</p>
+<ul>
+<li><strong>"十亿俱乐部"概念</strong>: 形容大规模使用场景的Token消耗量级</li>
+<li>日常用户约<strong>100万tokens/天</strong> ≈ 几十元人民币</li>
+<li>顶级模型约<strong>1000元/亿token</strong></li>
+<li>帮助用户建立了清晰的费用预期</li>
+</ul>
+
+<h2>六、本地模型支持确认（全新）</h2>
+
+<p>明确确认企微管家Claw<strong>可接入本地部署的大模型</strong>，但指出本地模型能力可能相对偏弱。3.11未提及此能力。</p>
+
+<h2>七、未来客户端内直购Token计划（全新）</h2>
+
+<p>透露了产品路线图：未来计划在企微管家Claw客户端内直接支持<strong>Token按需购买</strong>，降低用户配置门槛。</p>
+
+<h2>八、系统间数据迁移能力（全新）</h2>
+
+<p>CTO确认可通过API在不同系统（CRM/ERP等）之间进行<strong>数据迁移</strong>，只需提供适当的接口文档即可实现。3.11未涉及跨系统集成话题。</p>
+
+<h2>九、群聊AI记忆演示（全新）</h2>
+
+<p>实际演示了群聊中AI的记忆能力：</p>
+<ul>
+<li>AI能<strong>记住群聊中其他人/机器人的发言内容</strong></li>
+<li>能从其他Agent的消息中<strong>提取关键信息</strong></li>
+<li>支持<strong>交叉引用</strong>已学习的内容，形成知识积累</li>
+</ul>
+
+<blockquote>
+<p>3.11仅提及群聊功能存在，未做实际演示。</p>
+</blockquote>
+
+<h2>十、备份与恢复机制（全新）</h2>
+
+<p>讲解了数据安全保障机制：</p>
+<ul>
+<li>本地<strong>会话级备份</strong>机制</li>
+<li>支持配置<strong>分钟/小时级硬件备份</strong></li>
+<li>确保用户数据不会因意外丢失</li>
+</ul>
+
+<hr>
+
+<h2>总结</h2>
+
+<p>3.12直播的核心差异化在于<strong>CTO亲自出场做安全深度解读</strong>，将安全话题从3.11的浅层提及提升为系统化的五层架构讲解，并首次给出了Token费用的量化估算、工信部合规对照、本地模型支持等企业级关注的深层信息。</p>
+      </div>
+    </article>
+  </div>
+
+  <!-- ========== 3.13 ========== -->
+  <div class="tab-panel" id="tab-313" role="tabpanel">
+    <article class="article">
+      <div class="md-content">
+<h1>3.13直播 新增内容总结（对比3.11一休首播）</h1>
+
+<blockquote>
+<p><strong>直播日期</strong>: 3月13日</p>
+<p><strong>主讲人</strong>: 云御（主持）+ 罗青/西罗（解决方案专家，首次亮相）</p>
+<p><strong>对比基准</strong>: 3月11日一休&amp;云御首播内容</p>
+</blockquote>
+
+<hr>
+
+<h2>一、Windows电脑安装完整实操（3.11仅演示Mac）</h2>
+
+<p>西罗特意使用Windows电脑进行了<strong>全流程安装演示</strong>：双击安装包→自动启动→可视化界面配置。3.11一休仅演示了Mac安装流程。</p>
+
+<h2>二、个人微信接入演示（全新功能）</h2>
+
+<p>3.11仅涉及企业微信接入，<strong>个人微信接入是3.13首次完整演示的新功能</strong>：</p>
+<ul>
+<li>在设置页面打开「微信客服」入口</li>
+<li>手机微信扫码 → 进入客服通道 → 发送"你好" → 获取绑定码</li>
+<li>复制绑定码到企微管家Claw → 保存并绑定</li>
+<li><strong>比企微接入更简单</strong>，约1分钟完成</li>
+</ul>
+
+<h2>三、产品定位对比类比（全新视角）</h2>
+
+<p>西罗首次将企微管家Claw与市面上其他AI框架做了<strong>通俗对比定位</strong>：</p>
+
+<table>
+<thead>
+<tr><th>产品</th><th>类比</th><th>特点</th></tr>
+</thead>
+<tbody>
+<tr><td>AUTO GPT</td><td>自动驾驶跑车</td><td>快，但容易翻车（太自由、容易跑偏）</td></tr>
+<tr><td>LangChain</td><td>汽车零件店</td><td>能造车，但你得有技术（需写代码）</td></tr>
+<tr><td><strong>企微管家Claw</strong></td><td><strong>智能辅助驾驶</strong></td><td><strong>安全可控，适合个人提效和企业落地</strong></td></tr>
+</tbody>
+</table>
+
+<blockquote>
+<p>3.11仅与豆包/元宝做了对比，未涉及开发者工具/框架层面的定位。</p>
+</blockquote>
+
+<h2>四、手写单据OCR识别 — 全新场景（全新）</h2>
+
+<p>演示了一个非常接地气的场景：</p>
+<ul>
+<li>工厂手写的出入库单（<strong>字迹潦草</strong>的手写纸质单据）</li>
+<li>拍照发给AI → AI自动识别内容</li>
+<li><strong>自动判断出库/入库</strong> → 自动更新智能表格库存数据</li>
+<li>拍完照即完成工作，<strong>真正的零门槛</strong></li>
+</ul>
+
+<blockquote>
+<p>3.11完全未涉及OCR/图片识别相关场景。</p>
+</blockquote>
+
+<h2>五、小工厂物料管理场景（全新）</h2>
+
+<p>针对<strong>没有ERP系统的中小企业</strong>：</p>
+<ul>
+<li>用AI+智能表格管理物料库存（ABCD各物料初始库存）</li>
+<li>口述或拍照告知出入库信息，AI自动更新</li>
+<li>每晚9:20定时发送库存核对报告</li>
+<li>未来可设置<strong>库存报警</strong>: 某物料低于阈值时自动通知</li>
+</ul>
+
+<blockquote>
+<p>3.11未涉及库存管理或制造业场景。</p>
+</blockquote>
+
+<h2>六、群聊办公用品领用统计（全新）</h2>
+
+<p>演示了<strong>部门群场景</strong>中的AI应用：</p>
+<ul>
+<li>将AI机器人拉入部门群</li>
+<li>部门成员在群里@机器人报办公用品需求（如"圆珠笔2 胶水1"）</li>
+<li>AI自动创建领用表格，逐条统计</li>
+<li>下班前汇总发给负责人</li>
+<li>广州分公司人力小姑娘的<strong>真实使用案例</strong>佐证</li>
+</ul>
+
+<blockquote>
+<p>3.11群聊功能仅提及存在，未做群内业务场景演示。</p>
+</blockquote>
+
+<h2>七、微信端远程调取电脑文件（全新）</h2>
+
+<p>出差/外出场景的实用演示：</p>
+<ul>
+<li>通过微信给AI发消息 → AI在电脑桌面查找文件</li>
+<li>支持<strong>模糊搜索</strong>（只记得大概文件名/年份，AI自动匹配）</li>
+<li>可将找到的文件转换为Excel/PPT/网页等格式发回</li>
+<li>场景：客户突然要资料/领导临时要数据 → 微信一句话搞定</li>
+</ul>
+
+<blockquote>
+<p>3.11未涉及远程文件访问或微信端使用场景。</p>
+</blockquote>
+
+<h2>八、脑机接口行业研报生成（全新）</h2>
+
+<p>演示了<strong>行业研究报告</strong>的全流程：</p>
+<ul>
+<li>指定主题（如"脑机接口近十天动态"）</li>
+<li>AI自动搜索公众号文章+网络信息</li>
+<li>生成包含技术突破、市场政策、关键里程的完整报告</li>
+<li>一键生成<strong>精美网页版本</strong>并发布链接</li>
+</ul>
+
+<blockquote>
+<p>3.11的竞品报告场景较为笼统，未演示行业研报+网页发布的完整链路。</p>
+</blockquote>
+
+<h2>九、体重追踪个人助理（全新）</h2>
+
+<p>生活化场景演示：</p>
+<ul>
+<li>发一条"今天体重78.5" → AI自动识别为体重数据</li>
+<li>AI主动追问：你是想减肥吗？目标多少？</li>
+<li>自动创建智能表格，设定三个月目标</li>
+<li>每日只需发一个数字，自动记录和监控</li>
+</ul>
+
+<blockquote>
+<p>3.11的生活场景仅涉及喝水/吃饭提醒，未涉及健康数据追踪。</p>
+</blockquote>
+
+<h2>十、自我改进skill详解（全新）</h2>
+
+<p>深入讲解了<strong>自我改进</strong>技能的原理：</p>
+<ul>
+<li>AI犯错后被纠正 → 将纠正经验<strong>保存到专门文件</strong></li>
+<li>下次遇到类似问题<strong>不再走弯路</strong></li>
+<li>与豆包/元宝的核心区别：通用AI下次打开就"失忆"，企微管家Claw能持续学习</li>
+</ul>
+
+<h2>十一、小红书图片生成skill（全新）</h2>
+
+<p>新增技能：将文章内容拆解为适合小红书发布的<strong>信息图</strong>格式，直接生成可发布的图片。</p>
+
+<h2>十二、口语化/人性化改写skill（全新）</h2>
+
+<p>针对AI生成文本"太生硬"的痛点，新增skill让输出文案<strong>更接近人话</strong>，更自然口语化。</p>
+
+<h2>十三、技能市场大幅更新（全新信息）</h2>
+
+<ul>
+<li>3.11时仅有约4-5个skill</li>
+<li>3.13时已更新至<strong>近20个skill</strong></li>
+<li>更新速度非常快，"每天都在更新"</li>
+</ul>
+
+<h2>十四、Token成本=水电煤类比（全新话术）</h2>
+
+<p>西罗引入了新的成本类比话术：</p>
+<ul>
+<li>Token就是AI时代的<strong>水电煤</strong></li>
+<li>未来只会<strong>越来越便宜</strong></li>
+<li>"最贵的是你的时间和人力成本，工具只会帮你提效"</li>
+</ul>
+
+<blockquote>
+<p>3.11仅提及腾讯云CODING 7.9元/月，未做类比阐述。</p>
+</blockquote>
+
+<h2>十五、任务管理可视化仪表盘（全新）</h2>
+
+<p>演示了任务管理界面：</p>
+<ul>
+<li>查看所有定时任务总数和状态</li>
+<li>每个任务的具体执行情况</li>
+<li>可暂停/恢复/关闭某个任务</li>
+<li>任务未执行时可让AI自行分析原因并修复</li>
+</ul>
+
+<blockquote>
+<p>3.11仅演示了创建定时任务，未展示任务管理界面。</p>
+</blockquote>
+
+<h2>十六、安全话术新比喻（全新）</h2>
+
+<ul>
+<li><strong>菜刀比喻</strong>: 菜刀在厨师手里是神器，在坏人手里是凶器，AI也是工具</li>
+<li><strong>开车比喻</strong>: AUTO GPT只知道踩油门不遵守交规；企微管家Claw=安全带+交通规则+智能驾驶</li>
+<li><strong>80%公开skill有木马风险</strong>的数据警示</li>
+</ul>
+
+<hr>
+
+<h2>总结</h2>
+
+<p>3.13直播的核心差异化在于：<strong>西罗首次作为解决方案专家亮相</strong>，带来了大量实战场景（OCR识别、库存管理、群聊统计、远程文件调取）和通俗易懂的产品定位类比。个人微信接入作为全新功能首次完整演示，是重要的新增卖点。</p>
+      </div>
+    </article>
+  </div>
+
+  <!-- ========== 3.14 ========== -->
+  <div class="tab-panel" id="tab-314" role="tabpanel">
+    <article class="article">
+      <div class="md-content">
+<h1>3.14直播 新增内容总结（对比3.11一休首播）</h1>
+
+<blockquote>
+<p><strong>直播日期</strong>: 3月14日（周六）</p>
+<p><strong>主讲人</strong>: 云御（独立主持，完整实操演示）</p>
+<p><strong>对比基准</strong>: 3月11日一休&amp;云御首播内容</p>
+</blockquote>
+
+<hr>
+
+<h2>一、个人微信接入完整演示 + 四大亮点总结（全新）</h2>
+
+<p>3.11未涉及个人微信接入，3.14云御做了<strong>最详细的个人微信接入演示</strong>并总结了四大亮点：</p>
+
+<ol>
+<li><strong>远程文件调取</strong>: 下班后/外出时通过微信调取电脑文件</li>
+<li><strong>多重安全绑定机制</strong>: 签名校验防伪造 + 时效窗口 + 一次性绑定后原绑定码失效</li>
+<li><strong>丰富使用场景</strong>: 聊天沟通、灵感记录、临时文件需求</li>
+<li><strong>移动办公入口</strong>: 手机微信即可指挥电脑端龙虾干活</li>
+</ol>
+
+<h2>二、AI对比维度丰富化（全新角度）</h2>
+
+<p>3.11将OpenClaw与豆包/元宝做了简单对比，3.14云御从<strong>五个维度</strong>进行了更系统化的阐述：</p>
+
+<table>
+<thead>
+<tr><th>维度</th><th>豆包/元宝</th><th>企微管家Claw</th></tr>
+</thead>
+<tbody>
+<tr><td>交互模式</td><td>被动等待，你不问它不动</td><td>主动服务，定时推送主动汇报</td></tr>
+<tr><td>记忆能力</td><td>关掉重开即失忆</td><td>永久本地记忆，越用越懂你</td></tr>
+<tr><td>执行能力</td><td>只能输出文字</td><td>读取文件、操作表格、生成PPT/图片</td></tr>
+<tr><td>工作融合</td><td>需来回切换APP</td><td>直接在企业微信内使用</td></tr>
+<tr><td>数据安全</td><td>数据上云</td><td>100%本地部署</td></tr>
+</tbody>
+</table>
+
+<h2>三、AI图片生成 + AI自选头像（全新）</h2>
+
+<p>首次演示了<strong>AI图片生成能力</strong>：</p>
+<ul>
+<li>接入通义万相模型生成图片</li>
+<li>让AI为自己生成头像（用户指定"可爱腹黑"风格）</li>
+<li><strong>AI自主设计头像</strong>: 让AI按自己对自己的理解生成形象——"眼神犀利、有算计的眼神、静静掌握全局的感觉"</li>
+<li>AI生成的自画像是一个帅哥形象</li>
+</ul>
+
+<blockquote>
+<p>3.11完全未涉及图片/头像生成。</p>
+</blockquote>
+
+<h2>四、竞品动态监控 — 定时联网搜索推送（全新场景）</h2>
+
+<p>在3.11定时提醒的基础上大幅进阶：</p>
+<ul>
+<li>设定每天下午5点 → AI<strong>联网搜索</strong> OpenClaw相关动态</li>
+<li>自动汇总形成要点 → 推送到企微和微信双端</li>
+<li>搜索范围包括官网、公众号更新等多来源</li>
+<li>实现了"不用刷新闻APP，AI给你送新闻"</li>
+</ul>
+
+<blockquote>
+<p>3.11仅演示了简单的喝水/吃饭提醒，未涉及联网搜索型定时任务。</p>
+</blockquote>
+
+<h2>五、智能表格自动化 — 从生成到闭环执行（全新深度）</h2>
+
+<p>在3.11智能表格同步的基础上，首次演示了<strong>自动化规则的业务闭环</strong>：</p>
+<ul>
+<li>AI生成全年运营日历 → 同步到智能表格</li>
+<li>点击右上角"自动化" → 设置规则</li>
+<li>朋友圈文案列 → 自动@销售负责人提醒发送</li>
+<li>社群文案列 → 自动@社群运营执行</li>
+<li>执行动作列 → @各负责人跟进</li>
+</ul>
+
+<blockquote>
+<p><strong>从内容生产 → 跨部门协作 → 落地执行，整个流程闭环</strong>。3.11仅演示了内容生成到表格同步。</p>
+</blockquote>
+
+<h2>六、竞品分析报告 — AI联网搜索+自动美化（全新）</h2>
+
+<p>完整演示了高质量报告生成流程：</p>
+<ul>
+<li>口头指令："搜索最近七天国内各大厂商OpenClaw动态，整理成详细分析报告"</li>
+<li>补充指令："要给董事长汇报的，美观度要很高"</li>
+<li>AI生成包含：执行摘要、核心结论、版本迭代、竞品对比、安全评估、战略建议</li>
+<li><strong>AI主动刷新美化</strong>：第一版生成后自动优化结构和美观度</li>
+<li>直接同步到<strong>企微在线文档</strong>，可转发给同事协作</li>
+</ul>
+
+<blockquote>
+<p>3.11仅概念性提到竞品报告场景，未做实际演示。</p>
+</blockquote>
+
+<h2>七、PPT生成 + 配套话术Word文档（全新）</h2>
+
+<p>PPT生成场景大幅深化：</p>
+<ul>
+<li>指定客户行业（动漫设计）+ 核心诉求</li>
+<li>AI生成5页定制PPT：痛点分析 → 核心优势 → 能力展示 → 选择理由 → 行动号召</li>
+<li><strong>新增能力</strong>: 同时生成配套演示<strong>话术Word文档</strong></li>
+<li>PPT可保存到本地进行二次编辑</li>
+</ul>
+
+<blockquote>
+<p>3.11仅概念性提到PPT生成，本次为完整端到端演示。</p>
+</blockquote>
+
+<h2>八、MCP方式连接企微文档/表格（全新技术细节）</h2>
+
+<p>首次详细演示了<strong>MCP协议</strong>连接企微文档的方法：</p>
+<ul>
+<li>在企微机器人后台 → 文档授权 → 查看使用方式</li>
+<li>复制MCP配置命令 → 发送给AI</li>
+<li>后续所有在线文档和智能表格同步都通过MCP方式执行</li>
+<li>比之前的方式更稳定</li>
+</ul>
+
+<blockquote>
+<p>3.11未涉及MCP概念。</p>
+</blockquote>
+
+<h2>九、多Agent实例探讨（全新概念）</h2>
+
+<p>首次在直播中讨论了<strong>多Agent配置</strong>的可能性：</p>
+<ul>
+<li>用户提问：如何创建多个机器人，每个实现不同功能？</li>
+<li>AI给出了3种方案：多实例配置、多部署、结合现有SCRM产品</li>
+<li>每个Agent可配备<strong>独立的ID和技能</strong></li>
+<li>目前尚不完全支持，作为未来迭代方向</li>
+</ul>
+
+<blockquote>
+<p>3.11完全未涉及多Agent话题。</p>
+</blockquote>
+
+<h2>十、联网搜索API配置详解（全新）</h2>
+
+<p>首次详细演示了<strong>第三方联网搜索API</strong>的配置：</p>
+<ul>
+<li>推荐使用免费搜索API（每月1000次免费调用）</li>
+<li>邮箱注册 → 获取API密钥 → 填入配置即可</li>
+<li>解决了OpenClaw默认搜索的调用限制问题</li>
+</ul>
+
+<blockquote>
+<p>3.11未涉及联网搜索的具体配置方法。</p>
+</blockquote>
+
+<h2>十一、公众号文章抓取 + 网页生成发布（全新链路）</h2>
+
+<p>演示了内容加工的完整链路：</p>
+<ul>
+<li>让AI搜索指定公众号最近文章</li>
+<li>AI汇总分析内容要点</li>
+<li>一键生成<strong>精美网页</strong>（含动效）并发布在线链接</li>
+<li>可直接分享给客户/团队</li>
+</ul>
+
+<blockquote>
+<p>3.11未涉及公众号抓取和网页生成发布。</p>
+</blockquote>
+
+<h2>十二、商业化大模型套餐包预告（全新）</h2>
+
+<p>透露产品方向：不想自主购买大模型配置的用户，即将可以在客户端内<strong>按需购买商业化大模型套餐包</strong>。</p>
+
+<h2>十三、错误自修复实战演示（全新）</h2>
+
+<p>实际演示了网络波动导致服务中断后的处理：</p>
+<ul>
+<li>AI具备"自我改进"技能 → 自行检查问题</li>
+<li>问AI："你来帮我查问题" → AI深入排查 → 自动修复 → 重启服务</li>
+<li><strong>两分钟内自行解决</strong>，无需人工干预</li>
+</ul>
+
+<blockquote>
+<p>3.11未涉及故障自修复场景。</p>
+</blockquote>
+
+<hr>
+
+<h2>总结</h2>
+
+<p>3.14直播核心差异化在于<strong>云御独立进行了2.5小时的超长实操直播</strong>，几乎所有3.11提及的场景概念都在本场做了实际演示落地。最大亮点是：AI图片生成、智能表格自动化闭环、MCP协议连接、联网搜索配置、以及竞品报告的端到端生成。</p>
+      </div>
+    </article>
+  </div>
+
+  <!-- ========== 3.15 ========== -->
+  <div class="tab-panel" id="tab-315" role="tabpanel">
+    <article class="article">
+      <div class="md-content">
+<h1>3.15直播 新增内容总结（对比3.11一休首播）</h1>
+
+<blockquote>
+<p><strong>直播日期</strong>: 3月15日（周六下午4点）</p>
+<p><strong>主讲人</strong>: 西罗/罗青（解决方案专家独立主持，首次无云御搭档）</p>
+<p><strong>对比基准</strong>: 3月11日一休&amp;云御首播内容</p>
+</blockquote>
+
+<hr>
+
+<h2>一、西罗独立主持 — 解决方案专家视角（全新风格）</h2>
+
+<p>3.11由产品负责人一休和CTO云御联合主持，本场是<strong>西罗（解决方案专家）首次独立完成整场直播</strong>。</p>
+
+<p>视角差异：</p>
+<ul>
+<li>更贴近<strong>客户端实战</strong>——如何用产品解决具体业务问题</li>
+<li>语速快、信息密度高，侧重功能演示而非概念讲解</li>
+<li>连续演示多个场景，穿插互动</li>
+</ul>
+
+<h2>二、企微后台扫码一键直连（全新功能）</h2>
+
+<p>首次演示了<strong>扫码直连新功能</strong>：</p>
+<ul>
+<li>进入企业微信后台 → 应用管理 → 自建应用</li>
+<li>直接扫码即可创建机器人并连接</li>
+<li><strong>比之前手动复制Bot ID和Secret的方式更简便</strong></li>
+<li>降低了接入门槛</li>
+</ul>
+
+<blockquote>
+<p>3.11演示的是手动复制Bot ID和Secret的方式，本场展示了更新的一键连接方案。</p>
+</blockquote>
+
+<h2>三、AI学习149页公司PPT + 知识考核评估（全新场景）</h2>
+
+<p>西罗演示了<strong>AI学习完整产品资料并接受考核</strong>的全流程：</p>
+<ul>
+<li>上传公司149页产品PPT（微盛全套产品介绍）</li>
+<li>AI学习后具备全面产品知识</li>
+<li><strong>考核环节</strong>：指定让AI介绍"员工活码"功能
+  <ul>
+  <li>AI准确描述功能定义、使用场景、操作步骤</li>
+  <li>西罗评价"回答得不错，细节准确"</li>
+  </ul>
+</li>
+</ul>
+
+<blockquote>
+<p>3.11未涉及AI学习大型文档并测评其掌握程度的场景。</p>
+</blockquote>
+
+<h2>四、AI自主选择亮点功能介绍（全新难度挑战）</h2>
+
+<p>在知识学习的基础上增加难度：</p>
+<ul>
+<li><strong>不指定功能</strong>，让AI自己判断"哪个功能最有亮点"</li>
+<li>AI自主选择了"智能雷达"功能并给出介绍理由</li>
+<li>体现了AI具备<strong>理解和判断能力</strong>，不仅是被动回答</li>
+</ul>
+
+<blockquote>
+<p>3.11完全没有做过让AI"自主选择内容"的挑战。</p>
+</blockquote>
+
+<h2>五、定制化PPT — 微盛浅蓝色风格 + 90天实施计划（全新深度）</h2>
+
+<p>PPT生成场景进一步深化：</p>
+<ul>
+<li>明确风格要求：<strong>微盛浅蓝色</strong>调性</li>
+<li>明确页数和内容要求：<strong>10页、体现可落地性</strong></li>
+<li>AI生成内容包含：
+  <ul>
+  <li>公司产品核心优势总结</li>
+  <li>典型客户场景分析</li>
+  <li><strong>90天实施落地计划</strong>（分阶段推进方案）</li>
+  </ul>
+</li>
+<li>生成后直接保存为PPT文件</li>
+</ul>
+
+<blockquote>
+<p>3.11概念性提到PPT能力，未做定制化和实施计划相关的演示。</p>
+</blockquote>
+
+<h2>六、高级错误排查与AI自修复全过程（全新深度演示）</h2>
+
+<p>演示了一次完整的<strong>错误发现→分析→修复→经验沉淀</strong>的流程：</p>
+<ul>
+<li>执行脚本时遇到错误（第195行函数问题）</li>
+<li>AI自动分析错误根源 → 识别为函数调用问题</li>
+<li>给出<strong>多个解决方案选项</strong>供选择</li>
+<li>用户选择方案后 → AI<strong>自动修复代码并重新执行</strong></li>
+<li>修复成功后 → AI<strong>自动将经验写入"自我改进"记忆</strong></li>
+<li>后续遇到类似问题可直接调用记忆解决</li>
+</ul>
+
+<blockquote>
+<p>3.11仅概念性提到"越用越强"，本场首次完整展示了错误自修复+经验沉淀的闭环。</p>
+</blockquote>
+
+<h2>七、物料管理 + 手写单据OCR拍照识别（实操巩固）</h2>
+
+<p>西罗重新演示了物料管理场景（3.13首次出现）：</p>
+<ul>
+<li>手写出入库单拍照 → AI识别文字 → 自动更新库存表</li>
+<li>侧重演示了<strong>拍照识别的准确度</strong>和操作便捷性</li>
+<li>适用场景：中小工厂、仓库管理</li>
+</ul>
+
+<h2>八、腾讯线下安装活动信息（全新资讯）</h2>
+
+<p>首次在直播中详细提到<strong>腾讯官方线下免费安装活动</strong>：</p>
+<ul>
+<li>已在深圳举办</li>
+<li>计划扩展到<strong>全国17个城市</strong></li>
+<li>邀请企业客户到腾讯总部/分部，工程师手把手安装配置</li>
+<li>后续会发布各城市具体时间表</li>
+</ul>
+
+<blockquote>
+<p>3.11未提到任何线下活动。</p>
+</blockquote>
+
+<h2>九、OpenClaw + 实体机器人的AGI讨论（全新前瞻）</h2>
+
+<p>首次在直播中讨论了<strong>OpenClaw连接实体机器人</strong>的AGI方向：</p>
+<ul>
+<li>举例：酒店迎宾机器人</li>
+<li>设想功能：
+  <ul>
+  <li>学习酒店路线和房间布局</li>
+  <li>自主欢迎客人、引导路线</li>
+  <li>介绍酒店设施和服务</li>
+  </ul>
+</li>
+<li>类似目前的送餐机器人，但加入AI学习和对话能力</li>
+<li>定位为"AGI落地的可能方向之一"</li>
+</ul>
+
+<blockquote>
+<p>3.11完全未涉及实体机器人/AGI讨论。</p>
+</blockquote>
+
+<h2>十、飞书接入确认（全新信息）</h2>
+
+<p>明确回答了观众提问：</p>
+<ul>
+<li>企微管家Claw的底层 = OpenClaw</li>
+<li>OpenClaw本身支持多种通道接入</li>
+<li><strong>飞书理论上可以接入</strong>，和企微是同级别的通道</li>
+<li>未来可能推出飞书版（需要开发对应的channel插件）</li>
+</ul>
+
+<blockquote>
+<p>3.11仅提到了企微和个人微信，未涉及飞书等其他平台。</p>
+</blockquote>
+
+<h2>十一、版本升级不丢数据（全新承诺）</h2>
+
+<p>明确告知用户：</p>
+<ul>
+<li>版本升级后<strong>记忆数据不丢失</strong></li>
+<li>已有的配置和技能保持不变</li>
+<li>打消了用户"升级怕丢东西"的顾虑</li>
+</ul>
+
+<blockquote>
+<p>3.11未提到版本升级相关问题。</p>
+</blockquote>
+
+<h2>十二、商业化套餐包预告（呼应3.14）</h2>
+
+<p>再次提及：公司可能在近几天内推出<strong>客户端内直接购买大模型Token的套餐</strong>，方便不想自己配模型的用户。</p>
+
+<blockquote>
+<p>3.11未涉及此商业化方向。</p>
+</blockquote>
+
+<hr>
+
+<h2>总结</h2>
+
+<p>3.15直播最大特色是<strong>西罗以解决方案专家身份独立主持</strong>，体现了不同角色视角。核心差异化亮点包括：扫码一键直连新功能、149页PPT学习+考核评估、错误排查自修复全流程、以及OpenClaw+实体机器人AGI的前瞻性讨论。</p>
+      </div>
+    </article>
+  </div>
+
+  <!-- ========== 3.16 ========== -->
+  <div class="tab-panel" id="tab-316" role="tabpanel">
+    <article class="article">
+      <div class="md-content">
+<h1>3.16直播 新增内容总结（对比3.11一休首播）</h1>
+
+<blockquote>
+<p><strong>直播日期</strong>: 3月16日（周日）</p>
+<p><strong>主讲人</strong>: 云御 + 智悟 + 牧文</p>
+<p><strong>对比基准</strong>: 3月11日一休&amp;云御首播内容</p>
+</blockquote>
+
+<hr>
+
+<h2>一、PPT风格多选项 — 麦肯锡风格/科技风（全新深度）</h2>
+
+<p>PPT生成场景进一步拓展：</p>
+<ul>
+<li>提供<strong>多种专业风格选择</strong>：麦肯锡风格、科技风、智能创造编辑等</li>
+<li>用户可按汇报场景选择最合适的风格</li>
+<li>演示了不同风格下AI生成内容的差异化表现</li>
+</ul>
+
+<blockquote>
+<p>3.11仅概念性提到PPT生成，未涉及风格选择能力。</p>
+</blockquote>
+
+<h2>二、架构图/流程图生成新Skill（全新能力）</h2>
+
+<p>首次演示了<strong>技术架构图自动生成</strong>：</p>
+<ul>
+<li>演示内容：生成OpenClaw与企业微信的交互架构图</li>
+<li>架构图采用<strong>分层展示</strong>：用户层 → 接口层 → 业务逻辑层 → 数据层</li>
+<li>自动配色和布局，可直接用于技术文档或方案PPT</li>
+<li>使用专门的"架构图/流程图生成"skill</li>
+</ul>
+
+<blockquote>
+<p>3.11完全未涉及架构图/流程图生成能力。这是一个<strong>全新的skill</strong>。</p>
+</blockquote>
+
+<h2>三、视频号脚本生成 + 拍摄建议（全新场景）</h2>
+
+<p>首次演示了<strong>视频号内容生产</strong>链路：</p>
+<ul>
+<li>输入公众号文章内容</li>
+<li>AI生成<strong>1分钟视频号拍摄脚本</strong></li>
+<li>同时输出<strong>拍摄建议</strong>（镜头、背景、表情等）</li>
+<li>脚本适配短视频平台的节奏和时长要求</li>
+</ul>
+
+<blockquote>
+<p>3.11未涉及视频内容生产方向。</p>
+</blockquote>
+
+<h2>四、脚本内容同步到智能表格 — 状态管理（全新流程）</h2>
+
+<p>在脚本生成的基础上延伸了<strong>项目管理流程</strong>：</p>
+<ul>
+<li>多条脚本自动同步到智能表格</li>
+<li>每条脚本带有<strong>状态字段</strong>：待拍摄 / 拍摄中 / 已拍摄</li>
+<li>实现了"内容生产 → 项目管理 → 执行跟踪"的闭环</li>
+<li>适用于短视频团队的日常内容排期</li>
+</ul>
+
+<blockquote>
+<p>3.11未涉及内容生产的项目管理流程。</p>
+</blockquote>
+
+<h2>五、MCP文档同步实操（实操巩固）</h2>
+
+<p>再次详细演示了MCP协议同步：</p>
+<ul>
+<li>脚本内容 → 通过MCP同步到企微在线文档</li>
+<li>团队成员可在线协作编辑</li>
+<li>实操了从配置到使用的完整步骤</li>
+</ul>
+
+<h2>六、AI主动反问确认 — 展示深度思考能力（全新亮点）</h2>
+
+<p>首次重点展示了AI的<strong>主动反问能力</strong>：</p>
+<ul>
+<li>用户给出模糊指令（如"帮我做个方案"）</li>
+<li>AI不会直接执行，而是先反问确认：
+  <ul>
+  <li>"请问您客户的规模大概是？"</li>
+  <li>"核心痛点是什么？"</li>
+  <li>"推广方向偏品牌还是效果？"</li>
+  </ul>
+</li>
+<li>信息补全后再输出精准方案</li>
+<li>体现AI具备<strong>类人的沟通思维</strong>，不是机械执行</li>
+</ul>
+
+<blockquote>
+<p>3.11未展示AI主动反问的能力。</p>
+</blockquote>
+
+<h2>七、联网搜索 + 记忆存储闭环（全新链路）</h2>
+
+<p>首次完整展示了<strong>搜索→总结→记忆→调用</strong>的完整闭环：</p>
+<ol>
+<li>AI联网搜索最新OpenClaw动态</li>
+<li>自动汇总核心信息（版本更新、功能变化、行业反馈）</li>
+<li><strong>存入长期记忆</strong>（不只是回复一次，而是永久保存）</li>
+<li>后续对话中可调用之前存储的搜索结果</li>
+<li>下次问"上次搜到的内容是什么"→ AI能准确回忆</li>
+</ol>
+
+<blockquote>
+<p>3.11介绍了基础记忆能力，但未展示"联网搜索+记忆存储"的主动知识积累闭环。</p>
+</blockquote>
+
+<h2>八、定时新闻推送 + 每日工作总结汇报（全新场景组合）</h2>
+
+<p>定时任务场景进一步拓展：</p>
+<ul>
+<li><strong>每日上午10点</strong>自动联网搜索行业动态 → 推送到群聊</li>
+<li><strong>每天下班前</strong>自动生成当日工作总结报告</li>
+<li>两个定时任务配合：<strong>早上给信息，晚上做总结</strong></li>
+<li>实现了"AI主动工作"的日常工作节奏</li>
+</ul>
+
+<blockquote>
+<p>3.11仅演示了简单的喝水/吃饭类生活提醒，未涉及新闻推送和工作汇报的组合。</p>
+</blockquote>
+
+<h2>九、群聊跨Agent学习 — 引用他人消息存入知识库（全新）</h2>
+
+<p>首次展示了<strong>群内跨Agent知识共享</strong>：</p>
+<ul>
+<li>群聊中有多个机器人（不同AI Agent）</li>
+<li>龙虾（AI）<strong>引用另一个机器人的回复</strong> → 保存到自己的知识库</li>
+<li>实现了群内信息的<strong>交叉学习和知识传递</strong></li>
+<li>场景：团队群中不同Agent各有专长，互相补充</li>
+</ul>
+
+<blockquote>
+<p>3.11未涉及多Agent交互和跨Agent知识共享。</p>
+</blockquote>
+
+<h2>十、AI自我反省能力（全新演示）</h2>
+
+<p>首次展示了AI的<strong>主动反省机制</strong>：</p>
+<ul>
+<li>AI被设定了"每天早上9点问候"的定时任务</li>
+<li>某次漏执行了 → AI<strong>主动发现遗漏</strong></li>
+<li>自动生成反省记录："今日未执行早间问候，原因分析…改进措施…"</li>
+<li>写入自我改进记忆 → 后续不再遗漏</li>
+</ul>
+
+<blockquote>
+<p>3.11未涉及AI自我反省和主动纠错。</p>
+</blockquote>
+
+<h2>十一、动态网页自动生成 + 在线预览发布（全新）</h2>
+
+<p>首次完整演示了<strong>网页生成发布</strong>能力：</p>
+<ul>
+<li>AI根据内容生成<strong>精美网页</strong>（含动效/动画效果）</li>
+<li>一键发布获得在线链接</li>
+<li>可直接分享给客户/团队浏览</li>
+<li>适用于产品介绍页、活动页、内容展示页</li>
+</ul>
+
+<blockquote>
+<p>3.11未涉及网页生成和在线发布。</p>
+</blockquote>
+
+<h2>十二、多Agent配置教程自动生成（全新）</h2>
+
+<p>AI展示了<strong>自动生成教程文档</strong>的能力：</p>
+<ul>
+<li>用户问"如何配置多个Agent"</li>
+<li>AI自动输出完整教程：步骤说明 + 配置方法 + 注意事项</li>
+<li>教程可直接同步到在线文档分享给团队</li>
+</ul>
+
+<blockquote>
+<p>3.11未涉及教程自动生成场景。</p>
+</blockquote>
+
+<h2>十三、API密钥安全风险教训（全新警示）</h2>
+
+<p>直播过程中发生了一次<strong>API Key意外暴露事件</strong>：</p>
+<ul>
+<li>演示过程中不慎展示了API密钥</li>
+<li>立即提醒观众：密钥需妥善保管，泄露后应立即更换</li>
+<li>作为<strong>安全意识教育</strong>的实际案例</li>
+<li>强调企微管家Claw的本地部署 = 密钥存在本地，不上传云端</li>
+</ul>
+
+<blockquote>
+<p>3.11在安全方面侧重权限体系讲解，未出现此类实际安全事件提醒。</p>
+</blockquote>
+
+<hr>
+
+<h2>总结</h2>
+
+<p>3.16直播核心差异化在于<strong>三人联播带来多角色互动</strong>，以及多个全新skill的演示。最大亮点包括：架构图/流程图生成新能力、视频号脚本全链路（生成→表格管理→MCP同步）、AI主动反问和自我反省的"类人思维"展示、以及联网搜索+记忆存储的知识积累闭环。</p>
+      </div>
+    </article>
+  </div>
+
+  <!-- ========== 直播手册 ========== -->
+  <div class="tab-panel" id="tab-handbook" role="tabpanel">
+    <article class="article">
+      <div class="md-content">
+
+<h1>企微管家Claw 直播手册 v2.0 版</h1>
+
+<blockquote>
+<p><strong>用途</strong>：直播标准流程文档，主播照着就能开播</p>
+<p><strong>目标</strong>：让小白也能独立完成企微管家Claw的安装、接入和使用直播</p>
+<p><strong>定位</strong>：专业幽默、稳重有逼格，不低俗、不尬聊</p>
+</blockquote>
+
+<table>
+<thead><tr><th>版本</th><th>更新日期</th><th>更新内容</th></tr></thead>
+<tbody>
+<tr><td>v1.0</td><td>2026-03-13</td><td>直播框架，基础口播脚本</td></tr>
+<tr><td>v2.0</td><td>2026-03-14</td><td>深度完善所有口播文案，增加场景带入、互动话术、痛点共鸣；补充详细的操作讲解和心理引导；增加应急话术和互动话术库；优化内容结构，增强感染力和实用性；增加接入微信演示</td></tr>
+</tbody>
+</table>
+
+<hr>
+
+<h2>一、直播前准备</h2>
+
+<h3>1. 设备调试与直播推流</h3>
+<ul>
+<li>电脑上提前下载腾讯会议APP，用腾讯会议演示投屏</li>
+</ul>
+
+<h3>2. 内容准备</h3>
+<ul>
+<li>将对内文档、对外文档都准备好，直播时提前打开对外的文档（2个文档），对内文档可手机打开或多接入一个屏幕（建议多接入一个屏幕）</li>
+<li>提前下载好最新的安装包，直播前将之前的安装包直接卸载，直播时重新安装；配置流程可直接在编辑界面操作，但不用保存</li>
+<li>企业微信预设设置：演示环节打好聊天记录标签，避免展示其他聊天记录</li>
+<li>创建一个测试群聊，将企微管家Claw拉进群里</li>
+</ul>
+
+<h3>3. 企微管家Claw 人设定位</h3>
+<p>内容提前准备好，直播时可直接复制。参考内容如下（可修改）：</p>
+
+<h4>IDENTITY.md（我的身份）</h4>
+<ul>
+<li>名字：xxx</li>
+<li>形象：靠谱、高效、执行力强</li>
+<li>风格：幽默风趣+腹黑、逻辑清晰、不绕弯、重结果</li>
+<li>Emoji：🦞</li>
+</ul>
+
+<h4>SOUL.md（核心性格）</h4>
+<ul>
+<li>真正有帮助，不说废话</li>
+<li>有自己的观点，可以理性提出不同意见</li>
+<li>先给出解决方案/结论，再补充细节或提问</li>
+<li>外部操作谨慎确认，内部逻辑直接高效</li>
+<li>严格保密用户隐私，不确定信息先询问</li>
+<li>理性、幽默风趣加腹黑，优先实用结果</li>
+<li>提问不够深入或信息不全时主动追问，不做无脑执行</li>
+</ul>
+
+<h4>USER.md（你的偏好）</h4>
+<ul>
+<li>名字：xx</li>
+<li>每次回答问题时叫我 xx</li>
+<li>时区：东八区（UTC+8 / 中国时间）</li>
+<li>偏好：喜欢详细、可执行、步骤清晰的内容；偏爱结构化、清单化信息；关注实用工具、效率、技术；重视隐私与安全，不喜冗余</li>
+<li>沟通方式：喜欢高效、幽默风趣+腹黑、直接给答案</li>
+</ul>
+
+<h3>4. 本地文件夹路径</h3>
+<p>为了更好地演示读取本地文件夹，建议提前往 workspace 文件夹里放一些公司介绍、产品介绍。</p>
+<ul>
+<li><strong>苹果电脑</strong>：打开访达，快捷键 Command + Shift + G</li>
+<li><strong>Windows电脑</strong>：通过资源管理器打开对应路径</li>
+</ul>
+
+<hr>
+
+<h2>二、开场介绍</h2>
+
+<h3>1.1 开场白</h3>
+
+<p>各位老板大家好，欢迎来到微盛企微管家的直播间。</p>
+
+<p>我是今天的主持人[姓名]，最近全宇宙都在养龙虾🦞，企业微信现在也可以丝滑地接入龙虾了，比德芙还丝滑。我们作为企业微信top服务商，第一时间封装适配，发布了业内首个合规、最简单接入企微和微信的OpenClaw——企微管家Claw。</p>
+
+<p>接下来的时间里，我要带大家完成一件事——让你电脑上多一个AI助理，而且这个助理是装在企业微信里的。</p>
+
+<p>今天这场直播不讲虚的，就讲一件事情：怎么在你的企业微信上，把企微管家Claw真正用起来，让你的企业微信从以前很多事情都靠人工、很累、很碎的状态，升级成一个能让AI帮你干活的入口。</p>
+
+<p>我们今天带来的不是概念，是解决方案。会有现场实操，会有真实案例，也会讲避坑。大家听完以后，回去就能落地。</p>
+
+<blockquote><p>金句："企业微信不只是聊天软件，它会变成一个AI的工作入口。"</p></blockquote>
+
+<h3>1.2 产品一句话定位</h3>
+
+<p><strong>企微管家Claw = OpenClaw的傻瓜化部署 + 企业微信原生接入 + 企微生态Skills集成</strong></p>
+
+<p>不是重新发明一个机器人，而是把全网最火的AI智能体OpenClaw，用最低门槛送进企业微信。</p>
+
+<h3>1.3 和普通AI聊天工具的区别</h3>
+
+<table>
+<thead><tr><th>维度</th><th>豆包/元宝/Kimi</th><th>企微管家Claw</th></tr></thead>
+<tbody>
+<tr><td>交互模式</td><td>被动等待，你不问它不答</td><td>主动服务，定时推送、主动汇报</td></tr>
+<tr><td>记忆能力</td><td>新对话即失忆</td><td>永久本地记忆，越用越懂你</td></tr>
+<tr><td>执行能力</td><td>只能输出文字</td><td>能读写文件、操作表格、生成PPT</td></tr>
+<tr><td>工作融合</td><td>需要切换App</td><td>直接在企业微信里</td></tr>
+<tr><td>数据安全</td><td>聊天数据上云</td><td>100%本地部署</td></tr>
+</tbody>
+</table>
+
+<blockquote><p>金句："豆包、元宝是'你问一句它答一句'，企微管家Claw是'长了手的'，能帮你干活。"</p></blockquote>
+
+<hr>
+
+<h2>三、安装企微管家Claw流程</h2>
+
+<h3>2.1 安装准备</h3>
+
+<p>各位老板，接下来我们进入实操环节。首先教大家怎么安装企微管家Claw。</p>
+
+<p>在开始之前，我想问一下：大家平时装软件最怕什么？配置复杂？要写代码？我告诉大家，今天这个安装，跟你装微信、装QQ是一模一样的。整个过程不需要写一行代码，不需要懂任何技术。这个安装包支持Mac和Windows两个版本。安装包是完全免费的。整个安装过程大概3-5分钟。</p>
+
+<h3>2.2 安装步骤（Mac）</h3>
+
+<h4>步骤1：下载安装包</h4>
+<p><strong>操作</strong>：双击安装包，拖到"应用程序"文件夹</p>
+<p>双击打开安装包。左边是企微管家Claw的图标，右边是"应用程序"文件夹。跟装普通软件一模一样，把图标从左边拖到右边就行了。</p>
+
+<h4>步骤2：首次打开</h4>
+<p><strong>操作</strong>：在应用程序里找到企微管家Claw，双击打开</p>
+<p><strong>可能问题</strong>：Mac提示"无法打开"或"已阻止打开"</p>
+<p><strong>解决方法</strong>：</p>
+<ol>
+<li>进入「系统设置」→「隐私与安全性」</li>
+<li>在底部点击"仍要打开"</li>
+<li>输入电脑密码确认</li>
+</ol>
+<p>这个提示是Mac的安全机制，不代表软件有问题。我们这个软件是经过安全检测的，大家可以放心使用。这个步骤只需要做一次，以后打开就不会再弹了。</p>
+
+<h4>步骤3：进入部署界面</h4>
+<p><strong>操作</strong>：安装成功后，自动进入配置页面</p>
+<p>打开之后看到主界面，说明安装成功了！现在它看起来有点空，因为我们还没有配置大模型。可以理解为：龙虾的"身体"已经装好了，但"脑子"还没有。接下来我们要给它装一个脑子。</p>
+
+<blockquote><p>金句："整个安装过程跟装普通软件一样，不需要写一行代码。"</p></blockquote>
+
+<h3>2.3 安装步骤（Windows）</h3>
+<p>Windows比Mac更简单，因为没有安全验证的步骤。双击安装包，弹出安装向导，然后就是"下一步""下一步""完成"。整个安装过程大概一分钟，跟装QQ、微信是一模一样的。默认装在C盘，如果想装到其他盘，在安装向导里改一下路径就行。</p>
+
+<h3>2.4 常见问题（安装类）</h3>
+<p><strong>问题一：镜像重试失败、命令失败</strong></p>
+<p>一般是网络问题。解决方法：先退出软件，安装一个Git工具（网上搜一下就能下载，免费的），装好Git之后再打开企微管家Claw就正常了。</p>
+<p><strong>问题二：找不到隐私设置入口</strong></p>
+<p>Mac特有的问题。在"系统设置"里，找到"隐私与安全性"，然后往页面底部滑。小技巧：搜索框直接搜"隐私与安全性"。</p>
+<p><strong>问题三：安装后打不开</strong></p>
+<p>先重启电脑再试。还不行的话，联系客服获取最新版。</p>
+
+<hr>
+
+<h2>四、接入企业微信流程</h2>
+
+<h3>3.1 配置大模型</h3>
+
+<p>安装完成后，首先要配置大模型。龙虾需要有"脑子"才能工作。</p>
+
+<p>我们支持国内主流的几家大模型厂商：<strong>腾讯云Coding Plan、智谱GLM、Kimi、Minimax、DeepSeek</strong>等。推荐腾讯云Coding Plan，三个理由：</p>
+<ol>
+<li><strong>便宜</strong>：首月只要7.9元，一个月可以调用上万次</li>
+<li><strong>灵活</strong>：支持智谱、Kimi、Minimax多个模型，可随时切换</li>
+<li><strong>稳定</strong>：腾讯云的服务质量有保障</li>
+</ol>
+
+<h4>步骤1：选择模型服务商</h4>
+<p>在「设置」→「大模型配置」页面，选择对应的服务商（如：Z.AI智谱）。</p>
+
+<h4>步骤2：填写配置信息</h4>
+<table>
+<thead><tr><th>配置项</th><th>填写内容</th></tr></thead>
+<tbody>
+<tr><td>API Key</td><td>从模型厂商后台获取</td></tr>
+<tr><td>请求地址</td><td>按示例填写（智谱：https://api.z.ai/api/paas/v4）</td></tr>
+<tr><td>模型名称</td><td>glm-4.6 / glm-5 等</td></tr>
+</tbody>
+</table>
+<p>API Key 就是一把"钥匙"，从模型平台申请。以智谱为例：浏览器打开智谱开放平台 → 登录账号 → 进入控制台 → 找到"API Key" → 点击复制。</p>
+
+<h4>步骤3：保存并部署</h4>
+<p>点击「保存并自动部署」，等待5-10分钟自动部署完成。部署期间软件不要关闭，网络保持畅通。</p>
+
+<blockquote><p>金句："模型可以随时换，在后台改配置就行，不用重新安装。"</p></blockquote>
+
+<h3>3.2 创建企业微信智能机器人</h3>
+
+<p>部署完成后，进入最关键的环节——把龙虾接进企业微信。</p>
+
+<p>以前要接入企业微信机器人，需要公网IP、域名、服务器、开发知识。但现在企业微信上线了<strong>"长连接"</strong>方式——不需要域名、不需要公网IP、不需要服务器，几分钟搞定。</p>
+
+<h4>步骤1：进入企微机器人创建页面</h4>
+<p>打开企业微信电脑端 → 点击「通讯录」→「智能机器人」→「创建智能机器人」→ 选择「手动创建」。</p>
+
+<h4>步骤2：切换API模式</h4>
+<p>页面往下滑到最底部，切换成「API模式」。连接方式选择<strong>「使用长连接」</strong>。这一步很关键，一定要选"长连接"。</p>
+
+<h4>步骤3：填写机器人信息</h4>
+<table>
+<thead><tr><th>配置项</th><th>建议设置</th></tr></thead>
+<tbody>
+<tr><td>机器人名称</td><td>XX的AI助理 / 小龙虾</td></tr>
+<tr><td>头像</td><td>可自定义（建议用🦞）</td></tr>
+<tr><td>可见范围</td><td>建议设为仅自己（本地部署，保护隐私）</td></tr>
+</tbody>
+</table>
+
+<h4>步骤4：复制关键信息</h4>
+<p>复制 <strong>Bot ID</strong> 和 <strong>Secret</strong>，这两个信息相当于机器人的"身份证"和"密码"。回到企微管家Claw，进入「设置」→「企微官方Channel设置」，粘贴Bot ID和Secret，点击「下一步」。</p>
+
+<h3>3.3 获取配对信息</h3>
+<ol>
+<li>在企业微信里找到刚创建的机器人</li>
+<li>给机器人发送：<strong>你好</strong></li>
+<li>机器人会返回一串代码（配对信息），复制最后一行（从"openclaw"开头的一串）</li>
+</ol>
+
+<h3>3.4 完成配对</h3>
+<ol>
+<li>把配对信息粘贴到企微管家Claw设置页面的「配对信息」框</li>
+<li>点击「保存」</li>
+<li>等待提示"配对成功"</li>
+</ol>
+
+<h3>3.5 验证连接成功</h3>
+<p><strong>操作</strong>：在企微机器人里再发一句："你叫什么名字？"</p>
+<p>如果龙虾回复了，说明连接成功！从现在开始，你的企业微信里就多了一个AI助理。</p>
+
+<blockquote><p>金句："三步完成企微接入：复制Bot ID、复制Secret、发一句你好。"</p></blockquote>
+
+<h3>3.6 微信接入龙虾</h3>
+
+<p>个人微信也能直接连接OpenClaw了！过去几周很多用户说"龙虾很好用，但想直接在微信里用。"今天，我们来拆掉这堵墙。</p>
+
+<p>这个功能叫<strong>「关联微信」</strong>。用个人微信直接跟你的"龙虾"聊天。以前想用龙虾要打开企微管家Claw或企业微信，现在打开手机微信，找到客服会话，直接发消息就行。</p>
+
+<h4>演示流程</h4>
+<ol>
+<li><strong>准备</strong>：企微管家Claw最新版本、一部装了微信的手机、2分钟时间</li>
+<li><strong>第一步</strong>：打开企微管家Claw → 设置 → 微信客服channel设置 → 扫码</li>
+<li><strong>第二步</strong>：在客服聊天中发送"你好" → 复制返回的绑定码</li>
+<li><strong>第三步</strong>：回到企微管家Claw → 粘贴绑定码 → 点击「保存并绑定」</li>
+<li><strong>验证</strong>：在微信客服聊天中发送测试消息，验证龙虾回复</li>
+</ol>
+
+<h4>四大亮点</h4>
+<ol>
+<li><strong>个人微信直连</strong>：打开微信就能用，最高频的App变身AI入口</li>
+<li><strong>扫码即绑，极简操作</strong>：扫码 → 发消息 → 粘贴绑定码，不到2分钟</li>
+<li><strong>安全的身份绑定机制</strong>：实例签名校验防伪造、时效窗口、一次性绑定后原上下文失效、会话令牌隔离</li>
+<li><strong>绑定一次，持续可用</strong>：微信端和企微端共享同一份记忆</li>
+</ol>
+
+<h4>使用场景</h4>
+<ul>
+<li><strong>场景一</strong>：打开微信就能用 — 平时聊天、沟通、记录灵感</li>
+<li><strong>场景二</strong>：临时需要，打开微信就问 — 客户突然问数据、领导让查东西</li>
+<li><strong>场景三</strong>：睡前灵感，让龙虾先跑着 — 让龙虾帮你搜热点、整理文档</li>
+<li><strong>场景四</strong>：出差在外，龙虾不掉线 — 生成会议纪要、查资料</li>
+</ul>
+
+<h3>3.7 常见问题（接入类）</h3>
+
+<p><strong>问题一：发"你好"无回复</strong></p>
+<p>最常见原因是Bot ID或Secret复制错了，或者配对信息没粘贴完整。确保：Bot ID没有多余空格、Secret复制完整、配对信息从"openclaw"开头到结尾都复制了。</p>
+
+<p><strong>问题二：提示API rate limit</strong></p>
+<p>模型额度用完了。去模型平台看看余额，充值或者换个API Key。</p>
+
+<p><strong>问题三：配对信息获取失败</strong></p>
+<p>可能是服务还没启动完成或者网络有问题。等几分钟再试，或者重启一下软件。</p>
+
+<p><strong>问题四：显示乱码</strong></p>
+<p>编码问题，比较少见。重启软件再试就好了。</p>
+
+<blockquote><p>遇到问题不要慌，99%都是操作步骤的问题，回去检查一遍基本都能解决。</p></blockquote>
+
+<hr>
+
+<h2>五、在企业微信上使用OpenClaw（企微Skills）</h2>
+
+<h3>4.1 安装企微Skills</h3>
+
+<p>龙虾接进企微了，但它现在还是一个"白板"。就像你买了一台新手机但没装App，只能打电话发短信。龙虾也一样，需要安装Skills——每个Skill就是一个能力模块，装什么就会什么。</p>
+
+<p><strong>推荐安装的Skills：</strong></p>
+
+<table>
+<thead><tr><th>Skill名称</th><th>功能说明</th><th>适用场景</th></tr></thead>
+<tbody>
+<tr><td>企微在线文档同步</td><td>生成报告并同步到企微在线文档</td><td>写报告、做方案</td></tr>
+<tr><td>企微智能表格同步</td><td>AI生成内容自动写入企微表格</td><td>批量生成内容</td></tr>
+<tr><td>扣子应用问答</td><td>在企微里调用Coze平台的智能体</td><td>复用已有智能体</td></tr>
+<tr><td>PPT生成</td><td>基于主题或文档自动生成PPT</td><td>做汇报、做演示</td></tr>
+<tr><td>Tavily联网搜索</td><td>AI专用搜索API，免费额度充足</td><td>需要联网搜索时</td></tr>
+</tbody>
+</table>
+
+<p>安装方法很简单：点击"企微Skills"，找到想装的Skill，点"安装"。几秒钟就好，安装完成后龙虾自动获得该能力，不需要额外配置。</p>
+
+<h3>4.2 设置AI身份和性格</h3>
+
+<p>Skills装好之后，还有一个重要步骤——给龙虾一个身份和性格。</p>
+
+<p>很多AI工具每次聊天都不记得你之前说过什么，这就是没有"记忆"。龙虾不一样：你告诉它你是谁、喜欢什么风格、怎么称呼，它会一直记住。</p>
+
+<p><strong>可以设置：</strong></p>
+<ul>
+<li>叫你的名字或昵称（比如"御哥"而不是"用户"）</li>
+<li>用幽默风趣的风格说话</li>
+<li>先给结论再讲细节</li>
+<li>遇到不确定的事情先问你</li>
+<li>用特定的Emoji</li>
+</ul>
+
+<p><strong>设置方式：</strong>直接在聊天界面输入以下信息：</p>
+<blockquote>
+<p>请记住以下设置：</p>
+<p>1. 名字：xx</p>
+<p>2. 形象：靠谱、高效、话少事多</p>
+<p>3. 风格：幽默风趣、逻辑清晰、不绕弯</p>
+<p>4. Emoji：🦞</p>
+<p>5. 称呼我：御哥</p>
+<p>6. 核心性格：先给出解决方案，再补充细节；提问不够深入时主动追问</p>
+</blockquote>
+
+<blockquote><p>金句："你培养它，它就会越来越懂你。就像一个真正有记忆的助理。"</p></blockquote>
+
+<h3>4.3 场景一：定时任务</h3>
+
+<p>第一个最容易上手、最直观感受到价值的场景。</p>
+
+<p>你有没有这种经历——想每天固定时间做某件事，但经常忘？想每天看行业新闻但总是忘了刷App；想每小时站起来活动一下但一忙就忘了；想按时喝水但每次都是渴了才想起来。</p>
+
+<p><strong>演示</strong>：在企微里给龙虾发</p>
+<blockquote><p>"xx，请帮我每天上午10点联网搜索AI行业最新资讯，整理后推送给我"</p></blockquote>
+
+<p>从明天开始，你每天早上上班，打开企业微信，就已经有一份整理好的行业资讯等你了。和闹钟不一样——闹钟只会"滴"一声提醒你去看新闻，龙虾是帮你<strong>搜好、整理好、推送给你</strong>。假设每天花15分钟筛选信息，一年就是约90个小时，这些时间可以让龙虾帮你省下来。</p>
+
+<p><strong>更多定时任务示例：</strong></p>
+<table>
+<thead><tr><th>任务类型</th><th>示例话术</th><th>效果</th></tr></thead>
+<tbody>
+<tr><td>喝水提醒</td><td>"每小时提醒我喝水，并记录饮水量"</td><td>定时提醒+自动记录</td></tr>
+<tr><td>吃饭提醒</td><td>"每天12点提醒我吃饭"</td><td>防止忙忘了吃饭</td></tr>
+<tr><td>打卡提醒</td><td>"每天18:30提醒我下班打卡"</td><td>防止忘打卡</td></tr>
+<tr><td>竞品监控</td><td>"每天15点搜索竞品XX最新动态，汇总发给我"</td><td>自动监控竞品</td></tr>
+<tr><td>节日提醒</td><td>"提前3天提醒我即将到来的节日"</td><td>提前准备节日活动</td></tr>
+</tbody>
+</table>
+
+<p><strong>注意事项</strong>：定时任务需要电脑保持开机状态，因为龙虾是部署在你本地电脑上的。建议设一些工作时间段的任务。后续会优化支持云端调度。</p>
+
+<blockquote><p>金句："它不是死板地重复一句话，会结合上下文生成不同的表达。"</p></blockquote>
+
+<h3>4.4 场景二：品牌内容生成 + 智能表格同步</h3>
+
+<p>假设老板安排你："把全年节假日的营销文案都写一下"。春节、元宵、清明、五一、端午、中秋、国庆、双十一、双十二、圣诞节……传统做法是打开日历一个一个节日看，每个节日想创意、写文案，写完还要整理成表格，可能要一周时间。</p>
+
+<p><strong>演示</strong>：在企微里给龙虾发</p>
+<blockquote><p>"搜索微盛公司信息，生成2026年全年节假日朋友圈营销文案，同步到企微智能表格"</p></blockquote>
+
+<p>龙虾会：联网搜索品牌信息 → 基于信息生成文案 → 同步到企微智能表格。几分钟出第一版，每个节日都有，格式规范，可以直接复制发布。以前运营写全年文案可能要一周，现在几分钟出第一版，还直接写进企微表格了。</p>
+
+<blockquote><p>金句："以前运营写全年文案可能要一周，现在几分钟出第一版，还直接写进企微表格了。"</p></blockquote>
+
+<h3>4.5 场景三：在线文档同步</h3>
+
+<p>假设周五下午领导突然找你："下周一给我一份竞品分析报告，详细一点的。"传统做法：搜竞品动态、整理成报告、排版美化、发给领导——整个流程两天。</p>
+
+<p><strong>演示</strong>：在企微里给龙虾发</p>
+<blockquote><p>"搜索企微管家最近7天的产品更新和行业动态，整理成竞品分析报告，同步到企微在线文档"</p></blockquote>
+
+<p>龙虾工作流程：联网搜索信息 → 整理成报告结构 → 生成企微在线文档。文档包含：概述、产品动态、行业趋势、竞品对比、机会点分析、建议。内容全面，格式规范，可以直接发给领导预览，还能转发给同事协作。</p>
+
+<blockquote><p>金句："领导让你两天出一份竞品报告？现在在企微里跟龙虾说一句话，几分钟后就有文档。"</p></blockquote>
+
+<h3>4.6 场景四：生成PPT</h3>
+
+<p>你们最讨厌的工作任务是什么？做PPT。为什么讨厌？要找模板、要排版、要写内容、要调格式。一份像样的PPT可能要半天甚至一天。</p>
+
+<p><strong>演示</strong>：在企微里给龙虾发</p>
+<blockquote><p>"帮我做一个'微盛企微管家产品介绍'的PPT，用于客户高层汇报，风格专业简洁"</p></blockquote>
+
+<p>龙虾收到指令后会：理解需求 → 联网搜索产品信息 → 生成PPT大纲 → 生成每一页内容 → 输出在线PPT链接。生成的PPT包含：封面、目录、产品概述、核心功能、客户案例、合作模式、联系方式。</p>
+
+<p><strong>进阶玩法</strong>：还可以让龙虾生成每一页的讲解话术。发一句"帮我生成这份PPT每一页的讲解话术"，龙虾会根据每一页内容生成演讲稿。</p>
+
+<h3>4.7 场景五：调用其他智能体</h3>
+
+<p>很多团队已经在扣子、Dify这些平台上做过智能体了，但入口很分散——用的时候要打开扣子网页、Dify网页、某个小程序，每个智能体一个入口，很麻烦。</p>
+
+<p>现在可以把这些能力接到企微管家Claw里，在企业微信里说一句话，龙虾就能帮你调用对应的智能体。</p>
+
+<p><strong>演示</strong>：</p>
+<blockquote><p>"调用扣子营销话术智能体，帮我生成'企微管家AI功能'的推广文案，用于朋友圈发布"</p></blockquote>
+
+<p>龙虾会：识别意图 → 传递参数给扣子 → 获取扣子智能体的输出 → 返回给你。你不需要打开扣子网页，不需要登录，在企微里就搞定了。</p>
+
+<blockquote><p>金句："未来不是你去找一堆工具，而是企业微信里这个助理替你调度这些工具。"</p></blockquote>
+
+<h3>4.8 场景六：与SCRM联动（未来规划）</h3>
+
+<p>企微管家Claw不是SCRM，不会取代SCRM。它是SCRM的<strong>"搭档"</strong>，是连接你和各种系统的"桥梁"。</p>
+
+<p><strong>联动后的流程</strong>：</p>
+<ol>
+<li>你在企微里跟龙虾说："帮我生成这周的朋友圈营销内容，并创建SCRM任务下发给销售"</li>
+<li>龙虾自动：生成文案 → 创建任务 → 下发给销售</li>
+<li>每天自动统计完成情况，推给你</li>
+<li>对未完成的销售自动提醒</li>
+</ol>
+
+<p>以前你要手动做每一步，现在只需要说一句话。这就不是单纯"写文案"了，而是进入了<strong>业务执行闭环</strong>。</p>
+
+<p>企微管家Claw的定位很清晰：它不是要替代任何系统，而是让各个系统之间的协作更顺畅。就像智能家居：空调还是空调，电视还是电视，但你可以用手机App统一控制。龙虾就是那个"控制中心"。</p>
+
+<hr>
+
+<h2>六、常见问题与应急处理</h2>
+
+<h3>5.1 安装类问题</h3>
+<table>
+<thead><tr><th>问题</th><th>原因</th><th>解决方案</th></tr></thead>
+<tbody>
+<tr><td>手机上能安装吗？</td><td>不支持</td><td>需要安装在Mac或Windows电脑，安装后手机企微可以对话</td></tr>
+<tr><td>华为鸿蒙能装吗？</td><td>暂不支持</td><td>近期适配中，敬请期待</td></tr>
+<tr><td>Git安装失败</td><td>网络问题</td><td>先退出软件，手动安装Git后再打开</td></tr>
+<tr><td>找不到应用图标</td><td>安装未完成</td><td>检查应用程序文件夹，或重新安装</td></tr>
+</tbody>
+</table>
+
+<p><strong>重点解释——手机问题</strong>：目前企微管家Claw只支持电脑端安装，因为它是本地部署的，需要电脑作为"服务器"。但安装之后可以在手机企微上跟龙虾对话。电脑是龙虾的"家"，手机是龙虾的"遥控器"。</p>
+
+<h3>5.2 配置类问题</h3>
+<table>
+<thead><tr><th>问题</th><th>原因</th><th>解决方案</th></tr></thead>
+<tbody>
+<tr><td>部署一直转圈</td><td>网络或配置问题</td><td>检查网络连接，确认API Key格式正确</td></tr>
+<tr><td>API rate limit</td><td>额度用尽</td><td>检查余额，或更换模型/API Key</td></tr>
+<tr><td>认证错误(401)</td><td>API Key无效</td><td>重新从控制台获取正确的Key</td></tr>
+<tr><td>模型不支持</td><td>平台限制</td><td>确认该模型在所选平台可用</td></tr>
+</tbody>
+</table>
+
+<h3>5.3 企微接入问题</h3>
+<table>
+<thead><tr><th>问题</th><th>原因</th><th>解决方案</th></tr></thead>
+<tbody>
+<tr><td>发"你好"无回复</td><td>配对未完成</td><td>确认Bot ID和Secret正确，重新配对</td></tr>
+<tr><td>显示"用户不存在"</td><td>可见范围问题</td><td>确认机器人可见范围包含你的账号</td></tr>
+<tr><td>配对信息乱码</td><td>编码问题</td><td>重启软件后再试</td></tr>
+<tr><td>云端显示离线</td><td>服务未运行</td><td>检查本地服务是否启动</td></tr>
+</tbody>
+</table>
+
+<h3>5.4 功能类问题</h3>
+<table>
+<thead><tr><th>问题</th><th>原因</th><th>解决方案</th></tr></thead>
+<tbody>
+<tr><td>能在外部群用吗？</td><td>官方限制</td><td>暂不支持，仅限企业内部单聊/群聊</td></tr>
+<tr><td>能主动销售吗？</td><td>官方限制</td><td>企微能力暂不支持，后续适配</td></tr>
+<tr><td>Skills安装失败</td><td>网络问题</td><td>检查网络后重试</td></tr>
+<tr><td>没有长期记忆</td><td>未设置</td><td>配置 SOUL.md / IDENTITY.md / USER.md</td></tr>
+</tbody>
+</table>
+
+<p><strong>重点解释——使用限制</strong>：</p>
+<ul>
+<li><strong>外部群</strong>：龙虾目前只能在企业内部使用，不能加外部客户的群。这是企业微信的官方限制。</li>
+<li><strong>主动营销</strong>：龙虾不能主动给客户发营销消息。机器人不能主动给客户发消息，只能回复客户发的消息。龙虾是你的助理，帮你提效的，不是营销工具。</li>
+</ul>
+
+<h3>5.5 安全类问题</h3>
+<table>
+<thead><tr><th>问题</th><th>回答</th></tr></thead>
+<tbody>
+<tr><td>数据安全吗？</td><td>100%本地部署，数据全部留在你的电脑上</td></tr>
+<tr><td>权限怎么控制？</td><td>提供四级权限：Full / Coding / Chat / Minimal</td></tr>
+<tr><td>会泄露隐私吗？</td><td>安全的关键是权限配置，可设置为仅聊天模式</td></tr>
+<tr><td>裸跑开源版安全吗？</td><td>比封装版更危险，建议使用经过安全检测的安装包</td></tr>
+</tbody>
+</table>
+
+<p><strong>四级权限说明</strong>：</p>
+<ul>
+<li><strong>Full（完全控制）</strong>：能做任何事情，包括读写文件、执行代码、改设置。适合完全信任的用户。</li>
+<li><strong>Coding（编码模式）</strong>：能执行代码，但不能改系统设置。适合开发场景。</li>
+<li><strong>Chat（聊天模式）</strong>：只能聊天，不能读写文件。适合只想用龙虾聊天的用户。</li>
+<li><strong>Minimal（最小权限）</strong>：只能回复消息。最安全的模式。</li>
+</ul>
+
+<h3>5.6 费用类问题</h3>
+<table>
+<thead><tr><th>问题</th><th>回答</th></tr></thead>
+<tbody>
+<tr><td>安装包收费吗？</td><td>完全免费</td></tr>
+<tr><td>大模型怎么收费？</td><td>自行购买API Key，推荐腾讯云Coding Plan首月7.9元</td></tr>
+<tr><td>Token消耗大吗？</td><td>普通用户每天几毛到几块不等，取决于使用强度</td></tr>
+<tr><td>怎么充值？</td><td>在各模型平台直接充值购买</td></tr>
+</tbody>
+</table>
+
+<hr>
+
+<h2>七、直播收尾</h2>
+
+<h3>6.1 收尾话术</h3>
+
+<p>好的，今天的演示就到这里。我们再快速回顾一下今天的内容：</p>
+<ul>
+<li><strong>第一</strong>，企微管家Claw是什么？不是聊天机器人，是能干活的AI员工。它有手有脚，能读写文件、操作表格、生成PPT。</li>
+<li><strong>第二</strong>，怎么安装？跟装普通软件一样，几分钟搞定。Mac可能有一步安全验证，Windows更简单。整个安装过程不需要写一行代码。</li>
+<li><strong>第三</strong>，怎么接入企微？三步：复制Bot ID、复制Secret、发一句你好。全程不写代码。</li>
+<li><strong>第四</strong>，能做什么？定时任务、内容生成、文档同步、PPT制作、调用智能体。</li>
+<li><strong>第五</strong>，多少钱？安装包免费，大模型自己买，也可以用国内免费的。比请一个助理便宜多了。</li>
+</ul>
+
+<p>最后想跟大家说：<strong>不要等一个"完美版本"再开始用。</strong>龙虾是需要"培养"的。你用它、跟它交互、告诉它偏好，它会越来越懂你。就像养一个新员工，一开始你需要教它，慢慢地它就越来越能干。今天听完直播，回去就装起来、用起来。</p>
+
+<blockquote><p>金句："龙虾也不只是一个陪聊的机器人，而是一个能记住你、能调用工具、能持续做事的数字助理。"</p></blockquote>
+
+<h3>6.2 获取资料</h3>
+<ul>
+<li>扫码添加客服企业微信</li>
+<li>获取安装包和详细教程</li>
+<li>加入官方交流群</li>
+</ul>
+
+<hr>
+
+<h2>附录：主播速查卡</h2>
+
+<h3>A. 安装流程速记</h3>
+<p>下载 → 双击安装 → 隐私设置允许 → 配置大模型 → 自动部署</p>
+
+<h3>B. 企微接入速记</h3>
+<p>通讯录 → 智能机器人 → 手动创建 → API模式 → 长连接 → 复制ID/Secret → 配对</p>
+
+<h3>C. 推荐话术模板</h3>
+<ol>
+<li>每天XX点提醒我XX</li>
+<li>搜索XX信息，生成XX，同步到XX</li>
+<li>帮我做一个XX主题的PPT</li>
+<li>调用XX智能体，帮我XX</li>
+</ol>
+
+<h3>D. 应急话术</h3>
+<ul>
+<li><strong>操作失误</strong>："不好意思，我重新操作一遍，大家看仔细了"</li>
+<li><strong>网络卡顿</strong>："稍等一下，网络有点波动，我们重新来"</li>
+<li><strong>观众提问过多</strong>："大家问题很多，我们先把这个演示完，然后统一答疑"</li>
+<li><strong>软件异常</strong>："遇到一点小插曲，正好给大家演示一下怎么处理这种情况"</li>
+</ul>
+
+      </div>
+    </article>
+  </div>
+
+</main>
+
+<!-- Scroll to top -->
+<button class="scroll-top" id="scrollTop" aria-label="回到顶部">↑</button>
+
+<script>
+// Tab switching
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabPanels = document.querySelectorAll('.tab-panel');
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetId = btn.dataset.tab;
+
+    tabBtns.forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    tabPanels.forEach(p => p.classList.remove('active'));
+
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    document.getElementById(targetId).classList.add('active');
+
+    // Scroll panel into view
+    window.scrollTo({ top: document.querySelector('.tab-nav').offsetTop - 20, behavior: 'smooth' });
+  });
+});
+
+// Scroll to top button
+const scrollTopBtn = document.getElementById('scrollTop');
+window.addEventListener('scroll', () => {
+  scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+}, { passive: true });
+scrollTopBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
+
+</body>
+</html>
