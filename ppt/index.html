@@ -69,6 +69,8 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
 .slide-title{font-size:38px;font-weight:900;color:var(--navy);line-height:1.3;letter-spacing:-0.5px;padding-top:4px}
 .slide-subtitle{font-size:16px;color:var(--text-muted);margin-top:4px;padding-left:56px}
 .slide-body{flex:1;padding:18px 56px 20px 56px;display:flex;flex-direction:column;justify-content:center}
+.slide-image-fill{padding:0;background:#fff}
+.slide-image-fill img{width:100%;height:100%;display:block;object-fit:cover}
 
 /* === Grid systems === */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
@@ -544,8 +546,221 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
   </div>
 </div>
 
-<!-- ==================== Slide 10: 场景-定时任务 ==================== -->
+<!-- ==================== Slide 10: 企业级解决方案总览 ==================== -->
 <div class="slide slide-content" data-index="9">
+  <div class="slide-header"><div class="slide-title t-title">企业级AI安全解决方案</div></div>
+  <div class="slide-subtitle t-body">构建企业AI交互的「合规黑匣子」与「算力中央枢纽」· 让AI深入业务流的同时保障绝对安全</div>
+  <div class="slide-body">
+    <div style="display:flex;flex-direction:column;gap:14px;justify-content:center">
+      <div class="hl-box" style="padding:18px 24px;text-align:center">
+        <h4 class="t-title" style="font-size:20px;margin-bottom:6px">&#x1F3E2; 核心定位</h4>
+        <p class="t-body" style="font-size:16px;opacity:0.92">企业最怕员工各自用个人账号注册大模型——费用无法管控、数据外泄风险巨大。<br>我们化身企业AI的「安全中控台」，将算力、审计、权限、沙箱、接入五大维度收归统一管理。</p>
+      </div>
+      <div class="g5" style="gap:12px">
+        <div class="arch-box ab-blue" style="padding:18px 14px;border-radius:14px">
+          <span style="font-size:28px;margin-bottom:4px">&#x26A1;</span>
+          <h5 class="t-title" style="font-size:16px">算力中枢</h5>
+          <p style="font-size:12.5px;opacity:0.8;line-height:1.5">统一大模型网关<br>集中采购·路由分发<br>敏感数据脱敏墙</p>
+        </div>
+        <div class="arch-box ab-navy" style="padding:18px 14px;border-radius:14px">
+          <span style="font-size:28px;margin-bottom:4px">&#x1F4DC;</span>
+          <h5 class="t-title" style="font-size:16px">合规黑匣子</h5>
+          <p style="font-size:12.5px;opacity:0.8;line-height:1.5">全量AI交互审计<br>AI智能质检引擎<br>销冠策略提取</p>
+        </div>
+        <div class="arch-box ab-indigo" style="padding:18px 14px;border-radius:14px">
+          <span style="font-size:28px;margin-bottom:4px">&#x1F9E9;</span>
+          <h5 class="t-title" style="font-size:16px">Skills管控</h5>
+          <p style="font-size:12.5px;opacity:0.8;line-height:1.5">RBAC角色权限<br>企业私有技能库<br>一键下架与熔断</p>
+        </div>
+        <div class="arch-box ab-purple" style="padding:18px 14px;border-radius:14px">
+          <span style="font-size:28px;margin-bottom:4px">&#x1F512;</span>
+          <h5 class="t-title" style="font-size:16px">终端沙箱</h5>
+          <p style="font-size:12.5px;opacity:0.8;line-height:1.5">运行模式隔离<br>文件夹白名单<br>24h在线守护</p>
+        </div>
+        <div class="arch-box ab-green" style="padding:18px 14px;border-radius:14px">
+          <span style="font-size:28px;margin-bottom:4px">&#x1F6E1;&#xFE0F;</span>
+          <h5 class="t-title" style="font-size:16px">零信任接入</h5>
+          <p style="font-size:12.5px;opacity:0.8;line-height:1.5">动态令牌验证<br>实例签名校验<br>一次性绑定码</p>
+        </div>
+      </div>
+      <div class="g3" style="gap:12px">
+        <div class="card card-sm" style="border-left:3px solid var(--brand);text-align:center">
+          <h4 class="t-title" style="color:var(--brand)">&#x1F465; 组织架构管理</h4>
+          <p class="t-body">企业-部门-员工-Claw实例<br>多层级关系统一管控</p>
+        </div>
+        <div class="card card-sm" style="border-left:3px solid #7C3AED;text-align:center">
+          <h4 class="t-title" style="color:#7C3AED">&#x1F4BB; 统一管理后台</h4>
+          <p class="t-body">Token消耗·审计日志·Skills管控<br>远程配置·组织架构·一站式运维</p>
+        </div>
+        <div class="card card-sm" style="border-left:3px solid #059669;text-align:center">
+          <h4 class="t-title" style="color:#059669">&#x1F916; 数字员工模式</h4>
+          <p class="t-body">每组一个Claw实例=一个数字员工<br>按职责开放权限·共享组内知识</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 11: 算力中枢 ==================== -->
+<div class="slide slide-content" data-index="10">
+  <div class="slide-header"><div class="slide-title t-title">算力中枢 · 统一大模型网关</div></div>
+  <div class="slide-subtitle t-body">MaaS集中管理台 · 统一采购·路由分发·配额管控·数据脱敏 · 告别员工自行注册风险</div>
+  <div class="slide-body">
+    <div class="g2" style="flex:1;align-content:center">
+      <div class="flex-col" style="gap:10px;justify-content:center">
+        <div class="card card-sm" style="border-left:3px solid var(--brand)">
+          <h4 class="t-title">&#x26A1; 统一模型底座</h4>
+          <p class="t-body">微盛服务端作为唯一出口，集成DeepSeek、Claude、GPT、Kimi、Minimax等顶级模型。企业向微盛统一公对公采购算力/Token包，彻底杜绝员工私自注册。</p>
+        </div>
+        <div class="card card-sm" style="border-left:3px solid #7C3AED">
+          <h4 class="t-title">&#x1F500; 智能路由分发</h4>
+          <p class="t-body">按部门/岗位自动路由到最优模型。客服部门默认低成本模型处理常规问答；核心销售可调用高推理深度模型。配额用完自动降级，绝不超支。</p>
+        </div>
+        <div class="card card-sm" style="border-left:3px solid #059669">
+          <h4 class="t-title">&#x1F6E1;&#xFE0F; 数据脱敏墙</h4>
+          <p class="t-body">网关层内置敏感信息正则引擎——员工发送包含身份证、银行卡、手机号等内容时，网关自动打码脱敏后再传给大模型，从源头阻断数据泄露。</p>
+        </div>
+        <div class="card card-sm" style="border-left:3px solid #D97706">
+          <h4 class="t-title">&#x1F4CA; 用量统计看板</h4>
+          <p class="t-body">管理后台实时展示：按员工/部门/模型维度的Token消耗、调用次数、费用分摊。支持预算预警和自动限额，IT部门完全掌控。</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <div class="mockup" style="width:100%">
+          <div class="mock-bar"><div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div><span style="font-size:13px;color:#666;margin-left:auto">企业AI算力管理后台</span></div>
+          <div class="mock-body" style="padding:16px;background:#f8f9ff">
+            <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px">&#x1F4CA; 本月算力消耗概览</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:var(--text-muted)">总Token消耗</div><div style="font-size:20px;font-weight:900;color:var(--brand)">182万</div></div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:var(--text-muted)">活跃员工</div><div style="font-size:20px;font-weight:900;color:#059669">47人</div></div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:var(--text-muted)">本月费用</div><div style="font-size:20px;font-weight:900;color:#D97706">¥2,860</div></div>
+            </div>
+            <div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px">部门配额与用量</div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px 10px;display:flex;align-items:center;justify-content:space-between">
+                <div><span style="font-size:13px;font-weight:600;color:var(--navy)">销售部</span><span style="font-size:11px;color:var(--text-muted);margin-left:6px">Claude 4 / DeepSeek</span></div>
+                <div style="display:flex;align-items:center;gap:6px"><div style="width:80px;height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden"><div style="width:72%;height:100%;background:var(--brand);border-radius:3px"></div></div><span style="font-size:11px;color:var(--brand)">72%</span></div>
+              </div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px 10px;display:flex;align-items:center;justify-content:space-between">
+                <div><span style="font-size:13px;font-weight:600;color:var(--navy)">客服部</span><span style="font-size:11px;color:var(--text-muted);margin-left:6px">DeepSeek V3</span></div>
+                <div style="display:flex;align-items:center;gap:6px"><div style="width:80px;height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden"><div style="width:45%;height:100%;background:#059669;border-radius:3px"></div></div><span style="font-size:11px;color:#059669">45%</span></div>
+              </div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px 10px;display:flex;align-items:center;justify-content:space-between">
+                <div><span style="font-size:13px;font-weight:600;color:var(--navy)">市场部</span><span style="font-size:11px;color:var(--text-muted);margin-left:6px">Claude 4 / GPT-4o</span></div>
+                <div style="display:flex;align-items:center;gap:6px"><div style="width:80px;height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden"><div style="width:88%;height:100%;background:#ef4444;border-radius:3px"></div></div><span style="font-size:11px;color:#ef4444">88%</span></div>
+              </div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px 10px;display:flex;align-items:center;justify-content:space-between">
+                <div><span style="font-size:13px;font-weight:600;color:var(--navy)">研发部</span><span style="font-size:11px;color:var(--text-muted);margin-left:6px">Claude 4 Opus</span></div>
+                <div style="display:flex;align-items:center;gap:6px"><div style="width:80px;height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden"><div style="width:33%;height:100%;background:#7C3AED;border-radius:3px"></div></div><span style="font-size:11px;color:#7C3AED">33%</span></div>
+              </div>
+            </div>
+            <div style="margin-top:8px;padding:6px 10px;background:#fff8f0;border:1px solid #fde68a;border-radius:6px;font-size:11px;color:#D97706">&#x26A0; 市场部配额已使用88%，预计3天内用尽，建议追加配额或降级模型</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 12: 合规黑匣子 ==================== -->
+<div class="slide slide-content" data-index="11">
+  <div class="slide-header"><div class="slide-title t-title">合规黑匣子 · AI交互全量审计</div></div>
+  <div class="slide-subtitle t-body">AI时代的会话存档与智能质检2.0 · 用AI质检AI · 防守风控+进攻提效双向驱动</div>
+  <div class="slide-body">
+    <div class="g2" style="flex:1;align-content:center">
+      <div class="flex-col" style="gap:10px;justify-content:center">
+        <div class="card card-sm" style="border-left:3px solid var(--brand)">
+          <h4 class="t-title">&#x1F4DC; 双向全量存档</h4>
+          <p class="t-body">员工在企微/微信发送的每一条指令，以及Claw返回的每一次结果、调用的每一个工具轨迹，全部结构化留存。管理员可按员工、时间、关键词全文检索。</p>
+        </div>
+        <div class="card card-sm" style="border-left:3px solid #ef4444">
+          <h4 class="t-title">&#x1F6A8; AI智能质检引擎</h4>
+          <p class="t-body">抛弃死板的关键词正则预警，引入「用AI质检AI」模式。支持自然语言规则——如"当销售向客户作出未经授权的降价承诺时报警"。触发红线立即熔断回复并告警。</p>
+        </div>
+        <div class="card card-sm" style="border-left:3px solid #059669">
+          <h4 class="t-title">&#x1F3C6; 销冠策略提取</h4>
+          <p class="t-body">质检不只抓错——通过分析销冠的高质量AI交互，自动沉淀最佳实践库和Prompt模板，反哺给其他员工，让整个团队能力对齐。</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span class="badge badge-green">&#x1F6E1;&#xFE0F; 实时监控</span>
+          <span class="badge badge-blue">&#x1F50D; 全文检索</span>
+          <span class="badge badge-purple">&#x1F916; AI语义质检</span>
+          <span class="badge badge-green">&#x26A1; 自动熔断</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <div class="mockup" style="width:100%">
+          <div class="mock-bar"><div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div><span style="font-size:13px;color:#666;margin-left:auto">AI交互审计中台</span></div>
+          <div class="mock-body" style="padding:14px;background:#f8f9ff">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div style="font-size:14px;font-weight:700;color:var(--navy)">&#x1F4CB; 今日AI交互审计</div><div style="font-size:12px;color:var(--text-muted)">2026-03-25</div></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-bottom:10px">
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--text-muted)">总交互数</div><div style="font-size:16px;font-weight:800;color:var(--navy)">1,247</div></div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--text-muted)">质检通过</div><div style="font-size:16px;font-weight:800;color:#22c55e">1,241</div></div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--text-muted)">风险拦截</div><div style="font-size:16px;font-weight:800;color:#ef4444">4</div></div>
+              <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;text-align:center"><div style="font-size:10px;color:var(--text-muted)">待审核</div><div style="font-size:16px;font-weight:800;color:#f59e0b">2</div></div>
+            </div>
+            <div style="font-size:12px;font-weight:600;color:#ef4444;margin-bottom:4px">&#x1F6A8; 最新风险告警</div>
+            <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:8px;margin-bottom:6px;font-size:12px">
+              <div style="display:flex;justify-content:space-between"><span style="font-weight:600;color:#dc2626">销售张三 · 14:23</span><span style="color:#ef4444;font-size:11px">&#x1F534; 已熔断</span></div>
+              <div style="color:#7f1d1d;margin-top:3px;line-height:1.5">触发规则：「未经授权的降价承诺」<br>内容：向客户承诺低于底价15%的报价，AI回复已被拦截</div>
+            </div>
+            <div style="font-size:12px;font-weight:600;color:#059669;margin-bottom:4px">&#x1F3C6; 销冠最佳实践</div>
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px;padding:8px;font-size:12px">
+              <div style="display:flex;justify-content:space-between"><span style="font-weight:600;color:#166534">销售李四 · 客户转化率 92%</span><span style="color:#16a34a;font-size:11px">&#x2B50; 已沉淀</span></div>
+              <div style="color:#14532d;margin-top:3px;line-height:1.5">高效Prompt模板已提取，涉及：需求挖掘话术、产品对比框架、异议处理策略</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 13: Skills管控+沙箱+零信任 ==================== -->
+<div class="slide slide-content" data-index="12">
+  <div class="slide-header"><div class="slide-title t-title">Skills管控 · 终端沙箱 · 零信任接入</div></div>
+  <div class="slide-subtitle t-body">RBAC角色权限 · 物理沙箱隔离 · 动态令牌验证 · 全方位企业级管控</div>
+  <div class="slide-body">
+    <div class="g3" style="flex:1;align-content:center;gap:16px">
+      <!-- Skills管控 -->
+      <div class="flex-col" style="gap:8px">
+        <div style="background:linear-gradient(135deg,#4338CA,#6366F1);border-radius:12px;padding:14px;color:#fff;text-align:center">
+          <span style="font-size:24px">&#x1F9E9;</span>
+          <h4 class="t-title" style="font-size:17px;margin-top:4px">Skills技能管控</h4>
+        </div>
+        <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x1F3EA; 企业私有技能库</h4><p class="t-body" style="font-size:13px">将内部ERP、OA、CRM接口封装为私有Skills，仅企业内部可见可用</p></div>
+        <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x1F465; 按组织架构授权</h4><p class="t-body" style="font-size:13px">市场部只能用「营销文案」技能；销售部只能调「CRM查单」「自动打标签」</p></div>
+        <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x1F6D1; 一键下架熔断</h4><p class="t-body" style="font-size:13px">发现风险Skill可一键全局禁用，所有终端立即失效。支持远程清理第三方Skills</p></div>
+        <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x1F4CB; 安装监控面板</h4><p class="t-body" style="font-size:13px">管理后台实时查看每个员工安装了哪些Skills，可远程管理、禁用或强制卸载</p></div>
+      </div>
+      <!-- 终端沙箱 -->
+      <div class="flex-col" style="gap:8px">
+        <div style="background:linear-gradient(135deg,#7C3AED,#A78BFA);border-radius:12px;padding:14px;color:#fff;text-align:center">
+          <span style="font-size:24px">&#x1F512;</span>
+          <h4 class="t-title" style="font-size:17px;margin-top:4px">终端安全沙箱</h4>
+        </div>
+        <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x2699;&#xFE0F; 运行模式管控</h4><p class="t-body" style="font-size:13px">管理员可强制锁定岗位模式：客服仅开messaging聊天模式，数据分析师才可开full模式</p></div>
+        <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x1F4C2; 文件夹白名单</h4><p class="t-body" style="font-size:13px">强制限定AI只能读写指定目录(如~/AI_Workspace)，即便被诱导也无法触碰其他机密文件</p></div>
+        <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x1F310; 域名白名单</h4><p class="t-body" style="font-size:13px">限制AI可访问的外部网址范围，防止数据通过网络请求外泄至未授权域名</p></div>
+        <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x1F504; 24h在线守护</h4><p class="t-body" style="font-size:13px">客户端底层进程守护，屏幕休眠不断连，企微+微信指令全天候响应不掉线</p></div>
+      </div>
+      <!-- 零信任接入 -->
+      <div class="flex-col" style="gap:8px">
+        <div style="background:linear-gradient(135deg,#059669,#34D399);border-radius:12px;padding:14px;color:#fff;text-align:center">
+          <span style="font-size:24px">&#x1F6E1;&#xFE0F;</span>
+          <h4 class="t-title" style="font-size:17px;margin-top:4px">零信任接入</h4>
+        </div>
+        <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x1F511; 动态令牌验证</h4><p class="t-body" style="font-size:13px">扫码绑定使用极短时效窗口(10分钟)的一次性绑定码，绑定后原始上下文立即失效</p></div>
+        <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x270D;&#xFE0F; 实例签名校验</h4><p class="t-body" style="font-size:13px">每个Claw实例具有唯一签名，严格校验防伪造，每个关联关系独立鉴权不可跨实例复用</p></div>
+        <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x1F6AB; 重放攻击阻断</h4><p class="t-body" style="font-size:13px">遵循一次性绑定原则，使用后绑定上下文立即销毁，彻底阻断二维码重放攻击</p></div>
+        <div class="card card-sm"><h4 class="t-title" style="font-size:14px">&#x1F50D; CUA能力预留</h4><p class="t-body" style="font-size:13px">已预留Computer Use Agent接口，未来可扩展至桌面级自动化操作（规划中）</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 14: 场景-定时任务 ==================== -->
+<div class="slide slide-content" data-index="13">
   <div class="slide-header"><div class="slide-title t-title">使用场景&#x2460; 定时任务自动化</div></div>
   <div class="slide-subtitle t-body">一句话设置 · AI按时主动工作 · 不@也能干活</div>
   <div class="slide-body">
@@ -592,8 +807,8 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
   </div>
 </div>
 
-<!-- ==================== Slide 11: 场景-内容创作 ==================== -->
-<div class="slide slide-content" data-index="10">
+<!-- ==================== Slide 15: 场景-内容创作 ==================== -->
+<div class="slide slide-content" data-index="14">
   <div class="slide-header"><div class="slide-title t-title">使用场景&#x2461; AI内容创作全矩阵</div></div>
   <div class="slide-subtitle t-body">一句话生成 · 公众号+视频号+小红书+PPT+海报+网页全覆盖</div>
   <div class="slide-body">
@@ -647,8 +862,8 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
   </div>
 </div>
 
-<!-- ==================== Slide 12: 场景-智能表格+文档 ==================== -->
-<div class="slide slide-content" data-index="11">
+<!-- ==================== Slide 16: 场景-智能表格+文档 ==================== -->
+<div class="slide slide-content" data-index="15">
   <div class="slide-header"><div class="slide-title t-title">使用场景&#x2462; 智能表格 + 在线文档</div></div>
   <div class="slide-subtitle t-body">口述/拍照录入 · 自动分析 · 双向同步企微原生能力</div>
   <div class="slide-body">
@@ -685,8 +900,8 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
   </div>
 </div>
 
-<!-- ==================== Slide 13: 场景-远程+浏览器 ==================== -->
-<div class="slide slide-content" data-index="12">
+<!-- ==================== Slide 17: 场景-远程+浏览器 ==================== -->
+<div class="slide slide-content" data-index="16">
   <div class="slide-header"><div class="slide-title t-title">使用场景&#x2463; 远程办公 + 浏览器自动化</div></div>
   <div class="slide-subtitle t-body">出差在外也能调取文件 · AI控制浏览器抓取数据 · 深度学习企业文档</div>
   <div class="slide-body">
@@ -719,8 +934,8 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
   </div>
 </div>
 
-<!-- ==================== Slide 14: 行业解决方案 ==================== -->
-<div class="slide slide-content" data-index="13">
+<!-- ==================== Slide 18: 行业解决方案 ==================== -->
+<div class="slide slide-content" data-index="17">
   <div class="slide-header"><div class="slide-title t-title">行业解决方案</div></div>
   <div class="slide-subtitle t-body">金融银行 · 制造工厂 · 零售电商 · 教育培训 · 医疗健康 · 多行业深度适配</div>
   <div class="slide-body">
@@ -785,8 +1000,8 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
   </div>
 </div>
 
-<!-- ==================== Slide 15: 100+玩法速览 ==================== -->
-<div class="slide slide-content" data-index="14">
+<!-- ==================== Slide 19: 100+玩法速览 ==================== -->
+<div class="slide slide-content" data-index="18">
   <div class="slide-header"><div class="slide-title t-title">100+实战玩法速览</div></div>
   <div class="slide-subtitle t-body">从定时任务到内容创作，从智能表格到SCRM营销，覆盖10大场景</div>
   <div class="slide-body">
@@ -806,8 +1021,8 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
   </div>
 </div>
 
-<!-- ==================== Slide 16: 技术对比 ==================== -->
-<div class="slide slide-content" data-index="15">
+<!-- ==================== Slide 20: 技术对比 ==================== -->
+<div class="slide slide-content" data-index="19">
   <div class="slide-header"><div class="slide-title t-title">技术优势 vs 传统方案</div></div>
   <div class="slide-subtitle t-body">全面领先的企微AI Agent方案</div>
   <div class="slide-body">
@@ -834,59 +1049,8 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
   </div>
 </div>
 
-<!-- ==================== Slide 17: 微盛实力 ==================== -->
-<div class="slide slide-content" data-index="16">
-  <div class="slide-header"><div class="slide-title t-title">微盛实力与背书</div></div>
-  <div class="slide-subtitle t-body">企业微信官方服务商 · 服务数万家企业 · 深耕企微生态</div>
-  <div class="slide-body" style="justify-content:space-evenly">
-    <div style="display:flex;justify-content:space-around">
-      <div class="stat"><div class="n t-title">10,000<span>+</span></div><div class="l t-body">服务企业数</div></div>
-      <div class="stat"><div class="n t-title">500<span>万+</span></div><div class="l t-body">终端用户覆盖</div></div>
-      <div class="stat"><div class="n t-title">8<span>年</span></div><div class="l t-body">企微生态深耕</div></div>
-      <div class="stat"><div class="n t-title">20<span>+</span></div><div class="l t-body">行业解决方案</div></div>
-      <div class="stat"><div class="n t-title">99.9<span>%</span></div><div class="l t-body">系统可用率</div></div>
-    </div>
-    <div class="g3">
-      <div class="card card-sm" style="border-left:3px solid var(--brand)">
-        <h4 class="t-title">&#x1F3C5; 企微官方服务商</h4>
-        <p class="t-body">微盛是企业微信官方认证服务商，深度参与企微生态建设，产品与企微原生能力紧密集成，确保接口稳定性和功能完整性。</p>
-      </div>
-      <div class="card card-sm" style="border-left:3px solid #7C3AED">
-        <h4 class="t-title">&#x1F513; OpenClaw开源架构</h4>
-        <p class="t-body">基于OpenClaw开源框架构建，代码100%可审计。任何企业和开发者都可以基于此构建自己的AI Agent，完全透明可信赖。</p>
-      </div>
-      <div class="card card-sm" style="border-left:3px solid #059669">
-        <h4 class="t-title">&#x1F91D; 全方位运营支持</h4>
-        <p class="t-body">不仅提供产品，更提供完整的落地方案——包含行业最佳实践、团队培训、持续优化迭代，确保AI真正用起来产生价值。</p>
-      </div>
-    </div>
-    <div class="g4">
-      <div style="padding:12px;background:rgba(255,255,255,0.5);border-radius:10px;text-align:center">
-        <div style="font-size:22px;margin-bottom:4px">&#x1F3E2;</div>
-        <div style="font-size:13px;font-weight:700;color:var(--navy)">金融行业</div>
-        <div style="font-size:11.5px;color:var(--text-muted)">多家银行 · 保险 · 证券</div>
-      </div>
-      <div style="padding:12px;background:rgba(255,255,255,0.5);border-radius:10px;text-align:center">
-        <div style="font-size:22px;margin-bottom:4px">&#x1F3ED;</div>
-        <div style="font-size:13px;font-weight:700;color:var(--navy)">制造业</div>
-        <div style="font-size:11.5px;color:var(--text-muted)">工厂 · 供应链 · 物流</div>
-      </div>
-      <div style="padding:12px;background:rgba(255,255,255,0.5);border-radius:10px;text-align:center">
-        <div style="font-size:22px;margin-bottom:4px">&#x1F6CD;&#xFE0F;</div>
-        <div style="font-size:13px;font-weight:700;color:var(--navy)">零售电商</div>
-        <div style="font-size:11.5px;color:var(--text-muted)">品牌 · 门店 · 社区团购</div>
-      </div>
-      <div style="padding:12px;background:rgba(255,255,255,0.5);border-radius:10px;text-align:center">
-        <div style="font-size:22px;margin-bottom:4px">&#x1F393;</div>
-        <div style="font-size:13px;font-weight:700;color:var(--navy)">教育培训</div>
-        <div style="font-size:11.5px;color:var(--text-muted)">K12 · 职业教育 · 企培</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ==================== Slide 18: 快速开始 ==================== -->
-<div class="slide slide-content" data-index="17">
+<!-- ==================== Slide 21: 快速开始 ==================== -->
+<div class="slide slide-content" data-index="20">
   <div class="slide-header"><div class="slide-title t-title">快速开始 · 5分钟上手</div></div>
   <div class="slide-subtitle t-body">从安装到使用，极简三步走 · 企微+微信双通道扫码即连</div>
   <div class="slide-body">
@@ -933,8 +1097,8 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
   </div>
 </div>
 
-<!-- ==================== Slide 19: CTA ==================== -->
-<div class="slide slide-content" data-index="18">
+<!-- ==================== Slide 22: CTA ==================== -->
+<div class="slide slide-content" data-index="21">
   <div class="slide-header" style="visibility:hidden"><div class="slide-title">.</div></div>
   <div class="cta-center">
     <div>
@@ -963,6 +1127,26 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
   </div>
 </div>
 
+<!-- ==================== Slide 23: 公司介绍1 ==================== -->
+<div class="slide slide-image-fill" data-index="22">
+  <img src="PPT制作参考/公司介绍1-深耕企业微信服务10年.png" alt="公司介绍1">
+</div>
+
+<!-- ==================== Slide 24: 公司介绍2 ==================== -->
+<div class="slide slide-image-fill" data-index="23">
+  <img src="PPT制作参考/公司介绍2-定位：微盛助力用好企业微信月做增长.png" alt="公司介绍2">
+</div>
+
+<!-- ==================== Slide 25: 公司介绍3 ==================== -->
+<div class="slide slide-image-fill" data-index="24">
+  <img src="PPT制作参考/公司介绍3-付费客户数 营收 团队规模排名第一.png" alt="公司介绍3">
+</div>
+
+<!-- ==================== Slide 26: 公司介绍4 ==================== -->
+<div class="slide slide-image-fill" data-index="25">
+  <img src="PPT制作参考/公司介绍4-先后获得腾讯四轮投资.png" alt="公司介绍4">
+</div>
+
 </div>
 </div>
 
@@ -970,7 +1154,7 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
 <div class="nav-panel" id="navPanel">
   <button class="nav-btn" id="prevBtn" onclick="prevSlide()">&#x25B2;</button>
   <div class="nav-dots" id="navDots"></div>
-  <span class="nav-page" id="pageInd">1/19</span>
+  <span class="nav-page" id="pageInd">1/26</span>
   <button class="nav-btn" id="nextBtn" onclick="nextSlide()">&#x25BC;</button>
 </div>
 
