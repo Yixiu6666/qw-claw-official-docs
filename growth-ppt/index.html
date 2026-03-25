@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>企微管家Claw · 企业营收增长方案</title>
+<style>
+@font-face{font-family:'TencentSans';src:local('TencentSans'),local('TencentSans-W7'),local('腾讯体');font-weight:700}
+@font-face{font-family:'TencentSans';src:local('TencentSans-W3'),local('TencentSans');font-weight:400}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px}
+body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;background:#f0f2f5;color:#1a1a2e;overflow:hidden;height:100vh;-webkit-font-smoothing:antialiased}
+:root{
+  --brand:#0052FF;--brand-dark:#003FCC;--brand-light:rgba(0,82,255,0.08);
+  --navy:#0F1B3D;--navy-light:#1E2D54;
+  --text-dark:#0F172A;--text-body:#334155;--text-muted:#64748B;
+  --white:#fff;--slide-w:1456px;--slide-h:816px;
+  --growth:#059669;--revenue:#D97706;
+}
+.t-title{font-family:'TencentSans','Noto Serif SC','PingFang SC',serif}
+.t-body{font-family:'Noto Sans SC','PingFang SC',sans-serif;letter-spacing:0.02em}
+
+.presentation{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;background:#f0f2f5}
+.slide-viewport{width:var(--slide-w);height:var(--slide-h);position:relative;box-shadow:0 8px 40px rgba(0,0,0,0.12);border-radius:4px;overflow:hidden;transform-origin:center}
+.slide{position:absolute;top:0;left:0;width:100%;height:100%;background-size:cover;background-position:center;opacity:0;pointer-events:none;transition:opacity 0.5s ease;display:flex;flex-direction:column}
+.slide.active{opacity:1;pointer-events:auto}
+
+.nav-panel{
+  position:fixed;right:24px;top:50%;transform:translateY(-50%);
+  z-index:100;display:flex;flex-direction:column;align-items:center;gap:12px;
+  background:rgba(15,23,42,0.85);backdrop-filter:blur(16px);
+  padding:16px 10px;border-radius:28px;border:1px solid rgba(255,255,255,0.08);
+}
+.nav-btn{
+  width:36px;height:36px;border-radius:50%;border:none;
+  background:rgba(255,255,255,0.1);color:#fff;font-size:14px;
+  cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;
+}
+.nav-btn:hover{background:var(--brand)}
+.nav-btn:disabled{opacity:0.25;cursor:not-allowed}
+.nav-btn:disabled:hover{background:rgba(255,255,255,0.1)}
+.nav-dots{display:flex;flex-direction:column;gap:6px;padding:4px 0}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all 0.3s;cursor:pointer}
+.nav-dot.active{background:var(--brand);transform:scale(1.4)}
+.nav-page{color:rgba(255,255,255,0.5);font-size:12px;font-weight:500;writing-mode:horizontal-tb;white-space:nowrap}
+.keyboard-hint{
+  position:fixed;bottom:16px;right:24px;
+  background:rgba(15,23,42,0.7);backdrop-filter:blur(8px);
+  padding:6px 14px;border-radius:6px;
+  color:rgba(255,255,255,0.5);font-size:11px;z-index:100;
+}
+.keyboard-hint kbd{background:rgba(255,255,255,0.1);padding:1px 5px;border-radius:3px;font-family:monospace}
+
+/* Cover */
+.slide-cover{background-color:#fff;background-image:url('PPT制作参考/PPT首页背景图.png');background-size:cover;background-position:center}
+.cover-content{position:absolute;top:130px;left:88px;max-width:750px}
+.cover-title{font-size:48px;font-weight:900;color:var(--navy);line-height:1.25;letter-spacing:-1px;margin-bottom:16px}
+.cover-title .hl{color:var(--brand)}
+.cover-sub{font-size:22px;font-weight:600;color:var(--navy);opacity:0.65;margin-bottom:36px;line-height:1.6}
+.cover-tags{display:flex;gap:10px;flex-wrap:wrap}
+.cover-tag{padding:9px 22px;border-radius:8px;font-size:14px;font-weight:500;background:var(--brand-light);color:var(--brand);border:1px solid rgba(0,82,255,0.12)}
+.cover-footer{position:absolute;bottom:36px;left:88px;font-size:14px;color:var(--text-muted)}
+
+/* Content */
+.slide-content{background-color:#fff;background-image:url('PPT制作参考/PPT正文页背景图.png');background-size:cover;background-position:center;padding:0}
+.slide-header{padding:30px 0 0 56px;margin-bottom:0}
+.slide-title{font-size:38px;font-weight:900;color:var(--navy);line-height:1.3;letter-spacing:-0.5px;padding-top:4px}
+.slide-subtitle{font-size:16px;color:var(--text-muted);margin-top:4px;padding-left:56px}
+.slide-body{flex:1;padding:18px 56px 20px 56px;display:flex;flex-direction:column;justify-content:center}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.g23{display:grid;grid-template-columns:2fr 3fr;gap:28px}
+.g32{display:grid;grid-template-columns:3fr 2fr;gap:28px}
+.flex-col{display:flex;flex-direction:column;gap:12px}
+.flex-1{flex:1}
+
+.card{background:rgba(255,255,255,0.65);border:1px solid rgba(0,82,255,0.06);border-radius:14px;padding:26px 24px;transition:all 0.25s}
+.card:hover{background:rgba(255,255,255,0.92);box-shadow:0 6px 24px rgba(0,82,255,0.06);transform:translateY(-2px)}
+.card-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:10px}
+.ci-blue{background:rgba(0,82,255,0.1)}.ci-green{background:rgba(34,197,94,0.1)}.ci-purple{background:rgba(124,58,237,0.1)}
+.ci-orange{background:rgba(245,158,11,0.1)}.ci-cyan{background:rgba(6,182,212,0.1)}.ci-pink{background:rgba(236,72,153,0.1)}
+.ci-red{background:rgba(239,68,68,0.1)}
+.card h4{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.card p{font-size:15px;color:var(--text-body);line-height:1.75}
+.card-sm{padding:20px 22px}
+.card-sm h4{font-size:16.5px;margin-bottom:5px}
+.card-sm p{font-size:14.5px;line-height:1.75}
+
+.chat-mock{background:#ededed;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.chat-row{display:flex;gap:8px;align-items:flex-start}
+.chat-row.right{flex-direction:row-reverse}
+.chat-avatar{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.chat-avatar.user{background:#4285f4;color:#fff}
+.chat-avatar.ai{background:linear-gradient(135deg,#0052FF,#7C3AED);color:#fff}
+.chat-bubble{max-width:75%;padding:10px 14px;border-radius:10px;font-size:14px;line-height:1.7}
+.chat-bubble.user-b{background:#95ec69;color:#000;border-top-right-radius:2px}
+.chat-bubble.ai-b{background:#fff;color:var(--text-dark);border-top-left-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+
+.tbl{width:100%;border-collapse:separate;border-spacing:0;border-radius:10px;overflow:hidden;font-size:14px}
+.tbl th{background:var(--navy);color:#fff;padding:12px 16px;text-align:left;font-weight:600}
+.tbl th:nth-child(2){background:var(--brand)}
+.tbl th:nth-child(3){background:#64748B}
+.tbl td{padding:10px 16px;border-bottom:1px solid rgba(0,82,255,0.06)}
+.tbl tr:nth-child(even) td{background:rgba(0,82,255,0.02)}
+.tbl .check{color:var(--brand);font-weight:700}
+.tbl .cross{color:#94A3B8}
+
+.arch-box{border-radius:12px;padding:18px 22px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#fff}
+.arch-box h5{font-size:17px;font-weight:700}
+.arch-box p{font-size:14px;opacity:0.8;line-height:1.55}
+.ab-blue{background:linear-gradient(135deg,#0052FF,#3B82F6)}
+.ab-navy{background:linear-gradient(135deg,#0F172A,#1E3A5F)}
+.ab-indigo{background:linear-gradient(135deg,#4338CA,#6366F1)}
+.ab-purple{background:linear-gradient(135deg,#7C3AED,#A78BFA)}
+.ab-green{background:linear-gradient(135deg,#059669,#34D399)}
+.ab-light{background:rgba(255,255,255,0.6);border:1px solid rgba(0,82,255,0.1);color:var(--navy)}
+
+.sec-layer{display:flex;align-items:center;gap:14px;padding:16px 22px;border-radius:12px;color:#fff}
+.sec-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+.sec-layer h5{font-size:16.5px;font-weight:700}
+.sec-layer p{font-size:13.5px;opacity:0.78;margin-top:2px}
+
+.skill-chip{display:flex;align-items:center;gap:8px;padding:13px 16px;background:rgba(255,255,255,0.6);border:1px solid rgba(0,82,255,0.05);border-radius:10px;font-size:14px;font-weight:600;color:var(--navy)}
+.skill-chip span.e{font-size:18px;flex-shrink:0}
+
+.stat{text-align:center}
+.stat .n{font-size:42px;font-weight:900;color:var(--brand);line-height:1}
+.stat .n span{font-size:16px;color:var(--text-muted)}
+.stat .l{font-size:13.5px;color:var(--text-muted);margin-top:6px}
+
+.ind-card{background:rgba(255,255,255,0.6);border:1px solid rgba(0,82,255,0.06);border-radius:14px;padding:22px 20px}
+.ind-card .hd{display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:2px solid rgba(0,82,255,0.08);margin-bottom:10px}
+.ind-card .hd span{font-size:22px}
+.ind-card .hd h4{font-size:18px;font-weight:700;color:var(--navy)}
+.ind-pt{font-size:14.5px;color:var(--text-body);line-height:1.8;padding-left:16px;position:relative;margin-bottom:6px}
+.ind-pt::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--brand)}
+
+.bullet{display:flex;gap:14px;align-items:flex-start;padding:16px 20px;background:rgba(255,255,255,0.5);border-radius:10px;border-left:3px solid var(--brand)}
+.bullet-n{width:28px;height:28px;background:var(--brand);color:#fff;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.bullet h5{font-size:16.5px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.bullet p{font-size:14.5px;color:var(--text-body);line-height:1.65}
+
+.cta-center{display:flex;align-items:center;justify-content:center;text-align:center;flex:1}
+.cta-center h2{font-size:44px;font-weight:900;color:var(--navy);line-height:1.35;margin-bottom:12px}
+.cta-center .sub{font-size:18px;color:var(--text-muted);margin-bottom:32px;line-height:1.7}
+.cta-btns{display:flex;justify-content:center;gap:14px}
+.cta-btn{padding:14px 36px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;border:none;transition:all 0.3s}
+.cta-primary{background:var(--brand);color:#fff;box-shadow:0 4px 20px rgba(0,82,255,0.3)}
+.cta-primary:hover{background:var(--brand-dark);transform:translateY(-2px)}
+.cta-outline{background:transparent;color:var(--brand);border:2px solid var(--brand)}
+
+.flow{display:flex;align-items:center;gap:0;justify-content:center}
+.flow-step{display:flex;flex-direction:column;align-items:center;gap:8px;width:140px}
+.flow-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff}
+.flow-arrow{font-size:18px;color:var(--brand);margin:0 4px;flex-shrink:0}
+
+.hl-box{background:linear-gradient(135deg,var(--brand),#3B82F6);border-radius:14px;padding:26px;color:#fff}
+.hl-box h4{font-size:20px;font-weight:700;margin-bottom:5px}
+.hl-box p{font-size:15.5px;opacity:0.85;line-height:1.7}
+
+.mockup{border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);border:1px solid rgba(0,0,0,0.06)}
+.mock-bar{height:26px;background:#f1f3f5;display:flex;align-items:center;padding:0 10px;gap:6px}
+.mock-dot{width:8px;height:8px;border-radius:50%}
+.mock-dot.r{background:#ff5f57}.mock-dot.y{background:#ffbd2e}.mock-dot.g{background:#28c840}
+.mock-body{background:#fff;padding:16px;font-size:13.5px;color:var(--text-body)}
+
+.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600}
+.badge-green{background:rgba(34,197,94,0.1);color:#16a34a;border:1px solid rgba(34,197,94,0.15)}
+.badge-blue{background:rgba(0,82,255,0.08);color:var(--brand);border:1px solid rgba(0,82,255,0.12)}
+.badge-purple{background:rgba(124,58,237,0.08);color:#7C3AED;border:1px solid rgba(124,58,237,0.12)}
+.badge-orange{background:rgba(245,158,11,0.08);color:#D97706;border:1px solid rgba(245,158,11,0.12)}
+
+/* Growth specific */
+.growth-num{font-size:36px;font-weight:900;line-height:1}
+.growth-num.up{color:var(--growth)}
+.growth-num.rev{color:var(--revenue)}
+.growth-label{font-size:12.5px;color:var(--text-muted);margin-top:4px}
+
+.roi-card{background:rgba(255,255,255,0.7);border:1px solid rgba(0,82,255,0.06);border-radius:14px;padding:20px;text-align:center;position:relative;overflow:hidden}
+.roi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.roi-card.save::before{background:linear-gradient(90deg,#059669,#34D399)}
+.roi-card.earn::before{background:linear-gradient(90deg,#D97706,#FBBF24)}
+.roi-card.speed::before{background:linear-gradient(90deg,#0052FF,#3B82F6)}
+
+.qr-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center}
+.qr-modal.active{display:flex}
+.qr-modal-content{background:#fff;border-radius:16px;padding:32px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);max-width:360px}
+.qr-modal-content img{width:240px;height:240px;margin:16px 0;border-radius:8px}
+.qr-modal-content h3{font-size:20px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.qr-modal-content p{font-size:14px;color:var(--text-muted);margin-bottom:0}
+.qr-close{padding:8px 24px;background:var(--brand);color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer;margin-top:16px}
+
+@media(max-width:1500px){.slide-viewport{transform:scale(0.82)}}
+@media(max-width:1200px){.slide-viewport{transform:scale(0.62)}}
+@media(max-width:900px){.slide-viewport{transform:scale(0.48)}}
+</style>
+</head>
+<body>
+
+<div class="keyboard-hint"><kbd>&#x2190;</kbd><kbd>&#x2192;</kbd> 翻页 &middot; <kbd>F</kbd> 全屏</div>
+
+<div class="presentation">
+<div class="slide-viewport" id="slideViewport">
+
+<!-- ==================== Slide 1: Cover ==================== -->
+<div class="slide slide-cover active" data-index="0">
+  <div class="cover-content">
+    <div class="cover-title t-title">企微管家<span class="hl">Claw</span><br>驱动企业营收增长</div>
+    <div class="cover-sub t-title">AI Agent × 企业微信 · 让每一位员工拥有AI助手</div>
+    <div class="cover-tags">
+      <span class="cover-tag">&#x1F4C8; 营销效率提升6倍+</span>
+      <span class="cover-tag">&#x1F4B0; 内容生产成本降低80%</span>
+      <span class="cover-tag">&#x1F510; 本地部署 数据安全</span>
+      <span class="cover-tag">&#x1F916; 基于OpenClaw开源架构</span>
+    </div>
+    <div style="margin-top:24px;display:flex;gap:20px;font-size:15px;color:var(--text-body)">
+      <span>&#x2705; 扫码即连 零代码部署</span>
+      <span>&#x2705; 20+ Skills技能生态</span>
+      <span>&#x2705; SCRM深度集成</span>
+    </div>
+  </div>
+  <div class="cover-footer t-body">微盛AI &middot; 企业微信官方服务商 &middot; 2026</div>
+</div>
+
+<!-- ==================== Slide 2: 企业AI落地痛点 ==================== -->
+<div class="slide slide-content" data-index="1">
+  <div class="slide-header"><div class="slide-title t-title">企业AI落地的核心痛点</div></div>
+  <div class="slide-subtitle t-body">为什么企业在AI时代仍然面临营收增长瓶颈？</div>
+  <div class="slide-body">
+    <div class="g2" style="align-content:center">
+      <div class="card"><div class="card-icon ci-red">&#x1F4B8;</div><h4 class="t-title">营销效率低下</h4><p class="t-body">销售团队每天花2-3小时撰写朋友圈文案、群发消息、活动方案。AI工具与企微完全割裂，生成内容需手动复制粘贴，无法直接执行营销动作。</p><div style="margin-top:8px;padding:6px 10px;background:rgba(239,68,68,0.06);border-radius:6px;font-size:12.5px;color:#dc2626">&#x1F4CA; 83%员工每天在AI工具和企微之间来回切换超过20次</div></div>
+      <div class="card"><div class="card-icon ci-orange">&#x1F512;</div><h4 class="t-title">数据安全合规风险</h4><p class="t-body">将客户名单、商业策略上传至SaaS AI平台，合规风险巨大。银行、保险、政务等行业明确要求数据不出企业，传统方案无法满足。</p><div style="margin-top:8px;padding:6px 10px;background:rgba(245,158,11,0.06);border-radius:6px;font-size:12.5px;color:#D97706">&#x26A0;&#xFE0F; 金融/政务等高合规行业：数据必须在企业内流转</div></div>
+      <div class="card"><div class="card-icon ci-purple">&#x1F4A4;</div><h4 class="t-title">客户跟进易遗漏</h4><p class="t-body">客户生日祝福、节日问候、到期续费提醒、流失预警……全靠人工记忆和手动执行，一旦遗漏就是营收损失。</p><div style="margin-top:8px;padding:6px 10px;background:rgba(124,58,237,0.06);border-radius:6px;font-size:12.5px;color:#7C3AED">&#x1F4C9; 因跟进不及时导致的客户流失率高达15%-25%</div></div>
+      <div class="card"><div class="card-icon ci-cyan">&#x2699;&#xFE0F;</div><h4 class="t-title">技术落地成本高</h4><p class="t-body">想让AI接入企微？需要开发机器人、对接API、部署服务器……普通业务团队根本无法独立落地，开发周期长、投入大。</p><div style="margin-top:8px;padding:6px 10px;background:rgba(6,182,212,0.06);border-radius:6px;font-size:12.5px;color:#0891b2">&#x1F6A7; 传统AI企微集成：开发3-6个月，投入50-200万元</div></div>
+    </div>
+    <div style="display:flex;justify-content:center;gap:40px;margin-top:12px;padding-top:12px">
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#ef4444" class="t-title">83%</div><div style="font-size:12.5px;color:var(--text-muted)">AI工具与企微割裂</div></div>
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#f59e0b" class="t-title">2-3h/天</div><div style="font-size:12.5px;color:var(--text-muted)">人均营销内容制作</div></div>
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#7c3aed" class="t-title">15-25%</div><div style="font-size:12.5px;color:var(--text-muted)">因跟进不力客户流失</div></div>
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#0891b2" class="t-title">50万+</div><div style="font-size:12.5px;color:var(--text-muted)">传统方案开发成本</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 3: 什么是企微管家Claw ==================== -->
+<div class="slide slide-content" data-index="2">
+  <div class="slide-header"><div class="slide-title t-title">什么是企微管家Claw？</div></div>
+  <div class="slide-subtitle t-body">不是"聊天机器人"，而是真正能执行任务、主动干活的AI员工</div>
+  <div class="slide-body">
+    <div class="g32" style="flex:1;align-content:center">
+      <div class="flex-col" style="justify-content:center">
+        <div class="hl-box">
+          <h4 class="t-title">&#x1F99E; 核心定义</h4>
+          <p class="t-body">企微管家Claw是可一键连接企业微信+个人微信的AI Agent智能体(龙虾)。通过对话驱动，完成联网搜索、内容创作、营销执行、报表生成、客户管理等企业级工作——AI不再是体外工具，而是企微里的「AI员工」。</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="card card-sm"><h4 class="t-title">&#x1F4F2; 扫码即连</h4><p class="t-body">企微扫码+微信扫码，5分钟接入，无需开发</p></div>
+          <div class="card card-sm"><h4 class="t-title">&#x1F9E0; 永久记忆</h4><p class="t-body">跨对话持久化记忆，越用越懂你的业务</p></div>
+          <div class="card card-sm"><h4 class="t-title">&#x23F0; 主动服务</h4><p class="t-body">定时任务驱动，不@也能按时干活推送</p></div>
+            <div class="card card-sm"><h4 class="t-title">&#x1F9E9; 技能生态</h4><p class="t-body">30+ 企微生态Skills技能，从营销到运营全覆盖</p></div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <span class="badge badge-green">&#x2713; 本地安全部署</span>
+          <span class="badge badge-blue">&#x2713; 企微+微信双通道</span>
+          <span class="badge badge-purple">&#x2713; 开源可审计</span>
+          <span class="badge badge-orange">&#x2713; SCRM深度集成</span>
+        </div>
+      </div>
+      <div class="flex-col" style="justify-content:center">
+        <div class="chat-mock">
+          <div style="text-align:center;font-size:11.5px;color:var(--text-muted);padding:1px 0">&mdash; 企微群聊对话 &mdash;</div>
+          <div class="chat-row right"><div class="chat-avatar user">我</div><div class="chat-bubble user-b">帮我生成本周的朋友圈营销文案，主推春季护肤新品</div></div>
+          <div class="chat-row"><div class="chat-avatar ai">&#x1F99E;</div><div class="chat-bubble ai-b">好的，正在执行：<br>1&#xFE0F;&#x20E3; 联网搜索春季护肤趋势热点…<br>2&#xFE0F;&#x20E3; 结合品牌调性生成7天文案…<br>3&#xFE0F;&#x20E3; 同步到运营日历表格…<br><br>&#x2705; 本周7条朋友圈文案已生成，同步到「营销日历」智能表格。</div></div>
+          <div class="chat-row right"><div class="chat-avatar user">我</div><div class="chat-bubble user-b">下发为SCRM朋友圈任务，分配给A组销售</div></div>
+          <div class="chat-row"><div class="chat-avatar ai">&#x1F99E;</div><div class="chat-bubble ai-b">&#x2705; 已通过SCRM为A组12名销售创建朋友圈任务。未执行的将在截止前2小时自动催办。</div></div>
+        </div>
+        <div style="text-align:center;font-size:12px;color:var(--text-muted);margin-top:2px">&#x25B2; 从内容生成到营销执行全链路 · AI一条命令完成</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 4: Claw与OpenClaw ==================== -->
+<div class="slide slide-content" data-index="3">
+  <div class="slide-header"><div class="slide-title t-title">架构解析 · Claw与OpenClaw的关系</div></div>
+  <div class="slide-subtitle t-body">开源框架 + 商业化封装 = 安全、透明、可扩展的企业AI方案</div>
+  <div class="slide-body">
+    <div class="g2" style="flex:1;align-content:center">
+      <div class="flex-col" style="gap:10px;justify-content:center">
+        <div class="card card-sm" style="border-left:3px solid #7C3AED">
+          <h4 class="t-title">&#x1F513; OpenClaw · 开源AI Agent框架</h4>
+          <p class="t-body">OpenClaw是一个开源的AI智能体工具链，提供Agent核心引擎、Skills调度、MCP协议、多模型接入等基础能力。代码100%可审计，全球开发者社区共建。</p>
+          <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+            <span class="badge badge-purple">开源透明</span>
+            <span class="badge badge-purple">社区共建</span>
+            <span class="badge badge-purple">可审计</span>
+          </div>
+        </div>
+        <div class="card card-sm" style="border-left:3px solid var(--brand)">
+          <h4 class="t-title">&#x1F99E; 企微管家Claw · 商业化产品</h4>
+          <p class="t-body">基于OpenClaw进行商业化封装，增加企业微信原生深度集成、微信ClawBot双通道、SCRM营销能力、一键安装部署和企业级运营服务。</p>
+          <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+            <span class="badge badge-blue">企微深度集成</span>
+            <span class="badge badge-blue">一键部署</span>
+            <span class="badge badge-blue">SCRM打通</span>
+          </div>
+        </div>
+        <div style="padding:14px 18px;background:rgba(0,82,255,0.04);border-radius:10px;font-size:14px;color:var(--text-body);line-height:1.7">
+          <strong style="color:var(--navy)">&#x1F4A1; 对企业意味着什么？</strong><br>
+          底层开源 → 没有厂商锁定风险；上层商业化 → 获得完整落地保障和专业服务。安全与效率兼得。
+        </div>
+      </div>
+      <div class="flex-col" style="gap:12px;justify-content:center">
+        <!-- Architecture diagram -->
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div class="arch-box ab-blue" style="padding:12px"><h5 class="t-title" style="font-size:14px">&#x1F4F1; 企业微信</h5><p style="font-size:12px">官方Channel · 扫码接入</p></div>
+            <div class="arch-box" style="padding:12px;background:linear-gradient(135deg,#16a34a,#4ade80)"><h5 class="t-title" style="font-size:14px">&#x1F4AC; 个人微信</h5><p style="font-size:12px">ClawBot插件 · 扫码连接</p></div>
+          </div>
+          <div style="text-align:center;font-size:14px;color:var(--brand)">&#x25BC;</div>
+          <div class="arch-box ab-navy" style="padding:14px"><h5 class="t-title">&#x1F99E; 企微管家 Claw</h5><p style="font-size:13px">商业化封装 · 一键安装 · 企业级运营服务</p></div>
+          <div style="text-align:center;font-size:14px;color:var(--brand)">&#x25BC;</div>
+          <div class="arch-box ab-indigo" style="padding:14px"><h5 class="t-title">&#x1F513; OpenClaw 开源框架</h5><p style="font-size:13px">Agent引擎 · Skills调度 · MCP协议 · 多模型支持 · 永久记忆</p></div>
+          <div style="text-align:center;font-size:14px;color:var(--brand)">&#x25BC;</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <div class="arch-box ab-purple" style="padding:10px"><h5 style="font-size:13px" class="t-title">&#x1F9E9; Skills生态</h5><p style="font-size:11px">20+预置技能</p></div>
+            <div class="arch-box" style="padding:10px;background:linear-gradient(135deg,#D97706,#FBBF24)"><h5 style="font-size:13px" class="t-title">&#x1F536; 微盛SCRM</h5><p style="font-size:11px">营销自动化</p></div>
+            <div class="arch-box ab-green" style="padding:10px"><h5 style="font-size:13px" class="t-title">&#x1F91D; 运营服务</h5><p style="font-size:11px">落地保障</p></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+          <div class="arch-box ab-light" style="flex:0 0 auto;padding:5px 12px;flex-direction:row;gap:4px"><span style="font-size:13px">&#x1F517;</span><h5 style="font-size:12px" class="t-title">MCP协议</h5></div>
+          <div class="arch-box ab-light" style="flex:0 0 auto;padding:5px 12px;flex-direction:row;gap:4px"><span style="font-size:13px">&#x1F4CA;</span><h5 style="font-size:12px" class="t-title">智能表格</h5></div>
+          <div class="arch-box ab-light" style="flex:0 0 auto;padding:5px 12px;flex-direction:row;gap:4px"><span style="font-size:13px">&#x1F310;</span><h5 style="font-size:12px" class="t-title">联网搜索</h5></div>
+          <div class="arch-box ab-light" style="flex:0 0 auto;padding:5px 12px;flex-direction:row;gap:4px"><span style="font-size:13px">&#x1F40D;</span><h5 style="font-size:12px" class="t-title">Python</h5></div>
+          <div class="arch-box ab-light" style="flex:0 0 auto;padding:5px 12px;flex-direction:row;gap:4px"><span style="font-size:13px">&#x1F30D;</span><h5 style="font-size:12px" class="t-title">浏览器</h5></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 5: 营收增长全景 ==================== -->
+<div class="slide slide-content" data-index="4">
+  <div class="slide-header"><div class="slide-title t-title">Claw如何驱动企业营收增长？</div></div>
+  <div class="slide-subtitle t-body">三大增长引擎 · 从降本到增收到提效的全链路价值</div>
+  <div class="slide-body">
+    <div class="g3" style="align-content:center;flex:1">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="roi-card earn" style="flex:1">
+          <div style="font-size:28px;margin-bottom:6px">&#x1F4C8;</div>
+          <div class="growth-num rev t-title">增收</div>
+          <div style="font-size:15px;font-weight:700;color:var(--navy);margin:8px 0 6px">提升营销转化率</div>
+          <div style="font-size:13.5px;color:var(--text-body);line-height:1.7;text-align:left">
+            &bull; AI全年朋友圈文案 → 高频触达客户<br>
+            &bull; 定时招投标搜索 → 不遗漏任何商机<br>
+            &bull; 客户生日/节日祝福 → 提升复购率<br>
+            &bull; 竞品监控日报 → 快速抢占市场
+          </div>
+        </div>
+        <div style="text-align:center;padding:10px;background:rgba(215,151,6,0.06);border-radius:10px">
+          <div style="font-size:22px;font-weight:900;color:#D97706" class="t-title">+30%</div>
+          <div style="font-size:11px;color:var(--text-muted)">预估营销转化提升</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="roi-card save" style="flex:1">
+          <div style="font-size:28px;margin-bottom:6px">&#x1F4B0;</div>
+          <div class="growth-num up t-title">降本</div>
+          <div style="font-size:15px;font-weight:700;color:var(--navy);margin:8px 0 6px">大幅降低运营成本</div>
+          <div style="font-size:13.5px;color:var(--text-body);line-height:1.7;text-align:left">
+            &bull; 内容创作效率提升 10-20倍<br>
+            &bull; 活动方案：2小时 → 20分钟<br>
+            &bull; 周报生成：3小时 → 10分钟<br>
+            &bull; 海报/PPT：3天 → 1天完成
+          </div>
+        </div>
+        <div style="text-align:center;padding:10px;background:rgba(5,150,105,0.06);border-radius:10px">
+          <div style="font-size:22px;font-weight:900;color:#059669" class="t-title">6x</div>
+          <div style="font-size:11px;color:var(--text-muted)">综合效率提升</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="roi-card speed" style="flex:1">
+          <div style="font-size:28px;margin-bottom:6px">&#x26A1;</div>
+          <div class="growth-num t-title" style="color:var(--brand)">提效</div>
+          <div style="font-size:15px;font-weight:700;color:var(--navy);margin:8px 0 6px">AI员工24h自动运转</div>
+          <div style="font-size:13.5px;color:var(--text-body);line-height:1.7;text-align:left">
+            &bull; 定时任务主动执行 · 无需人工触发<br>
+            &bull; AI永久记忆 · 越用越聪明<br>
+            &bull; SCRM任务自动下发+催办<br>
+            &bull; 数据报表自动生成+推送
+          </div>
+        </div>
+        <div style="text-align:center;padding:10px;background:rgba(0,82,255,0.04);border-radius:10px">
+          <div style="font-size:22px;font-weight:900;color:var(--brand)" class="t-title">24h</div>
+          <div style="font-size:11px;color:var(--text-muted)">全天候自动运转</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;justify-content:center;padding:12px 0;background:rgba(0,82,255,0.03);border-radius:10px;margin-top:8px">
+      <div style="display:flex;align-items:center;gap:6px;font-size:14px;color:var(--navy);font-weight:600"><span style="font-size:18px">&#x1F3AF;</span> 投入产出比：一个Claw ≈ 半个全职运营岗</div>
+      <div style="color:var(--text-muted)">|</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:14px;color:var(--navy);font-weight:600"><span style="font-size:18px">&#x23F0;</span> 每人每天节省 2-3 小时</div>
+      <div style="color:var(--text-muted)">|</div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:14px;color:var(--navy);font-weight:600"><span style="font-size:18px">&#x1F4B5;</span> 年度节省 84-96 工时/人</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 6: 场景1 - 营销提效 ==================== -->
+<div class="slide slide-content" data-index="5">
+  <div class="slide-header"><div class="slide-title t-title">增长场景&#x2460; AI营销内容工厂</div></div>
+  <div class="slide-subtitle t-body">一句话生成 · 从内容创作到营销执行全链路自动化</div>
+  <div class="slide-body">
+    <div class="g2" style="flex:1;align-content:center">
+      <div class="flex-col" style="gap:6px;justify-content:center">
+        <div class="card card-sm" style="border-left:3px solid var(--brand)"><h4 class="t-title">&#x1F4F1; 全年朋友圈文案库</h4><p class="t-body">AI联网搜索品牌信息，一键生成365天朋友圈营销文案，自动同步到智能表格。销售每天直接调用发布，品牌一致性有保障。</p></div>
+        <div class="card card-sm" style="border-left:3px solid #7C3AED"><h4 class="t-title">&#x270D;&#xFE0F; 多平台内容矩阵</h4><p class="t-body">公众号推文、小红书图文、视频号脚本、商务PPT、活动海报——一句话指令，多平台内容批量产出。</p></div>
+        <div class="card card-sm" style="border-left:3px solid #059669"><h4 class="t-title">&#x1F536; SCRM营销任务闭环</h4><p class="t-body">AI生成文案 → SCRM创建朋友圈/群发任务 → 分配销售执行 → AI自动催办未完成 → 数据自动汇总。全链路零人工。</p></div>
+        <div class="card card-sm" style="border-left:3px solid #D97706"><h4 class="t-title">&#x1F3E6; 合规文案生成</h4><p class="t-body">金融银行等行业，AI自动校验敏感词和广告法合规要求，生成审核即通过的营销文案。</p></div>
+        <div style="background:rgba(0,82,255,0.04);border-radius:10px;padding:10px 16px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:14px;color:var(--text-body)">&#x26A1; 原来<strong>2小时/天</strong>的营销内容制作</span>
+          <span style="font-size:20px;color:var(--brand)">→</span>
+          <span style="font-size:14px;font-weight:700;color:var(--brand)">20分钟全搞定，效率提升6倍</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:10px">
+        <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);border-radius:14px;padding:22px 24px;color:#fff">
+          <div style="font-size:16px;font-weight:700;margin-bottom:16px" class="t-title">&#x1F504; AI营销全链路闭环</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:12px"><div style="width:32px;height:32px;background:var(--brand);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px">&#x270D;&#xFE0F;</div><div><div style="font-size:15px;font-weight:600" class="t-body">AI生成营销文案</div><div style="font-size:13px;opacity:0.7;margin-top:2px">联网搜索热点 + 品牌调性匹配</div></div></div>
+            <div style="text-align:center;font-size:18px;opacity:0.4;line-height:1">&darr;</div>
+            <div style="display:flex;align-items:center;gap:12px"><div style="width:32px;height:32px;background:#4338CA;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px">&#x1F4CA;</div><div><div style="font-size:15px;font-weight:600" class="t-body">同步运营日历表格</div><div style="font-size:13px;opacity:0.7;margin-top:2px">自动排期 · 可视化管理</div></div></div>
+            <div style="text-align:center;font-size:18px;opacity:0.4;line-height:1">&darr;</div>
+            <div style="display:flex;align-items:center;gap:12px"><div style="width:32px;height:32px;background:#059669;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px">&#x1F536;</div><div><div style="font-size:15px;font-weight:600" class="t-body">SCRM下发营销任务</div><div style="font-size:13px;opacity:0.7;margin-top:2px">朋友圈/群发 · 自动分配销售</div></div></div>
+            <div style="text-align:center;font-size:18px;opacity:0.4;line-height:1">&darr;</div>
+            <div style="display:flex;align-items:center;gap:12px"><div style="width:32px;height:32px;background:#D97706;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px">&#x1F4C8;</div><div><div style="font-size:15px;font-weight:600" class="t-body">自动催办 + 数据统计</div><div style="font-size:13px;opacity:0.7;margin-top:2px">执行率追踪 · 效果分析</div></div></div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <div style="text-align:center;padding:10px;background:rgba(255,255,255,0.5);border-radius:10px"><div style="font-size:22px;font-weight:900;color:var(--brand)" class="t-title">6x</div><div style="font-size:12px;color:var(--text-muted)">营销效率提升</div></div>
+          <div style="text-align:center;padding:10px;background:rgba(255,255,255,0.5);border-radius:10px"><div style="font-size:22px;font-weight:900;color:#059669" class="t-title">0</div><div style="font-size:12px;color:var(--text-muted)">人工复制粘贴</div></div>
+          <div style="text-align:center;padding:10px;background:rgba(255,255,255,0.5);border-radius:10px"><div style="font-size:22px;font-weight:900;color:#7C3AED" class="t-title">365天</div><div style="font-size:12px;color:var(--text-muted)">全年文案覆盖</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 7: 场景2 - 客户运营 ==================== -->
+<div class="slide slide-content" data-index="6">
+  <div class="slide-header"><div class="slide-title t-title">增长场景&#x2461; 智能客户运营</div></div>
+  <div class="slide-subtitle t-body">AI主动维护客户关系 · 流失预警 · 精准复购 · 定时关怀</div>
+  <div class="slide-body">
+    <div class="g2" style="flex:1;align-content:center">
+      <div class="flex-col" style="gap:8px;justify-content:center">
+        <div class="card card-sm"><h4 class="t-title">&#x1F382; 客户生日/节日自动祝福</h4><p class="t-body">AI根据永久记忆中的客户信息，在生日当天和重要节日通过SCRM自动创建「跟进客户」任务，提醒对应员工一键发送个性化祝福。维护客情不遗漏，提升客户粘性和复购率。</p></div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F465; 客户智能查询与分析</h4><p class="t-body">自然语言查询客户列表："查最近30天新增的VIP客户" → AI自动调用SCRM返回结果，支持打标签、分析画像、导出报表。</p></div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F4C9; 流失客户预警与挽回</h4><p class="t-body">AI定时分析客户互动数据，标记沉默客户并生成挽回方案——通过SCRM创建「跟进客户」任务，附带定制的关怀消息内容，提醒员工一键发送给客户。</p></div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F3F7;&#xFE0F; 活码+欢迎语+自动标签</h4><p class="t-body">通过对话创建员工活码：新客户扫码 → 自动打标签 → 发送个性化欢迎语 → 分配给对应销售跟进。</p></div>
+        <div style="background:rgba(5,150,105,0.04);border-radius:10px;padding:10px 16px">
+          <span style="font-size:14px;color:var(--text-body)">&#x1F4A1; <strong>核心营收逻辑</strong>：客户生命周期价值(LTV) ↑ = 复购率 ↑ + 流失率 ↓ + 转介绍 ↑</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:10px">
+        <div class="chat-mock" style="padding:12px;gap:8px">
+          <div style="text-align:center;font-size:11px;color:var(--text-muted)">&mdash; AI创建跟进任务场景 &mdash;</div>
+          <div class="chat-row"><div class="chat-avatar ai" style="width:24px;height:24px;font-size:12px">&#x1F99E;</div><div class="chat-bubble ai-b" style="font-size:13px;padding:8px 12px">&#x1F382; 提醒：客户张总（VIP）明天生日。<br>已为您准备个性化祝福消息：<br><br>"张总，祝您生日快乐！感谢一直以来的信任与支持。特为您准备了专属福利，欢迎随时咨询~"<br><br>&#x2705; 是否创建跟进任务提醒您发送？</div></div>
+          <div class="chat-row right"><div class="chat-avatar user" style="width:24px;height:24px;font-size:12px">我</div><div class="chat-bubble user-b" style="font-size:13px;padding:8px 12px">好的，再附带一个VIP优惠券</div></div>
+          <div class="chat-row"><div class="chat-avatar ai" style="width:24px;height:24px;font-size:12px">&#x1F99E;</div><div class="chat-bubble ai-b" style="font-size:13px;padding:8px 12px">&#x2705; 已通过SCRM创建「跟进客户」任务：<br>祝福+VIP专属优惠券 → 张总<br>您可在企微侧边栏一键发送给客户。</div></div>
+          <div style="border-top:1px dashed #ccc;padding-top:8px">
+          <div class="chat-row"><div class="chat-avatar ai" style="width:24px;height:24px;font-size:12px">&#x1F99E;</div><div class="chat-bubble ai-b" style="font-size:13px;padding:8px 12px">&#x26A0; 流失预警：以下5位客户30天未互动：<br>1. 李经理（上月采购10万）<br>2. 王总（年度合同下月到期）<br>...<br>需要我创建跟进任务提醒您挽回吗？</div></div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="text-align:center;padding:8px;background:rgba(255,255,255,0.5);border-radius:8px"><div style="font-size:20px;font-weight:900;color:var(--brand)" class="t-title">0遗漏</div><div style="font-size:11px;color:var(--text-muted)">客户关怀不漏一人</div></div>
+          <div style="text-align:center;padding:8px;background:rgba(255,255,255,0.5);border-radius:8px"><div style="font-size:20px;font-weight:900;color:#059669" class="t-title">+25%</div><div style="font-size:11px;color:var(--text-muted)">预估复购率提升</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 8: 场景3 - 商机发现 ==================== -->
+<div class="slide slide-content" data-index="7">
+  <div class="slide-header"><div class="slide-title t-title">增长场景&#x2462; AI商机发现与竞品监控</div></div>
+  <div class="slide-subtitle t-body">定时搜索 · 智能过滤 · 自动推送 · 不遗漏每一个增长机会</div>
+  <div class="slide-body">
+    <div class="g2" style="flex:1;align-content:center">
+      <div class="flex-col" style="gap:8px;justify-content:center">
+        <div class="card card-sm"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><span style="font-size:17px">&#x1F4E2;</span><h4 class="t-title" style="margin:0">定时招投标信息搜索</h4></div><p class="t-body">每天定时全网搜索与企业业务相关的招投标项目，智能过滤匹配条件，整理成表格推送到指定群聊。再也不会错过大单商机。</p></div>
+        <div class="card card-sm"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><span style="font-size:17px">&#x1F50D;</span><h4 class="t-title" style="margin:0">竞品动态监控日报</h4></div><p class="t-body">每天17:00自动搜索竞品公司动态——产品发布、融资、人事变动、营销活动，汇总成分析报告推送给管理层，快速跟进市场变化。</p></div>
+        <div class="card card-sm"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><span style="font-size:17px">&#x1F4F0;</span><h4 class="t-title" style="margin:0">行业趋势资讯推送</h4></div><p class="t-body">每天早上9:00联网搜索行业最新动态，整理为5条要点推送到高管群。团队上班即了解行业变化，决策快人一步。</p></div>
+        <div class="card card-sm"><div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><span style="font-size:17px">&#x1F4CA;</span><h4 class="t-title" style="margin:0">数据驱动的市场洞察</h4></div><p class="t-body">AI生成含图表的行业深度研报网页和PDF——市场规模、增长趋势、竞争格局，辅助管理层战略决策。</p></div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:10px">
+        <div class="mockup" style="width:100%">
+          <div class="mock-bar"><div class="mock-dot r"></div><div class="mock-dot y"></div><div class="mock-dot g"></div><span style="font-size:13px;color:#666;margin-left:auto">定时商机搜索 · 每日自动推送</span></div>
+          <div class="mock-body" style="padding:14px;background:#f8f9ff">
+            <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px">&#x1F4CB; 今日招投标商机（AI自动搜索）</div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="padding:8px 10px;background:#fff;border-radius:6px;border:1px solid #e8eaf0;border-left:3px solid #22c55e">
+                <div style="display:flex;justify-content:space-between"><div style="font-size:13px;font-weight:600;color:var(--navy)">XX银行数字化营销平台采购</div><span style="font-size:11px;color:#22c55e;font-weight:600">高匹配</span></div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:2px">预算：380万 | 截止：4月15日 | 区域：华东</div>
+              </div>
+              <div style="padding:8px 10px;background:#fff;border-radius:6px;border:1px solid #e8eaf0;border-left:3px solid #f59e0b">
+                <div style="display:flex;justify-content:space-between"><div style="font-size:13px;font-weight:600;color:var(--navy)">XX集团企业微信SCRM系统建设</div><span style="font-size:11px;color:#f59e0b;font-weight:600">中匹配</span></div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:2px">预算：150万 | 截止：4月28日 | 区域：华南</div>
+              </div>
+              <div style="padding:8px 10px;background:#fff;border-radius:6px;border:1px solid #e8eaf0;border-left:3px solid #22c55e">
+                <div style="display:flex;justify-content:space-between"><div style="font-size:13px;font-weight:600;color:var(--navy)">XX保险客户运营AI辅助系统</div><span style="font-size:11px;color:#22c55e;font-weight:600">高匹配</span></div>
+                <div style="font-size:11px;color:var(--text-muted);margin-top:2px">预算：260万 | 截止：5月10日 | 区域：华北</div>
+              </div>
+            </div>
+            <div style="margin-top:8px;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px">&#x1F4CA; 竞品动态日报</div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="padding:6px 10px;background:#fff;border-radius:6px;font-size:12px;color:var(--text-body)">&#x1F534; 竞品A：发布新版SCRM 3.0，新增AI文案功能</div>
+              <div style="padding:6px 10px;background:#fff;border-radius:6px;font-size:12px;color:var(--text-body)">&#x1F7E1; 竞品B：完成B轮融资1.2亿，加大市场投入</div>
+              <div style="padding:6px 10px;background:#fff;border-radius:6px;font-size:12px;color:var(--text-body)">&#x1F7E2; 竞品C：华东区域负责人离职，团队变动</div>
+            </div>
+            <div style="margin-top:6px;padding:6px 8px;background:rgba(0,82,255,0.04);border-radius:4px;font-size:11px;color:var(--text-muted);text-align:center">每天 09:00 / 17:00 自动执行 · 推送到「管理层」群聊</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:center">
+          <span class="badge badge-green">&#x2705; 定时自动搜索</span>
+          <span class="badge badge-blue">&#x2705; 智能匹配过滤</span>
+          <span class="badge badge-orange">&#x2705; 实时推送通知</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 9: 场景4 - 运营降本 ==================== -->
+<div class="slide slide-content" data-index="8">
+  <div class="slide-header"><div class="slide-title t-title">增长场景&#x2463; 运营降本 · 报表与流程自动化</div></div>
+  <div class="slide-subtitle t-body">定时报表 · OCR入库 · 库存预警 · 远程办公 · 释放人力聚焦高价值工作</div>
+  <div class="slide-body">
+    <div class="g2" style="flex:1;align-content:center">
+      <div class="flex-col" style="gap:8px;justify-content:center">
+        <div class="card card-sm"><h4 class="t-title">&#x1F4CA; 周报/日报自动生成</h4><p class="t-body">AI定时汇总本周运营数据，自动生成含KPI进展、亮点分析和下周计划的结构化报告，推送到管理群。</p><div style="margin-top:4px;font-size:12.5px;color:var(--brand)">原 2-3小时 → 现 10分钟 · 效率提升15倍</div></div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F4F7; 手写单据OCR入库</h4><p class="t-body">工厂员工拍照手写出入库单 → AI自动识别 → 更新智能表格库存 → 低于安全库存自动预警通知。</p><div style="margin-top:4px;font-size:12.5px;color:var(--brand)">替代传统ERP · 中小企业3s即完成</div></div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F4F1; 远程文件调取</h4><p class="t-body">出差在外，通过微信发消息给AI → AI在办公电脑上查找文件 → 自动转换格式发回手机。再也不用麻烦同事帮忙找文件。</p></div>
+        <div class="card card-sm"><h4 class="t-title">&#x1F4D6; AI学习企业文档</h4><p class="t-body">上传产品PPT/手册让AI深度学习，团队随时用自然语言提问——AI精准作答，替代传统内部FAQ系统。</p></div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:10px">
+        <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F);border-radius:14px;padding:18px;color:#fff">
+          <div style="font-size:15px;font-weight:700;margin-bottom:14px" class="t-title">&#x1F4B0; 降本效果量化（单人年度）</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.08);border-radius:8px">
+              <span style="font-size:13px">活动方案制作</span>
+              <div style="text-align:right"><div style="font-size:11px;opacity:0.5">2h/周 → 20min/周</div><div style="font-size:14px;font-weight:700;color:#34D399">省 84h/年</div></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.08);border-radius:8px">
+              <span style="font-size:13px">周报/日报撰写</span>
+              <div style="text-align:right"><div style="font-size:11px;opacity:0.5">3h/周 → 10min/周</div><div style="font-size:14px;font-weight:700;color:#34D399">省 140h/年</div></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.08);border-radius:8px">
+              <span style="font-size:13px">营销文案创作</span>
+              <div style="text-align:right"><div style="font-size:11px;opacity:0.5">2h/天 → 20min/天</div><div style="font-size:14px;font-weight:700;color:#34D399">省 420h/年</div></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.08);border-radius:8px">
+              <span style="font-size:13px">海报/PPT设计</span>
+              <div style="text-align:right"><div style="font-size:11px;opacity:0.5">3天 → 1天</div><div style="font-size:14px;font-weight:700;color:#34D399">设计成本↓50%</div></div>
+            </div>
+          </div>
+          <div style="margin-top:10px;padding:8px;text-align:center;background:rgba(52,211,153,0.15);border-radius:8px">
+            <div style="font-size:18px;font-weight:900;color:#34D399" class="t-title">单人年度可节省 640+ 小时 ≈ 0.3个FTE</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <span class="badge badge-green">&#x2705; 零门槛使用</span>
+          <span class="badge badge-blue">&#x2705; 全流程自动化</span>
+          <span class="badge badge-purple">&#x2705; 数据留存可追溯</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 10: 行业解决方案 ==================== -->
+<div class="slide slide-content" data-index="9">
+  <div class="slide-header"><div class="slide-title t-title">行业营收增长方案</div></div>
+  <div class="slide-subtitle t-body">金融 · 制造 · 零售 · 教育 · 医疗 · 多行业深度适配</div>
+  <div class="slide-body">
+    <div class="g5" style="align-content:center">
+      <div class="ind-card">
+        <div class="hd"><span>&#x1F3E6;</span><h4 class="t-title">金融银行</h4></div>
+        <div class="ind-pt">合规朋友圈文案生成</div>
+        <div class="ind-pt">理财产品营销素材</div>
+        <div class="ind-pt">客户经理任务督办</div>
+        <div class="ind-pt">战报海报按战区生成</div>
+        <div class="ind-pt">VIP客户定时关怀</div>
+        <div class="ind-pt">敏感词自动校验</div>
+        <div style="margin-top:6px"><span class="badge badge-blue">合规增收</span></div>
+      </div>
+      <div class="ind-card">
+        <div class="hd"><span>&#x1F3ED;</span><h4 class="t-title">制造工厂</h4></div>
+        <div class="ind-pt">手写单据OCR入库</div>
+        <div class="ind-pt">库存安全水位预警</div>
+        <div class="ind-pt">口述→表格录入</div>
+        <div class="ind-pt">生产数据自动日报</div>
+        <div class="ind-pt">替代传统ERP系统</div>
+        <div class="ind-pt">供应商协同管理</div>
+        <div style="margin-top:6px"><span class="badge badge-green">大幅降本</span></div>
+      </div>
+      <div class="ind-card">
+        <div class="hd"><span>&#x1F6CD;&#xFE0F;</span><h4 class="t-title">零售电商</h4></div>
+        <div class="ind-pt">全年营销文案库</div>
+        <div class="ind-pt">运营日历自动排期</div>
+        <div class="ind-pt">社群消息智能摘要</div>
+        <div class="ind-pt">裂变活动快速生成</div>
+        <div class="ind-pt">流失客户分析挽回</div>
+        <div class="ind-pt">会员精准复购营销</div>
+        <div style="margin-top:6px"><span class="badge badge-orange">营收增长</span></div>
+      </div>
+      <div class="ind-card">
+        <div class="hd"><span>&#x1F393;</span><h4 class="t-title">教育培训</h4></div>
+        <div class="ind-pt">招生文案批量生成</div>
+        <div class="ind-pt">课程内容自动整理</div>
+        <div class="ind-pt">学员签到打卡统计</div>
+        <div class="ind-pt">群聊问答自动回复</div>
+        <div class="ind-pt">培训手册AI生成</div>
+        <div class="ind-pt">续费到期自动提醒</div>
+        <div style="margin-top:6px"><span class="badge badge-blue">招生转化</span></div>
+      </div>
+      <div class="ind-card">
+        <div class="hd"><span>&#x1F3E5;</span><h4 class="t-title">医疗健康</h4></div>
+        <div class="ind-pt">患者随访定时提醒</div>
+        <div class="ind-pt">健康科普内容创作</div>
+        <div class="ind-pt">排班与值班通知</div>
+        <div class="ind-pt">药品库存预警</div>
+        <div class="ind-pt">诊后关怀自动化</div>
+        <div class="ind-pt">体检报告解读</div>
+        <div style="margin-top:6px"><span class="badge badge-green">患者粘性</span></div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center;gap:40px;margin-top:12px;padding-top:14px">
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:var(--brand)" class="t-title">20+</div><div style="font-size:12px;color:var(--text-muted)">行业解决方案</div></div>
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#059669" class="t-title">100+</div><div style="font-size:12px;color:var(--text-muted)">行业应用场景</div></div>
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#7C3AED" class="t-title">10K+</div><div style="font-size:12px;color:var(--text-muted)">已服务企业</div></div>
+      <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#D97706" class="t-title">6x</div><div style="font-size:12px;color:var(--text-muted)">综合效率提升</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 11: 安全保障 ==================== -->
+<div class="slide slide-content" data-index="10">
+  <div class="slide-header"><div class="slide-title t-title">企业级安全与合规保障</div></div>
+  <div class="slide-subtitle t-body">数据不出企业 · 本地部署 · 开源可审计 · 满足金融政务级要求</div>
+  <div class="slide-body">
+    <div class="g2" style="flex:1;align-content:center">
+      <div class="flex-col" style="gap:8px;justify-content:center">
+        <div class="sec-layer" style="background:linear-gradient(90deg,#0F172A,#1E3A5F)"><div class="sec-num" style="background:#0052FF">1</div><div><h5 class="t-title">本地部署层</h5><p class="t-body">Agent运行在企业本地电脑，数据全程不出企业网络边界</p></div></div>
+        <div class="sec-layer" style="background:linear-gradient(90deg,#1E293B,#2D4A6F)"><div class="sec-num" style="background:#4338CA">2</div><div><h5 class="t-title">传输加密层</h5><p class="t-body">TLS 1.3全链路加密 · 企微/微信官方API加密通道</p></div></div>
+        <div class="sec-layer" style="background:linear-gradient(90deg,#1E3050,#3B5998)"><div class="sec-num" style="background:#7C3AED">3</div><div><h5 class="t-title">权限控制层</h5><p class="t-body">Skills白名单审批 · 操作确认机制 · 管理员分级授权</p></div></div>
+        <div class="sec-layer" style="background:linear-gradient(90deg,#1A365D,#2B6CB0)"><div class="sec-num" style="background:#059669">4</div><div><h5 class="t-title">数据隔离层</h5><p class="t-body">每个Agent独立运行空间 · 跨组织数据完全隔离</p></div></div>
+        <div class="sec-layer" style="background:linear-gradient(90deg,#1D4ED8,#3B82F6)"><div class="sec-num" style="background:#D97706">5</div><div><h5 class="t-title">审计可溯源</h5><p class="t-body">全操作审计日志 · 完整操作轨迹 · 合规报表导出</p></div></div>
+      </div>
+      <div class="flex-col" style="gap:8px;justify-content:center">
+        <div class="card card-sm" style="border-left:3px solid var(--brand)"><h4 class="t-title">&#x1F6E1;&#xFE0F; 开源透明 · 零后门</h4><p class="t-body">基于OpenClaw开源框架，核心代码100%可审计。没有后门和暗箱操作，企业IT部门可自行代码审查。</p></div>
+        <div class="card card-sm" style="border-left:3px solid #059669"><h4 class="t-title">&#x1F510; 精细化权限管控</h4><p class="t-body">可精确控制AI的能力边界：仅聊天、限制文件读写、限制命令执行、限制联网搜索。从最小权限开始，按需逐步开放。</p></div>
+        <div class="card card-sm" style="border-left:3px solid #7C3AED"><h4 class="t-title">&#x1F3E2; 适配高合规行业</h4><p class="t-body">满足银行、保险、政务、医疗等行业的数据安全要求。所有数据在本地处理，不上传任何第三方平台。</p></div>
+        <div class="card card-sm" style="border-left:3px solid #D97706"><h4 class="t-title">&#x2696;&#xFE0F; 内容合规审核</h4><p class="t-body">AI生成的营销文案自动过广告法合规校验，敏感词检测，确保每一条输出都符合法规要求。</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 12: 安装部署指南 ==================== -->
+<div class="slide slide-content" data-index="11">
+  <div class="slide-header"><div class="slide-title t-title">安装部署 · 注意事项</div></div>
+  <div class="slide-subtitle t-body">企业部署 vs 个人安装 · 3-5分钟即可完成 · 需关注以下要点</div>
+  <div class="slide-body">
+    <div class="g2" style="flex:1;align-content:center">
+      <div class="flex-col" style="gap:8px;justify-content:center">
+        <div class="hl-box" style="padding:16px">
+          <h4 class="t-title" style="margin-bottom:8px">&#x1F3E2; 企业统一部署</h4>
+          <div style="display:flex;flex-direction:column;gap:4px;font-size:14px;line-height:1.7">
+            <div>&#x2705; 企业统一管理和分发安装包</div>
+            <div>&#x2705; IT管理员分发安装包后员工一键安装启用</div>
+            <div>&#x2705; 企业统一配置API Key，员工无需自行注册</div>
+            <div>&#x2705; 可选择企业自有大模型或微盛统一提供的大模型中转服务</div>
+            <div>&#x26A0;&#xFE0F; 企业可统一配置员工可用的Skills</div>
+            <div>&#x26A0;&#xFE0F; 建议先设置<strong>最小权限</strong>，按需逐步开放</div>
+          </div>
+        </div>
+        <div class="card card-sm" style="background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border:none">
+          <h4 class="t-title" style="color:#fff;margin-bottom:6px">&#x1F464; 个人快捷安装</h4>
+          <div style="display:flex;flex-direction:column;gap:3px;font-size:13.5px;line-height:1.7;opacity:0.95">
+            <div>&#x2705; 下载安装包 → 一键本地安装（Win+Mac）</div>
+            <div>&#x2705; 使用微盛账户登录 → 赠送¥10体验金</div>
+            <div>&#x2705; 自动配置AI模型 → 扫码即可使用</div>
+            <div>&#x2705; 无需IT支持，普通员工独立完成</div>
+          </div>
+        </div>
+        <div style="padding:12px 16px;background:rgba(239,68,68,0.04);border:1px solid rgba(239,68,68,0.12);border-radius:10px">
+          <div style="font-size:14px;font-weight:700;color:#dc2626;margin-bottom:4px">&#x26A0; 关键注意事项</div>
+          <div style="font-size:13px;color:var(--text-body);line-height:1.7">
+            &bull; 确保网络可访问AI模型服务（部分模型需翻墙）<br>
+            &bull; 首次使用建议先试用「微盛大模型服务」快速体验
+          </div>
+        </div>
+      </div>
+      <div class="flex-col" style="gap:8px;justify-content:center">
+        <div style="font-size:15px;font-weight:700;color:var(--navy);margin-bottom:2px" class="t-title">&#x1F680; 四步快速上手</div>
+        <div class="bullet" style="padding:12px 14px"><div class="bullet-n">1</div><div><h5 class="t-title">安装Claw客户端</h5><p class="t-body">下载安装包，支持Windows + Mac，拖入应用程序即可</p></div></div>
+        <div class="bullet" style="padding:12px 14px"><div class="bullet-n">2</div><div><h5 class="t-title">配置AI模型</h5><p class="t-body">填写API Key或登录微盛账户（自动配置）。支持10+大模型平台：DeepSeek、Claude、GPT、智谱等</p></div></div>
+        <div class="bullet" style="padding:12px 14px"><div class="bullet-n">3</div><div><h5 class="t-title">扫码连接企微/微信</h5><p class="t-body">企微扫码 → 机器人自动分配到群聊；微信扫码 → ClawBot插件连接。双通道即刻可用</p></div></div>
+        <div class="bullet" style="padding:12px 14px"><div class="bullet-n">4</div><div><h5 class="t-title">安装Skills并使用</h5><p class="t-body">从技能市场一键安装所需Skills → @机器人或微信发消息 → AI即刻响应工作</p></div></div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px">
+          <div style="text-align:center;padding:6px;background:rgba(255,255,255,0.5);border-radius:6px"><div style="font-size:12px;font-weight:700;color:var(--navy)">Win+Mac</div><div style="font-size:10px;color:var(--text-muted)">双系统支持</div></div>
+          <div style="text-align:center;padding:6px;background:rgba(255,255,255,0.5);border-radius:6px"><div style="font-size:12px;font-weight:700;color:var(--navy)">3分钟</div><div style="font-size:10px;color:var(--text-muted)">安装完成</div></div>
+          <div style="text-align:center;padding:6px;background:rgba(255,255,255,0.5);border-radius:6px"><div style="font-size:12px;font-weight:700;color:var(--navy)">10+模型</div><div style="font-size:10px;color:var(--text-muted)">自由选择</div></div>
+          <div style="text-align:center;padding:6px;background:rgba(255,255,255,0.5);border-radius:6px"><div style="font-size:12px;font-weight:700;color:var(--navy)">零代码</div><div style="font-size:10px;color:var(--text-muted)">无需开发</div></div>
+          <div style="text-align:center;padding:6px;background:rgba(255,255,255,0.5);border-radius:6px"><div style="font-size:12px;font-weight:700;color:var(--navy)">自动更新</div><div style="font-size:10px;color:var(--text-muted)">始终最新</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 13: ROI总结 ==================== -->
+<div class="slide slide-content" data-index="12">
+  <div class="slide-header"><div class="slide-title t-title">投资回报 · ROI量化分析</div></div>
+  <div class="slide-subtitle t-body">投入最小化 · 产出最大化 · 用数据说话</div>
+  <div class="slide-body">
+    <div style="display:flex;flex-direction:column;gap:14px;justify-content:center;flex:1">
+      <table class="tbl">
+        <tr><th style="width:22%">价值维度</th><th style="width:28%">传统方式</th><th style="width:28%">使用Claw后</th><th style="width:22%">提升效果</th></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">&#x270D;&#xFE0F; 营销文案制作</td><td>2小时/天 · 人工撰写</td><td class="check">20分钟/天 · AI批量生成</td><td><strong style="color:var(--brand)">效率提升 6倍</strong></td></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">&#x1F4CA; 周报/日报</td><td>2-3小时/周 · 手工汇总</td><td class="check">10分钟/周 · AI自动生成</td><td><strong style="color:var(--brand)">效率提升 15倍</strong></td></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">&#x1F4CB; 活动方案</td><td>2小时/周 · 从零撰写</td><td class="check">20分钟/周 · AI标准化</td><td><strong style="color:var(--brand)">效率提升 6倍</strong></td></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">&#x1F382; 客户关怀</td><td>人工记忆 · 经常遗漏</td><td class="check">AI定时触发 · 0遗漏</td><td><strong style="color:#059669">流失率↓ 复购↑</strong></td></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">&#x1F4E2; 商机获取</td><td>人工搜索 · 不定时</td><td class="check">AI定时搜索 · 智能过滤</td><td><strong style="color:#D97706">商机不遗漏</strong></td></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">&#x1F3A8; 海报/PPT设计</td><td>3天沟通周期</td><td class="check">AI初版+设计师精修</td><td><strong style="color:var(--brand)">周期缩短 66%</strong></td></tr>
+        <tr><td style="font-weight:600;color:var(--navy)">&#x1F50D; 竞品监控</td><td>人工搜索 · 不系统</td><td class="check">定时日报 · 全面覆盖</td><td><strong style="color:#7C3AED">信息领先优势</strong></td></tr>
+      </table>
+      <div style="display:flex;justify-content:space-around;padding:16px 0;background:linear-gradient(135deg,var(--brand),#3B82F6);border-radius:14px;color:#fff">
+        <div style="text-align:center"><div style="font-size:34px;font-weight:900" class="t-title">640h+</div><div style="font-size:13px;opacity:0.8;margin-top:2px">单人年度节省工时</div></div>
+        <div style="text-align:center"><div style="font-size:34px;font-weight:900" class="t-title">≈0.3 FTE</div><div style="font-size:13px;opacity:0.8;margin-top:2px">相当于节省0.3个全职员工</div></div>
+        <div style="text-align:center"><div style="font-size:34px;font-weight:900" class="t-title">6x+</div><div style="font-size:13px;opacity:0.8;margin-top:2px">综合效率提升</div></div>
+        <div style="text-align:center"><div style="font-size:34px;font-weight:900" class="t-title">5分钟</div><div style="font-size:13px;opacity:0.8;margin-top:2px">部署即可投入使用</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 14: 公司介绍（留白1） ==================== -->
+<div class="slide slide-content" data-index="13">
+  <div class="slide-header"><div class="slide-title t-title">关于微盛</div></div>
+  <div class="slide-subtitle t-body">企业微信官方服务商 · 深耕企微生态</div>
+  <div class="slide-body" style="justify-content:center">
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:20px">
+      <div style="font-size:48px">&#x1F3E2;</div>
+      <div style="font-size:28px;font-weight:900;color:var(--navy);text-align:center" class="t-title">微盛公司介绍</div>
+      <div style="font-size:16px;color:var(--text-muted);text-align:center;max-width:600px;line-height:1.8">
+        此页预留给微盛公司介绍专属PPT内容<br>
+        详细内容请插入已有的公司介绍资料
+      </div>
+      <div style="display:flex;justify-content:center;gap:40px;margin-top:10px">
+        <div class="stat"><div class="n t-title">10,000<span>+</span></div><div class="l t-body">服务企业数</div></div>
+        <div class="stat"><div class="n t-title">500<span>万+</span></div><div class="l t-body">终端用户覆盖</div></div>
+        <div class="stat"><div class="n t-title">8<span>年</span></div><div class="l t-body">企微生态深耕</div></div>
+        <div class="stat"><div class="n t-title">20<span>+</span></div><div class="l t-body">行业解决方案</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 15: 公司介绍（留白2） ==================== -->
+<div class="slide slide-content" data-index="14">
+  <div class="slide-header"><div class="slide-title t-title">微盛核心优势</div></div>
+  <div class="slide-subtitle t-body">企业微信官方认证服务商 · 全方位生态服务能力</div>
+  <div class="slide-body" style="justify-content:center">
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:20px">
+      <div style="font-size:48px">&#x1F3C5;</div>
+      <div style="font-size:28px;font-weight:900;color:var(--navy);text-align:center" class="t-title">微盛核心优势与客户案例</div>
+      <div style="font-size:16px;color:var(--text-muted);text-align:center;max-width:600px;line-height:1.8">
+        此页预留给微盛核心优势、合作伙伴与客户案例展示<br>
+        详细内容请插入已有的公司介绍资料
+      </div>
+      <div class="g4" style="width:100%;max-width:900px;margin-top:10px">
+        <div style="padding:16px;background:rgba(255,255,255,0.5);border-radius:10px;text-align:center">
+          <div style="font-size:24px;margin-bottom:6px">&#x1F3E6;</div>
+          <div style="font-size:14px;font-weight:700;color:var(--navy)">金融行业</div>
+          <div style="font-size:12px;color:var(--text-muted)">多家银行·保险·证券</div>
+        </div>
+        <div style="padding:16px;background:rgba(255,255,255,0.5);border-radius:10px;text-align:center">
+          <div style="font-size:24px;margin-bottom:6px">&#x1F3ED;</div>
+          <div style="font-size:14px;font-weight:700;color:var(--navy)">制造业</div>
+          <div style="font-size:12px;color:var(--text-muted)">工厂·供应链·物流</div>
+        </div>
+        <div style="padding:16px;background:rgba(255,255,255,0.5);border-radius:10px;text-align:center">
+          <div style="font-size:24px;margin-bottom:6px">&#x1F6CD;&#xFE0F;</div>
+          <div style="font-size:14px;font-weight:700;color:var(--navy)">零售电商</div>
+          <div style="font-size:12px;color:var(--text-muted)">品牌·门店·社区团购</div>
+        </div>
+        <div style="padding:16px;background:rgba(255,255,255,0.5);border-radius:10px;text-align:center">
+          <div style="font-size:24px;margin-bottom:6px">&#x1F393;</div>
+          <div style="font-size:14px;font-weight:700;color:var(--navy)">教育培训</div>
+          <div style="font-size:12px;color:var(--text-muted)">K12·职业教育·企培</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 16: 公司介绍（留白3） ==================== -->
+<div class="slide slide-content" data-index="15">
+  <div class="slide-header"><div class="slide-title t-title">微盛服务体系</div></div>
+  <div class="slide-subtitle t-body">从产品交付到持续运营 · 全方位落地保障</div>
+  <div class="slide-body" style="justify-content:center">
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:20px">
+      <div style="font-size:48px">&#x1F91D;</div>
+      <div style="font-size:28px;font-weight:900;color:var(--navy);text-align:center" class="t-title">微盛服务体系与合作模式</div>
+      <div style="font-size:16px;color:var(--text-muted);text-align:center;max-width:600px;line-height:1.8">
+        此页预留给微盛服务体系、合作模式与商务合作详情<br>
+        详细内容请插入已有的公司介绍资料
+      </div>
+      <div class="g3" style="width:100%;max-width:900px;margin-top:10px">
+        <div class="card card-sm" style="text-align:center;border-left:3px solid var(--brand)">
+          <h4 class="t-title">&#x1F4E6; 产品交付</h4>
+          <p class="t-body">Claw客户端 + 企微集成<br>SCRM系统 + Skills生态</p>
+        </div>
+        <div class="card card-sm" style="text-align:center;border-left:3px solid #7C3AED">
+          <h4 class="t-title">&#x1F393; 培训赋能</h4>
+          <p class="t-body">全员启用培训 + 模型选型<br>场景交付方案 + 最佳实践</p>
+        </div>
+        <div class="card card-sm" style="text-align:center;border-left:3px solid #059669">
+          <h4 class="t-title">&#x1F504; 持续运营</h4>
+          <p class="t-body">定期迭代更新 + 持续优化<br>专属客户成功经理</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Slide 17: CTA ==================== -->
+<div class="slide slide-content" data-index="16">
+  <div class="slide-header" style="visibility:hidden"><div class="slide-title">.</div></div>
+  <div class="cta-center">
+    <div>
+      <div style="font-size:52px;margin-bottom:16px">&#x1F99E;</div>
+      <h2 class="t-title">用AI驱动企业<br>下一轮营收增长</h2>
+      <div class="sub t-body">5分钟部署 · 扫码即用 · 本地安全 · 企微+微信双通道<br>企微管家Claw — 您的企业AI增长引擎</div>
+      <div class="cta-btns">
+        <button class="cta-btn cta-primary t-body" onclick="showQR()">立即体验 Claw</button>
+        <button class="cta-btn cta-outline t-body" onclick="showQR()">预约高管专属演示</button>
+      </div>
+      <div style="display:flex;justify-content:center;gap:24px;margin-top:28px;font-size:14px;color:var(--text-body)">
+        <span>&#x2713; 企业微信官方服务商</span>
+        <span>&#x2713; OpenClaw开源架构</span>
+        <span>&#x2713; 数据不出企业</span>
+        <span>&#x2713; 7&times;24运营支持</span>
+      </div>
+      <div style="margin-top:24px;display:flex;justify-content:center;gap:24px">
+        <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:var(--brand)" class="t-title">10K+</div><div style="font-size:12px;color:var(--text-muted)">企业信赖</div></div>
+        <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#059669" class="t-title">6x+</div><div style="font-size:12px;color:var(--text-muted)">效率提升</div></div>
+        <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#D97706" class="t-title">640h+</div><div style="font-size:12px;color:var(--text-muted)">年度节省工时/人</div></div>
+        <div style="text-align:center"><div style="font-size:28px;font-weight:900;color:#7C3AED" class="t-title">100+</div><div style="font-size:12px;color:var(--text-muted)">应用场景</div></div>
+      </div>
+      <div style="margin-top:24px;font-size:15px;color:var(--text-muted)" class="t-body">微盛AI &middot; 让AI真正落地企业微信，驱动营收增长</div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- Navigation -->
+<div class="nav-panel" id="navPanel">
+  <button class="nav-btn" id="prevBtn" onclick="prevSlide()">&#x25B2;</button>
+  <div class="nav-dots" id="navDots"></div>
+  <span class="nav-page" id="pageInd">1/17</span>
+  <button class="nav-btn" id="nextBtn" onclick="nextSlide()">&#x25BC;</button>
+</div>
+
+<div class="qr-modal" id="qrModal" onclick="hideQR()">
+  <div class="qr-modal-content" onclick="event.stopPropagation()">
+    <h3>扫码添加客服</h3>
+    <p>扫描下方二维码，添加客服好友咨询</p>
+    <img src="客服二维码图片.png" alt="客服二维码">
+    <button class="qr-close" onclick="hideQR()">关闭</button>
+  </div>
+</div>
+
+<script>
+const slides=document.querySelectorAll('.slide'),total=slides.length;
+let cur=0;
+function initDots(){const c=document.getElementById('navDots');for(let i=0;i<total;i++){const d=document.createElement('div');d.className='nav-dot'+(i===0?' active':'');d.onclick=()=>go(i);c.appendChild(d)}}
+function go(i){if(i<0||i>=total)return;slides[cur].classList.remove('active');cur=i;slides[cur].classList.add('active');upd()}
+function nextSlide(){go(cur+1)}
+function prevSlide(){go(cur-1)}
+function upd(){document.getElementById('pageInd').textContent=(cur+1)+'/'+total;document.getElementById('prevBtn').disabled=cur===0;document.getElementById('nextBtn').disabled=cur===total-1;document.querySelectorAll('.nav-dot').forEach(function(d,i){d.classList.toggle('active',i===cur)})}
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();nextSlide()}if(e.key==='ArrowLeft'){e.preventDefault();prevSlide()}if(e.key==='f'||e.key==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}else{document.exitFullscreen&&document.exitFullscreen()}}});
+function scaleVP(){var vp=document.getElementById('slideViewport');var s=Math.min(window.innerWidth/1456,(window.innerHeight)/816)*0.85;vp.style.transform='scale('+s+')'}
+window.addEventListener('resize',scaleVP);
+function showQR(){document.getElementById('qrModal').classList.add('active')}
+function hideQR(){document.getElementById('qrModal').classList.remove('active')}
+initDots();upd();scaleVP();
+</script>
+</body>
+</html>
