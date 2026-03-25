@@ -242,13 +242,7 @@ body.fullscreen-mode .slide-viewport{border-radius:0;box-shadow:none}
 body.fullscreen-mode .fs-exit-btn{display:flex}
 .fs-page-ind{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:600;color:rgba(255,255,255,0.4);font-size:14px;display:none;font-family:'Noto Sans SC',sans-serif}
 body.fullscreen-mode .fs-page-ind{display:block}
-.fs-nav{position:fixed;top:0;width:15%;height:100%;z-index:550;cursor:pointer;display:none;align-items:center;justify-content:center;transition:background 0.2s}
-body.fullscreen-mode .fs-nav{display:flex}
-.fs-nav:hover{background:rgba(255,255,255,0.05)}
-.fs-nav-prev{left:0}
-.fs-nav-next{right:0}
-.fs-nav-arrow{color:rgba(255,255,255,0.3);font-size:32px;transition:color 0.2s}
-.fs-nav:hover .fs-nav-arrow{color:rgba(255,255,255,0.7)}
+
 </style>
 </head>
 <body>
@@ -1219,8 +1213,7 @@ body.fullscreen-mode .fs-nav{display:flex}
 
 <!-- Fullscreen Controls -->
 <div class="fs-page-ind" id="fsPageInd"></div>
-<div class="fs-nav fs-nav-prev" onclick="prevSlide()"><span class="fs-nav-arrow">&#x276E;</span></div>
-<div class="fs-nav fs-nav-next" onclick="nextSlide()"><span class="fs-nav-arrow">&#x276F;</span></div>
+
 
 <script>
 const slides=document.querySelectorAll('.slide'),total=slides.length;

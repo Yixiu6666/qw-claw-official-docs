@@ -194,9 +194,44 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
 .qr-modal-content p{font-size:14px;color:var(--text-muted);margin-bottom:0}
 .qr-close{padding:8px 24px;background:var(--brand);color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer;margin-top:16px}
 
+/* === Responsive scaling === */
 @media(max-width:1500px){.slide-viewport{transform:scale(0.82)}}
 @media(max-width:1200px){.slide-viewport{transform:scale(0.62)}}
 @media(max-width:900px){.slide-viewport{transform:scale(0.48)}}
+
+/* === Slide Action Bar === */
+.slide-action-bar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:200;display:flex;gap:10px;background:rgba(15,23,42,0.85);backdrop-filter:blur(16px);padding:8px 18px;border-radius:12px;border:1px solid rgba(255,255,255,0.1)}
+.slide-action-bar button{padding:8px 20px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px;font-family:'Noto Sans SC',sans-serif}
+.btn-edit{background:rgba(255,255,255,0.12);color:#fff}
+.btn-edit:hover{background:var(--brand)}
+.btn-fullscreen{background:var(--brand);color:#fff}
+.btn-fullscreen:hover{background:var(--brand-dark)}
+.btn-save{background:#22c55e;color:#fff}
+.btn-save:hover{background:#16a34a}
+.btn-cancel{background:rgba(255,255,255,0.12);color:#fff}
+.btn-cancel:hover{background:rgba(255,255,255,0.25)}
+.edit-indicator{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:200;background:rgba(0,82,255,0.9);color:#fff;padding:6px 18px;border-radius:20px;font-size:13px;font-weight:600;display:none;font-family:'Noto Sans SC',sans-serif}
+.edit-indicator.show{display:block}
+
+/* Edit mode */
+.slide.editing [contenteditable="true"]{outline:2px dashed rgba(0,82,255,0.35);outline-offset:2px;border-radius:4px;transition:outline-color 0.2s}
+.slide.editing [contenteditable="true"]:hover{outline-color:rgba(0,82,255,0.6)}
+.slide.editing [contenteditable="true"]:focus{outline:2px solid var(--brand);outline-offset:2px}
+.slide.editing [contenteditable="true"]::selection{background:rgba(0,82,255,0.4);color:inherit}
+.slide.editing [contenteditable="true"] *::selection{background:rgba(0,82,255,0.4);color:inherit}
+
+/* Fullscreen mode */
+body.fullscreen-mode .nav-panel,
+body.fullscreen-mode .keyboard-hint,
+body.fullscreen-mode .slide-action-bar{display:none!important}
+body.fullscreen-mode .presentation{background:#000}
+body.fullscreen-mode .slide-viewport{border-radius:0;box-shadow:none}
+.fs-exit-btn{position:fixed;top:20px;right:20px;z-index:600;background:rgba(255,255,255,0.15);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:14px;cursor:pointer;display:none;align-items:center;gap:6px;backdrop-filter:blur(8px);transition:all 0.2s;font-family:'Noto Sans SC',sans-serif}
+.fs-exit-btn:hover{background:rgba(255,255,255,0.3)}
+body.fullscreen-mode .fs-exit-btn{display:flex}
+.fs-page-ind{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:600;color:rgba(255,255,255,0.4);font-size:14px;display:none;font-family:'Noto Sans SC',sans-serif}
+body.fullscreen-mode .fs-page-ind{display:block}
+
 </style>
 </head>
 <body>
@@ -820,20 +855,141 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
   </div>
 </div>
 
+<!-- Slide Action Bar -->
+<div class="slide-action-bar" id="slideActionBar">
+  <button class="btn-edit" id="btnEdit" onclick="enterEditMode()">&#x270F;&#xFE0F; 编辑</button>
+  <button class="btn-fullscreen" id="btnFullscreen" onclick="enterFullscreenMode()">&#x25B6; 全屏播放</button>
+  <button class="btn-cancel" id="btnCancel" onclick="cancelEdit()" style="display:none">&#x2715; 取消</button>
+  <button class="btn-save" id="btnSave" onclick="saveEdit()" style="display:none">&#x2713; 保存</button>
+</div>
+<div class="edit-indicator" id="editIndicator">&#x270F;&#xFE0F; 编辑模式 · 点击文字即可修改(仅影响当前用户)</div>
+
+<!-- Fullscreen Controls -->
+<div class="fs-page-ind" id="fsPageInd"></div>
+
 <script>
 const slides=document.querySelectorAll('.slide'),total=slides.length;
-let cur=0;
-function initDots(){const c=document.getElementById('navDots');for(let i=0;i<total;i++){const d=document.createElement('div');d.className='nav-dot'+(i===0?' active':'');d.onclick=()=>go(i);c.appendChild(d)}}
-function go(i){if(i<0||i>=total)return;slides[cur].classList.remove('active');cur=i;slides[cur].classList.add('active');upd()}
+let cur=0,isEditing=false,editBackup='',isFullscreen=false;
+var BLOCK_TAGS=['DIV','P','H1','H2','H3','H4','H5','H6','TABLE','TR','TD','TH','UL','OL','LI','SECTION','HEADER','FOOTER','NAV','BLOCKQUOTE','PRE','FORM','DETAILS','FIGURE','DL','DT','DD'];
+
+function initDots(){const c=document.getElementById('navDots');for(let i=0;i<total;i++){const d=document.createElement('div');d.className='nav-dot'+(i===0?' active':'');d.onclick=()=>{if(!isEditing)go(i)};c.appendChild(d)}}
+function go(i){if(i<0||i>=total||isEditing)return;slides[cur].classList.remove('active');cur=i;slides[cur].classList.add('active');upd()}
 function nextSlide(){go(cur+1)}
 function prevSlide(){go(cur-1)}
-function upd(){document.getElementById('pageInd').textContent=(cur+1)+'/'+total;document.getElementById('prevBtn').disabled=cur===0;document.getElementById('nextBtn').disabled=cur===total-1;document.querySelectorAll('.nav-dot').forEach(function(d,i){d.classList.toggle('active',i===cur)})}
-document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();nextSlide()}if(e.key==='ArrowLeft'){e.preventDefault();prevSlide()}if(e.key==='f'||e.key==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}else{document.exitFullscreen&&document.exitFullscreen()}}});
-function scaleVP(){var vp=document.getElementById('slideViewport');var s=Math.min(window.innerWidth/1456,(window.innerHeight)/816)*0.85;vp.style.transform='scale('+s+')'}
+function upd(){
+  document.getElementById('pageInd').textContent=(cur+1)+'/'+total;
+  document.getElementById('prevBtn').disabled=cur===0;
+  document.getElementById('nextBtn').disabled=cur===total-1;
+  document.querySelectorAll('.nav-dot').forEach(function(d,i){d.classList.toggle('active',i===cur)});
+  if(isFullscreen){document.getElementById('fsPageInd').textContent=(cur+1)+' / '+total}
+}
+
+/* ===== Edit Mode ===== */
+function isTextLeaf(el){
+  if(!el.textContent.trim())return false;
+  if(el.tagName==='IMG'||el.querySelector('img'))return false;
+  for(var i=0;i<el.children.length;i++){
+    if(BLOCK_TAGS.indexOf(el.children[i].tagName)!==-1)return false;
+  }
+  return true;
+}
+function enterEditMode(){
+  if(isEditing)return;
+  isEditing=true;
+  var slide=slides[cur];
+  editBackup=slide.innerHTML;
+  var all=slide.getElementsByTagName('*');
+  for(var i=0;i<all.length;i++){
+    var el=all[i];
+    if(el.tagName==='IMG')continue;
+    if(el.closest('[contenteditable="true"]'))continue;
+    if(isTextLeaf(el)){el.contentEditable='true'}
+  }
+  slide.classList.add('editing');
+  document.getElementById('btnEdit').style.display='none';
+  document.getElementById('btnFullscreen').style.display='none';
+  document.getElementById('btnCancel').style.display='flex';
+  document.getElementById('btnSave').style.display='flex';
+  document.getElementById('editIndicator').classList.add('show');
+}
+function cancelEdit(){
+  if(!isEditing)return;
+  var slide=slides[cur];
+  slide.innerHTML=editBackup;
+  finishEdit(slide);
+}
+function saveEdit(){
+  if(!isEditing)return;
+  var slide=slides[cur];
+  var idx=slide.getAttribute('data-index');
+  slide.querySelectorAll('[contenteditable]').forEach(function(el){el.removeAttribute('contenteditable')});
+  slide.classList.remove('editing');
+  try{localStorage.setItem('growth-ppt-slide-'+idx,slide.innerHTML)}catch(e){console.warn('Save failed',e)}
+  finishEdit(slide);
+}
+function finishEdit(slide){
+  isEditing=false;
+  slide.querySelectorAll('[contenteditable]').forEach(function(el){el.removeAttribute('contenteditable')});
+  slide.classList.remove('editing');
+  document.getElementById('btnEdit').style.display='flex';
+  document.getElementById('btnFullscreen').style.display='flex';
+  document.getElementById('btnCancel').style.display='none';
+  document.getElementById('btnSave').style.display='none';
+  document.getElementById('editIndicator').classList.remove('show');
+}
+function loadSavedEdits(){
+  slides.forEach(function(slide){
+    var idx=slide.getAttribute('data-index');
+    try{
+      var saved=localStorage.getItem('growth-ppt-slide-'+idx);
+      if(saved){slide.innerHTML=saved}
+    }catch(e){}
+  });
+}
+
+/* ===== Fullscreen Mode ===== */
+function enterFullscreenMode(){
+  if(isEditing)return;
+  isFullscreen=true;
+  document.body.classList.add('fullscreen-mode');
+  if(document.documentElement.requestFullscreen){document.documentElement.requestFullscreen().catch(function(){})}
+  scaleVP();upd();
+}
+function exitFullscreenMode(){
+  isFullscreen=false;
+  document.body.classList.remove('fullscreen-mode');
+  if(document.fullscreenElement){document.exitFullscreen().catch(function(){})}
+  scaleVP();
+}
+document.addEventListener('fullscreenchange',function(){
+  if(!document.fullscreenElement&&isFullscreen){
+    isFullscreen=false;
+    document.body.classList.remove('fullscreen-mode');
+    scaleVP();
+  }
+});
+
+/* ===== Keyboard Navigation ===== */
+document.addEventListener('keydown',function(e){
+  if(isEditing)return;
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();nextSlide()}
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();prevSlide()}
+  if(e.key==='Escape'&&isFullscreen){exitFullscreenMode()}
+  if((e.key==='f'||e.key==='F')&&!isFullscreen){enterFullscreenMode()}
+  else if((e.key==='f'||e.key==='F')&&isFullscreen){exitFullscreenMode()}
+});
+
+/* ===== Viewport Scaling ===== */
+function scaleVP(){
+  var vp=document.getElementById('slideViewport');
+  var factor=isFullscreen?1.0:0.85;
+  var s=Math.min(window.innerWidth/1456,(window.innerHeight)/816)*factor;
+  vp.style.transform='scale('+s+')';
+}
 window.addEventListener('resize',scaleVP);
 function showQR(){document.getElementById('qrModal').classList.add('active')}
 function hideQR(){document.getElementById('qrModal').classList.remove('active')}
-initDots();upd();scaleVP();
+initDots();loadSavedEdits();upd();scaleVP();
 </script>
 </body>
 </html>
