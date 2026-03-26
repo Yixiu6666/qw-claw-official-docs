@@ -53,14 +53,15 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
 .keyboard-hint kbd{background:rgba(255,255,255,0.1);padding:1px 5px;border-radius:3px;font-family:monospace}
 
 /* === Cover Slide === */
-.slide-cover{background-image:url('PPT制作参考/PPT首页背景图.png')}
-.cover-content{position:absolute;top:150px;left:88px;max-width:700px}
+.slide-cover{background-color:#eef2fb;overflow:hidden}
+.cover-bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
+.cover-content{position:absolute;z-index:1;top:150px;left:88px;max-width:700px}
 .cover-title{font-size:52px;font-weight:900;color:var(--navy);line-height:1.25;letter-spacing:-1px;margin-bottom:16px}
 .cover-title .hl{color:var(--brand)}
 .cover-sub{font-size:24px;font-weight:600;color:var(--navy);opacity:0.65;margin-bottom:36px;line-height:1.6}
 .cover-tags{display:flex;gap:10px;flex-wrap:wrap}
 .cover-tag{padding:9px 22px;border-radius:8px;font-size:14px;font-weight:500;background:var(--brand-light);color:var(--brand);border:1px solid rgba(0,82,255,0.12)}
-.cover-footer{position:absolute;bottom:36px;left:88px;font-size:14px;color:var(--text-muted)}
+.cover-footer{position:absolute;z-index:1;bottom:36px;left:88px;font-size:14px;color:var(--text-muted)}
 
 /* === Content Slide === */
 .slide-content{background-image:url('PPT制作参考/PPT正文页背景图.png');padding:0}
@@ -293,6 +294,7 @@ body.export-capturing .slide-body>.g32{width:100%!important;min-width:0!importan
 
 <!-- ==================== Slide 1: Cover ==================== -->
 <div class="slide slide-cover active" data-index="0">
+  <img class="cover-bg-img" src="PPT制作参考/PPT首页背景图.png" alt="PPT首页背景图">
   <div class="cover-content">
     <div class="cover-title t-title">企微管家<span class="hl">Claw</span><br>AI Agent for 企业微信</div>
     <div class="cover-sub t-title">让AI在企业微信里真正「干活」</div>
