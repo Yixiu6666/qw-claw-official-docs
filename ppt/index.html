@@ -274,6 +274,13 @@ body.export-capturing .sec-layer h5,
 body.export-capturing .sec-num,
 body.export-capturing .mock-dot,
 body.export-capturing .ind-card .hd h4{white-space:nowrap!important;word-break:keep-all!important;overflow-wrap:normal!important}
+/* Force grid/flex containers to full width during export to prevent intermittent column collapse */
+body.export-capturing .slide-body>.g2,
+body.export-capturing .slide-body>.g3,
+body.export-capturing .slide-body>.g4,
+body.export-capturing .slide-body>.g5,
+body.export-capturing .slide-body>.g23,
+body.export-capturing .slide-body>.g32{width:100%!important;min-width:0!important}
 
 </style>
 </head>
@@ -1468,6 +1475,7 @@ async function captureCurrentSlide(){
   try{
     var fontEmbedCss=await getExportFontEmbedCss();
     var opts={pixelRatio:2,cacheBust:false,backgroundColor:'#ffffff',fontEmbedCSS:fontEmbedCss,width:EXPORT_WIDTH,height:EXPORT_HEIGHT,canvasWidth:EXPORT_WIDTH*2,canvasHeight:EXPORT_HEIGHT*2,style:{width:EXPORT_WIDTH+'px',height:EXPORT_HEIGHT+'px',transform:'none',transformOrigin:'center center'}};
+    void slideViewport.offsetWidth;/* force sync reflow before capture */
     try{
       return await window.htmlToImage.toPng(slideViewport,opts);
     }catch(firstErr){
