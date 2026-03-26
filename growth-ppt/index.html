@@ -1120,7 +1120,14 @@ async function captureCurrentSlide(){
   document.body.classList.add('export-capturing');
   try{
     var fontEmbedCss=await getExportFontEmbedCss();
-    return await window.htmlToImage.toPng(slideViewport,{pixelRatio:2,cacheBust:true,backgroundColor:'#ffffff',skipFonts:false,fontEmbedCSS:fontEmbedCss||undefined,width:EXPORT_WIDTH,height:EXPORT_HEIGHT,canvasWidth:EXPORT_WIDTH*2,canvasHeight:EXPORT_HEIGHT*2,style:{width:EXPORT_WIDTH+'px',height:EXPORT_HEIGHT+'px',transform:'none',transformOrigin:'center center'}});
+    var opts={pixelRatio:2,cacheBust:false,backgroundColor:'#ffffff',fontEmbedCSS:fontEmbedCss,width:EXPORT_WIDTH,height:EXPORT_HEIGHT,canvasWidth:EXPORT_WIDTH*2,canvasHeight:EXPORT_HEIGHT*2,style:{width:EXPORT_WIDTH+'px',height:EXPORT_HEIGHT+'px',transform:'none',transformOrigin:'center center'}};
+    try{
+      return await window.htmlToImage.toPng(slideViewport,opts);
+    }catch(firstErr){
+      console.warn('截图失败，尝试跳过字体嵌入重试:',firstErr);
+      opts.skipFonts=true;delete opts.fontEmbedCSS;
+      return await window.htmlToImage.toPng(slideViewport,opts);
+    }
   }finally{
     document.body.classList.remove('export-capturing');
     slideViewport.style.transform=prevTransform;
@@ -1155,8 +1162,9 @@ async function exportSlides(kind){
     if(kind==='ppt'){await buildPptFile(captures)}
     else{await buildPdfFile(captures)}
   }catch(error){
-    console.error(error);
-    alert((kind==='ppt'?'导出 PPT 失败：':'导出 PDF 失败：')+(error&&error.message?error.message:'请稍后重试'));
+    console.error('Export error:',error);
+    var errMsg=(error&&error.message)?error.message:(error?String(error):'未知错误，请检查浏览器控制台');
+    alert((kind==='ppt'?'导出 PPT 失败：':'导出 PDF 失败：')+errMsg);
   }finally{
     slides[cur].classList.remove('active');
     cur=originalIndex;
