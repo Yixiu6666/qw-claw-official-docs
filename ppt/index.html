@@ -7,7 +7,6 @@
 <style>
 @font-face{font-family:'TencentSans';src:local('TencentSans'),local('TencentSans-W7'),local('腾讯体');font-weight:700}
 @font-face{font-family:'TencentSans';src:local('TencentSans-W3'),local('TencentSans');font-weight:400}
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700;900&display=swap');
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px}
 body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;background:#0a0a0a;color:#1a1a2e;overflow:hidden;height:100vh;-webkit-font-smoothing:antialiased}
@@ -221,8 +220,23 @@ body{font-family:'Noto Sans SC',-apple-system,'PingFang SC',sans-serif;backgroun
 .btn-save:hover{background:#16a34a}
 .btn-cancel{background:rgba(255,255,255,0.12);color:#fff}
 .btn-cancel:hover{background:rgba(255,255,255,0.25)}
+.btn-export{color:#fff}
+.btn-export:hover{transform:translateY(-1px)}
+.btn-export-ppt{background:#D97706}
+.btn-export-ppt:hover{background:#B45309}
+.btn-export-pdf{background:#DC2626}
+.btn-export-pdf:hover{background:#B91C1C}
+.slide-action-bar button:disabled{opacity:0.55;cursor:wait;transform:none}
 .edit-indicator{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:200;background:rgba(0,82,255,0.9);color:#fff;padding:6px 18px;border-radius:20px;font-size:13px;font-weight:600;display:none;font-family:'Noto Sans SC',sans-serif}
 .edit-indicator.show{display:block}
+.export-indicator{position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.52);backdrop-filter:blur(8px)}
+.export-indicator.show{display:flex}
+.export-card{min-width:320px;max-width:420px;background:rgba(15,23,42,0.92);border:1px solid rgba(255,255,255,0.08);border-radius:18px;padding:22px 24px;color:#fff;box-shadow:0 20px 60px rgba(0,0,0,0.35)}
+.export-card h3{font-size:18px;font-weight:700;margin-bottom:8px}
+.export-card p{font-size:14px;line-height:1.7;color:rgba(255,255,255,0.72)}
+.export-meta{margin-top:10px;font-size:13px;color:rgba(255,255,255,0.62);display:flex;justify-content:space-between;gap:16px}
+.export-progress{margin-top:14px;height:6px;border-radius:999px;background:rgba(255,255,255,0.12);overflow:hidden}
+.export-progress span{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#60A5FA,#22C55E);transition:width 0.24s ease}
 
 /* Edit mode */
 .slide.editing [contenteditable="true"]{outline:2px dashed rgba(0,82,255,0.35);outline-offset:2px;border-radius:4px;transition:outline-color 0.2s}
@@ -242,6 +256,24 @@ body.fullscreen-mode .slide-viewport{border-radius:0;box-shadow:none}
 body.fullscreen-mode .fs-exit-btn{display:flex}
 .fs-page-ind{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:600;color:rgba(255,255,255,0.4);font-size:14px;display:none;font-family:'Noto Sans SC',sans-serif}
 body.fullscreen-mode .fs-page-ind{display:block}
+body.export-capturing .slide-viewport{transform:none!important}
+body.export-capturing .slide{transition:none!important}
+body.export-capturing .slide:not(.active){display:none!important}
+body.export-capturing [data-export-nowrap="true"]{white-space:nowrap!important;word-break:keep-all!important;overflow-wrap:normal!important}
+body.export-capturing [data-export-tight="true"]{font-size:0.92em!important;letter-spacing:-0.01em!important}
+body.export-capturing .cover-points{gap:14px!important;font-size:14px!important}
+body.export-capturing .cover-points span{white-space:nowrap!important}
+body.export-capturing .cover-tag,
+body.export-capturing .badge,
+body.export-capturing .skill-chip,
+body.export-capturing .arch-box h5,
+body.export-capturing .flow-step span,
+body.export-capturing .stat .l,
+body.export-capturing .cta-btn,
+body.export-capturing .sec-layer h5,
+body.export-capturing .sec-num,
+body.export-capturing .mock-dot,
+body.export-capturing .ind-card .hd h4{white-space:nowrap!important;word-break:keep-all!important;overflow-wrap:normal!important}
 
 </style>
 </head>
@@ -258,15 +290,15 @@ body.fullscreen-mode .fs-page-ind{display:block}
     <div class="cover-title t-title">企微管家<span class="hl">Claw</span><br>AI Agent for 企业微信</div>
     <div class="cover-sub t-title">让AI在企业微信里真正「干活」</div>
     <div class="cover-tags">
-      <span class="cover-tag">&#x1F916; 企微&微信原生插件一键连接</span>
-      <span class="cover-tag">&#x1F510; 本地一键安装使用</span>
-      <span class="cover-tag">&#x1F9E9; 30+ Skills技能</span>
-      <span class="cover-tag">&#x1F4CA; 深度集成SCRM Skills</span>
+      <span class="cover-tag" data-export-nowrap="true" data-export-tight="true">&#x1F916; 企微&微信原生插件一键连接</span>
+      <span class="cover-tag" data-export-nowrap="true">&#x1F510; 本地一键安装使用</span>
+      <span class="cover-tag" data-export-nowrap="true">&#x1F9E9; 30+ Skills技能</span>
+      <span class="cover-tag" data-export-nowrap="true">&#x1F4CA; 深度集成SCRM Skills</span>
     </div>
-    <div style="margin-top:24px;display:flex;gap:20px;font-size:15px;color:var(--text-body)">
-      <span>&#x2705; 企微 + 微信 双通道接入</span>
-      <span>&#x2705; 扫码即连 零代码</span>
-      <span>&#x2705; OpenClaw 开源架构</span>
+    <div class="cover-points" style="margin-top:24px;display:flex;gap:20px;font-size:15px;color:var(--text-body)">
+      <span data-export-nowrap="true">&#x2705; 企微 + 微信 双通道接入</span>
+      <span data-export-nowrap="true">&#x2705; 扫码即连 零代码</span>
+      <span data-export-nowrap="true">&#x2705; OpenClaw 开源架构</span>
     </div>
   </div>
   <div class="cover-footer t-body">微盛AI &middot; 企业微信官方服务商 &middot; 基于OpenClaw开源框架 &middot; 服务10,000+企业</div>
@@ -336,12 +368,12 @@ body.fullscreen-mode .fs-page-ind{display:block}
   <div class="slide-body">
     <div class="flex-col" style="flex:1;gap:12px;justify-content:space-evenly">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div class="arch-box ab-blue" style="padding:14px"><h5 class="t-title">&#x1F4F1; 企业微信 · 官方Channel</h5><p class="t-body">智能机器人API · 单聊+群聊 · 原生体验 · 扫码接入</p></div>
-        <div class="arch-box" style="padding:14px;background:linear-gradient(135deg,#16a34a,#4ade80)"><h5 class="t-title">&#x1F4AC; 个人微信 · ClawBot</h5><p class="t-body">微信官方插件 · 扫码连接 · 同步企微能力 · 双通道</p></div>
+        <div class="arch-box ab-blue" style="padding:14px"><h5 class="t-title" data-export-nowrap="true">&#x1F4F1; 企业微信 · 官方Channel</h5><p class="t-body" data-export-nowrap="true" data-export-tight="true">智能机器人API · 单聊+群聊 · 原生体验 · 扫码接入</p></div>
+        <div class="arch-box" style="padding:14px;background:linear-gradient(135deg,#16a34a,#4ade80)"><h5 class="t-title" data-export-nowrap="true">&#x1F4AC; 个人微信 · ClawBot</h5><p class="t-body" data-export-nowrap="true" data-export-tight="true">微信官方插件 · 扫码连接 · 同步企微能力 · 双通道</p></div>
       </div>
       <div style="text-align:center;font-size:18px;color:var(--brand);line-height:1">&#x25BC;</div>
       <div style="display:grid;grid-template-columns:1fr;gap:0">
-        <div class="arch-box ab-navy" style="padding:16px"><h5 class="t-title">&#x1F9E0; 企微管家 Claw · AI 中枢引擎</h5><p class="t-body">OpenClaw框架 · 多模型支持(DeepSeek/Claude/GPT) · 永久记忆 · 定时任务 · MCP协议 · Skills调度 · 品牌定制</p></div>
+        <div class="arch-box ab-navy" style="padding:16px"><h5 class="t-title" data-export-nowrap="true">&#x1F9E0; 企微管家 Claw · AI 中枢引擎</h5><p class="t-body" data-export-nowrap="true" data-export-tight="true">OpenClaw框架 · 多模型支持(DeepSeek/Claude/GPT) · 永久记忆 · 定时任务 · MCP协议 · Skills调度 · 品牌定制</p></div>
       </div>
       <div style="text-align:center;font-size:18px;color:var(--brand);line-height:1">&#x25BC;</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
@@ -350,14 +382,14 @@ body.fullscreen-mode .fs-page-ind{display:block}
         <div class="arch-box ab-green" style="padding:14px"><h5 class="t-title">&#x1F91D; 微盛运营服务</h5><p class="t-body">落地保障体系 · 行业方案<br>培训支持 · 持续优化</p></div>
       </div>
       <div style="display:flex;justify-content:center;gap:10px;margin-top:2px;flex-wrap:wrap">
-        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F517;</span><h5 style="font-size:13px" class="t-title">MCP协议</h5></div>
-        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F4CA;</span><h5 style="font-size:13px" class="t-title">智能表格</h5></div>
-        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F4DD;</span><h5 style="font-size:13px" class="t-title">在线文档</h5></div>
-        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F5D3;&#xFE0F;</span><h5 style="font-size:13px" class="t-title">日程待办</h5></div>
-        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F310;</span><h5 style="font-size:13px" class="t-title">联网搜索</h5></div>
-        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F916;</span><h5 style="font-size:13px" class="t-title">扣子智能体</h5></div>
-        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F30D;</span><h5 style="font-size:13px" class="t-title">浏览器自动化</h5></div>
-        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F40D;</span><h5 style="font-size:13px" class="t-title">Python脚本</h5></div>
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F517;</span><h5 style="font-size:13px" class="t-title" data-export-nowrap="true">MCP协议</h5></div>
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F4CA;</span><h5 style="font-size:13px" class="t-title" data-export-nowrap="true">智能表格</h5></div>
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F4DD;</span><h5 style="font-size:13px" class="t-title" data-export-nowrap="true">在线文档</h5></div>
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F5D3;&#xFE0F;</span><h5 style="font-size:13px" class="t-title" data-export-nowrap="true">日程待办</h5></div>
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F310;</span><h5 style="font-size:13px" class="t-title" data-export-nowrap="true">联网搜索</h5></div>
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F916;</span><h5 style="font-size:13px" class="t-title" data-export-nowrap="true">扣子智能体</h5></div>
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F30D;</span><h5 style="font-size:13px" class="t-title" data-export-nowrap="true">浏览器自动化</h5></div>
+        <div class="arch-box ab-light" style="flex:0 0 auto;padding:6px 14px;flex-direction:row;gap:5px"><span>&#x1F40D;</span><h5 style="font-size:13px" class="t-title" data-export-nowrap="true">Python脚本</h5></div>
       </div>
     </div>
   </div>
@@ -1206,22 +1238,38 @@ body.fullscreen-mode .fs-page-ind{display:block}
 <div class="slide-action-bar" id="slideActionBar">
   <button class="btn-edit" id="btnEdit" onclick="enterEditMode()">&#x270F;&#xFE0F; 编辑</button>
   <button class="btn-fullscreen" id="btnFullscreen" onclick="enterFullscreenMode()">&#x25B6; 全屏播放</button>
+  <button class="btn-export btn-export-ppt" id="btnExportPpt" onclick="exportSlides('ppt')">&#x1F4E4; 导出PPT</button>
+  <button class="btn-export btn-export-pdf" id="btnExportPdf" onclick="exportSlides('pdf')">&#x1F4C4; 导出PDF</button>
   <button class="btn-cancel" id="btnCancel" onclick="cancelEdit()" style="display:none">&#x2715; 取消</button>
   <button class="btn-save" id="btnSave" onclick="saveEdit()" style="display:none">&#x2713; 保存</button>
 </div>
 <div class="edit-indicator" id="editIndicator">&#x270F;&#xFE0F; 编辑模式 · 点击文字即可修改(仅影响当前用户)</div>
+<div class="export-indicator" id="exportIndicator" aria-live="polite">
+  <div class="export-card">
+    <h3 id="exportTitle">正在导出</h3>
+    <p id="exportText">正在准备导出资源，请稍候…</p>
+    <div class="export-meta"><span id="exportPageMeta">准备中</span><span id="exportPercent">0%</span></div>
+    <div class="export-progress"><span></span></div>
+  </div>
+</div>
 
 <!-- Fullscreen Controls -->
 <div class="fs-page-ind" id="fsPageInd"></div>
 
-
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@3.0.1/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pptxgenjs@4.0.1/dist/pptxgen.bundle.js"></script>
 <script>
 const slides=document.querySelectorAll('.slide'),total=slides.length;
-let cur=0,isEditing=false,editBackup='',isFullscreen=false;
+const slideViewport=document.getElementById('slideViewport');
+let cur=0,isEditing=false,editBackup='',isFullscreen=false,isExporting=false;
 var BLOCK_TAGS=['DIV','P','H1','H2','H3','H4','H5','H6','TABLE','TR','TD','TH','UL','OL','LI','SECTION','HEADER','FOOTER','NAV','BLOCKQUOTE','PRE','FORM','DETAILS','FIGURE','DL','DT','DD'];
+var EXPORT_WIDTH=1456,EXPORT_HEIGHT=816;
+var EXPORT_MIN_SETTLE_MS=650;
+var exportFontEmbedCssPromise=null;
 
 function initDots(){const c=document.getElementById('navDots');for(let i=0;i<total;i++){const d=document.createElement('div');d.className='nav-dot'+(i===0?' active':'');d.onclick=()=>{if(!isEditing)go(i)};c.appendChild(d)}}
-function go(i){if(i<0||i>=total||isEditing)return;slides[cur].classList.remove('active');cur=i;slides[cur].classList.add('active');upd()}
+function go(i){if(i<0||i>=total||isEditing||isExporting)return;slides[cur].classList.remove('active');cur=i;slides[cur].classList.add('active');upd()}
 function nextSlide(){go(cur+1)}
 function prevSlide(){go(cur-1)}
 function upd(){
@@ -1242,7 +1290,7 @@ function isTextLeaf(el){
   return true;
 }
 function enterEditMode(){
-  if(isEditing)return;
+  if(isEditing||isExporting)return;
   isEditing=true;
   var slide=slides[cur];
   editBackup=slide.innerHTML;
@@ -1256,6 +1304,8 @@ function enterEditMode(){
   slide.classList.add('editing');
   document.getElementById('btnEdit').style.display='none';
   document.getElementById('btnFullscreen').style.display='none';
+  document.getElementById('btnExportPpt').style.display='none';
+  document.getElementById('btnExportPdf').style.display='none';
   document.getElementById('btnCancel').style.display='flex';
   document.getElementById('btnSave').style.display='flex';
   document.getElementById('editIndicator').classList.add('show');
@@ -1281,6 +1331,8 @@ function finishEdit(slide){
   slide.classList.remove('editing');
   document.getElementById('btnEdit').style.display='flex';
   document.getElementById('btnFullscreen').style.display='flex';
+  document.getElementById('btnExportPpt').style.display='flex';
+  document.getElementById('btnExportPdf').style.display='flex';
   document.getElementById('btnCancel').style.display='none';
   document.getElementById('btnSave').style.display='none';
   document.getElementById('editIndicator').classList.remove('show');
@@ -1297,7 +1349,7 @@ function loadSavedEdits(){
 
 /* ===== Fullscreen Mode ===== */
 function enterFullscreenMode(){
-  if(isEditing)return;
+  if(isEditing||isExporting)return;
   isFullscreen=true;
   document.body.classList.add('fullscreen-mode');
   if(document.documentElement.requestFullscreen){document.documentElement.requestFullscreen().catch(function(){})}
@@ -1319,7 +1371,7 @@ document.addEventListener('fullscreenchange',function(){
 
 /* ===== Keyboard Navigation ===== */
 document.addEventListener('keydown',function(e){
-  if(isEditing)return;
+  if(isEditing||isExporting)return;
   if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();nextSlide()}
   if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();prevSlide()}
   if(e.key==='Escape'&&isFullscreen){exitFullscreenMode()}
@@ -1327,12 +1379,172 @@ document.addEventListener('keydown',function(e){
   else if((e.key==='f'||e.key==='F')&&isFullscreen){exitFullscreenMode()}
 });
 
+/* ===== Export ===== */
+function sleep(ms){return new Promise(function(resolve){setTimeout(resolve,ms)})}
+function sanitizeFileName(name){return (name||'slides').replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,' ').trim()}
+function buildExportName(ext){return sanitizeFileName(document.title||'slides')+'.'+ext}
+function setExportIndicator(show,title,text,currentStep,totalSteps){
+  var safeCurrent=typeof currentStep==='number'?currentStep:0;
+  var safeTotal=typeof totalSteps==='number'&&totalSteps>0?totalSteps:0;
+  var percent=safeTotal?Math.round((safeCurrent/safeTotal)*100):0;
+  document.getElementById('exportTitle').textContent=title;
+  document.getElementById('exportText').textContent=text;
+  document.getElementById('exportPageMeta').textContent=safeTotal?('第 '+safeCurrent+' / '+safeTotal+' 步'):'准备中';
+  document.getElementById('exportPercent').textContent=percent+'%';
+  document.querySelector('.export-progress span').style.width=percent+'%';
+  document.getElementById('exportIndicator').classList.toggle('show',show);
+}
+function toggleExportButtons(disabled){
+  ['btnEdit','btnFullscreen','btnExportPpt','btnExportPdf','prevBtn','nextBtn'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){el.disabled=disabled}
+  });
+  document.querySelectorAll('.nav-dot').forEach(function(dot){dot.style.pointerEvents=disabled?'none':'auto'})
+}
+function ensureExportDependencies(kind){
+  if(!window.htmlToImage||typeof window.htmlToImage.toPng!=='function')throw new Error('html-to-image 加载失败，请检查网络后重试');
+  if(kind==='ppt'&&typeof window.PptxGenJS==='undefined')throw new Error('PptxGenJS 加载失败，请检查网络后重试');
+  if(kind==='pdf'&&(!window.jspdf||!window.jspdf.jsPDF))throw new Error('jsPDF 加载失败，请检查网络后重试');
+}
+function ensureExportEnvironment(){
+  if(window.location.protocol==='file:'){
+    throw new Error('请通过 http/https 地址打开页面后再导出，直接双击打开 HTML 会触发浏览器安全限制');
+  }
+}
+function parseTimeToMs(value){
+  var text=(value||'').trim();
+  if(!text)return 0;
+  if(text.endsWith('ms'))return parseFloat(text)||0;
+  if(text.endsWith('s'))return (parseFloat(text)||0)*1000;
+  return parseFloat(text)||0;
+}
+function getMaxTransitionMs(el){
+  if(!el)return 0;
+  var styles=window.getComputedStyle(el);
+  var durations=(styles.transitionDuration||'0s').split(',');
+  var delays=(styles.transitionDelay||'0s').split(',');
+  var max=0;
+  for(var index=0;index<durations.length;index++){
+    var duration=parseTimeToMs(durations[index]);
+    var delay=parseTimeToMs(delays[index]||delays[delays.length-1]||'0s');
+    max=Math.max(max,duration+delay);
+  }
+  return max;
+}
+function waitForImage(img){
+  if(img.complete&&img.naturalWidth!==0)return Promise.resolve();
+  return new Promise(function(resolve){
+    var done=false;
+    function finish(){if(done)return;done=true;resolve()}
+    img.addEventListener('load',finish,{once:true});
+    img.addEventListener('error',finish,{once:true});
+    setTimeout(finish,2500);
+  })
+}
+async function waitForSlideSettle(){
+  var waitMs=Math.max(EXPORT_MIN_SETTLE_MS,getMaxTransitionMs(slides[cur])+80);
+  await sleep(waitMs);
+}
+async function waitForCurrentSlideReady(){
+  var slide=slides[cur];
+  var images=Array.prototype.slice.call(slide.querySelectorAll('img'));
+  if(document.fonts&&document.fonts.ready){try{await document.fonts.ready}catch(e){}}
+  await Promise.all(images.map(waitForImage));
+  await sleep(120);
+}
+async function getExportFontEmbedCss(){
+  if(!window.htmlToImage||typeof window.htmlToImage.getFontEmbedCSS!=='function')return '';
+  if(!exportFontEmbedCssPromise){
+    exportFontEmbedCssPromise=window.htmlToImage.getFontEmbedCSS(document.documentElement).catch(function(){return ''});
+  }
+  return exportFontEmbedCssPromise;
+}
+async function captureCurrentSlide(){
+  var prevTransform=slideViewport.style.transform;
+  var prevTransition=slideViewport.style.transition;
+  slideViewport.style.transform='none';
+  slideViewport.style.transition='none';
+  document.body.classList.add('export-capturing');
+  try{
+    var fontEmbedCss=await getExportFontEmbedCss();
+    return await window.htmlToImage.toPng(slideViewport,{pixelRatio:2,cacheBust:true,backgroundColor:'#ffffff',skipFonts:false,fontEmbedCSS:fontEmbedCss||undefined,width:EXPORT_WIDTH,height:EXPORT_HEIGHT,canvasWidth:EXPORT_WIDTH*2,canvasHeight:EXPORT_HEIGHT*2,style:{width:EXPORT_WIDTH+'px',height:EXPORT_HEIGHT+'px',transform:'none',transformOrigin:'center center'}});
+  }finally{
+    document.body.classList.remove('export-capturing');
+    slideViewport.style.transform=prevTransform;
+    slideViewport.style.transition=prevTransition;
+    scaleVP();
+  }
+}
+function setActiveSlideForExport(index){
+  slides[cur].classList.remove('active');
+  cur=index;
+  slides[cur].classList.add('active');
+  upd();
+}
+async function exportSlides(kind){
+  if(isEditing||isExporting)return;
+  isExporting=true;
+  var originalIndex=cur;
+  try{
+    ensureExportEnvironment();
+    ensureExportDependencies(kind);
+    toggleExportButtons(true);
+    setExportIndicator(true,kind==='ppt'?'正在导出 PPT':'正在导出 PDF','正在准备导出资源，请稍候…',0,total+1);
+    var captures=[];
+    for(var i=0;i<total;i++){
+      setExportIndicator(true,kind==='ppt'?'正在导出 PPT':'正在导出 PDF','正在截图第 '+(i+1)+' / '+total+' 页…',i+1,total+1);
+      setActiveSlideForExport(i);
+      await waitForSlideSettle();
+      await waitForCurrentSlideReady();
+      captures.push(await captureCurrentSlide());
+    }
+    setExportIndicator(true,kind==='ppt'?'正在导出 PPT':'正在导出 PDF',kind==='ppt'?'正在拼接 PPT 文件…':'正在拼接 PDF 文件…',total+1,total+1);
+    if(kind==='ppt'){await buildPptFile(captures)}
+    else{await buildPdfFile(captures)}
+  }catch(error){
+    console.error(error);
+    alert((kind==='ppt'?'导出 PPT 失败：':'导出 PDF 失败：')+(error&&error.message?error.message:'请稍后重试'));
+  }finally{
+    slides[cur].classList.remove('active');
+    cur=originalIndex;
+    slides[cur].classList.add('active');
+    upd();
+    isExporting=false;
+    toggleExportButtons(false);
+    setExportIndicator(false,'正在导出','',0,total+1);
+  }
+}
+async function buildPptFile(images){
+  var pptx=new window.PptxGenJS();
+  pptx.layout='LAYOUT_WIDE';
+  pptx.author='GitHub Copilot';
+  pptx.company='微盛';
+  pptx.subject=document.title;
+  pptx.title=document.title;
+  pptx.lang='zh-CN';
+  images.forEach(function(image,index){
+    var slide=pptx.addSlide();
+    slide.background={color:'FFFFFF'};
+    slide.addImage({data:image,x:0,y:0,w:13.333,h:7.5});
+    slide.addNotes('Exported from HTML slides · page '+(index+1));
+  });
+  await pptx.writeFile({fileName:buildExportName('pptx')});
+}
+async function buildPdfFile(images){
+  var jsPDFCtor=window.jspdf.jsPDF;
+  var pdf=new jsPDFCtor({orientation:'landscape',unit:'px',format:[EXPORT_WIDTH,EXPORT_HEIGHT],hotfixes:['px_scaling']});
+  images.forEach(function(image,index){
+    if(index>0)pdf.addPage([EXPORT_WIDTH,EXPORT_HEIGHT],'landscape');
+    pdf.addImage(image,'PNG',0,0,EXPORT_WIDTH,EXPORT_HEIGHT,undefined,'FAST');
+  });
+  pdf.save(buildExportName('pdf'));
+}
+
 /* ===== Viewport Scaling ===== */
 function scaleVP(){
-  var vp=document.getElementById('slideViewport');
   var factor=isFullscreen?1.0:0.85;
   var s=Math.min(window.innerWidth/1456,(window.innerHeight)/816)*factor;
-  vp.style.transform='scale('+s+')';
+  slideViewport.style.transform='scale('+s+')';
 }
 window.addEventListener('resize',scaleVP);
 function showQR(){document.getElementById('qrModal').classList.add('active')}
