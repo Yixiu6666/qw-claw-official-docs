@@ -1472,6 +1472,18 @@ async function captureCurrentSlide(){
   slideViewport.style.transform='none';
   slideViewport.style.transition='none';
   document.body.classList.add('export-capturing');
+  /* Neutralize broken images before capture – html-to-image throws Event objects
+     when cloning DOM nodes with images that failed to load */
+  var TRANSPARENT_1PX='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+  var brokenImgs=[];
+  var allImgs=Array.prototype.slice.call(slideViewport.querySelectorAll('img'));
+  for(var i=0;i<allImgs.length;i++){
+    var img=allImgs[i];
+    if(img.complete&&img.naturalWidth===0&&img.src&&img.src!==TRANSPARENT_1PX){
+      brokenImgs.push({el:img,originalSrc:img.src});
+      img.src=TRANSPARENT_1PX;
+    }
+  }
   try{
     var fontEmbedCss=await getExportFontEmbedCss();
     var opts={pixelRatio:2,cacheBust:false,backgroundColor:'#ffffff',fontEmbedCSS:fontEmbedCss,width:EXPORT_WIDTH,height:EXPORT_HEIGHT,canvasWidth:EXPORT_WIDTH*2,canvasHeight:EXPORT_HEIGHT*2,style:{width:EXPORT_WIDTH+'px',height:EXPORT_HEIGHT+'px',transform:'none',transformOrigin:'center center'}};
@@ -1484,6 +1496,8 @@ async function captureCurrentSlide(){
       return await window.htmlToImage.toPng(slideViewport,opts);
     }
   }finally{
+    /* Restore original src for broken images */
+    for(var i=0;i<brokenImgs.length;i++){brokenImgs[i].el.src=brokenImgs[i].originalSrc}
     document.body.classList.remove('export-capturing');
     slideViewport.style.transform=prevTransform;
     slideViewport.style.transition=prevTransition;
@@ -1518,7 +1532,10 @@ async function exportSlides(kind){
     else{await buildPdfFile(captures)}
   }catch(error){
     console.error('Export error:',error);
-    var errMsg=(error&&error.message)?error.message:(error?String(error):'未知错误，请检查浏览器控制台');
+    var errMsg;
+    if(error instanceof Event){errMsg='资源加载失败（图片或字体），请检查网络连接后重试'}
+    else if(error&&error.message){errMsg=error.message}
+    else{errMsg=error?String(error):'未知错误，请检查浏览器控制台'}
     alert((kind==='ppt'?'导出 PPT 失败：':'导出 PDF 失败：')+errMsg);
   }finally{
     slides[cur].classList.remove('active');
