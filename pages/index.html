@@ -167,6 +167,7 @@
     </p>
     <div class="quick-links">
       <a href="/marketing/">市场推广手册</a>
+      <a href="/scrm-scenarios/">SCRM 十大场景</a>
       <a href="/ppt/">产品介绍 PPT</a>
       <a href="/growth-ppt/">营收增长方案 PPT</a>
       <a href="/skills-guide/">Skills 100+玩法指南</a>
@@ -180,6 +181,12 @@
         <div class="title">企微管家 Claw 产品市场推广手册</div>
         <div class="desc">企微管家 Claw 销售推广手册。20+ Skills 技能、SCRM 深度集成、企微+微信双通道接入，5 分钟上手。</div>
         <div class="path">docs-claw.wshoto.com/marketing/</div>
+      </a>
+      <a class="card" href="/scrm-scenarios/">
+        <div class="tag">SCRM Scenarios</div>
+        <div class="title">企微管家Claw × 微盛SCRM Skill 十大亮点使用场景</div>
+        <div class="desc">聚焦企微管家Claw深度连接微盛SCRM后的 10 个高价值运营场景，覆盖精准群发、客户挽回、社群运营、SOP 执行与会话质检等完整链路。</div>
+        <div class="path">docs-claw.wshoto.com/scrm-scenarios/</div>
       </a>
       <a class="card" href="/ppt/">
         <div class="tag">PPT</div>
@@ -222,5 +229,34 @@
       对外传播具体材料时，直接发送对应子路径链接即可。新增材料页只需在仓库根目录新建子目录并放入 index.html，推送后自动发布。
     </div>
   </main>
+  <script>
+    (function preserveEdgeOnePreviewQuery() {
+      if (!window.location.search.includes('eo_token=')) {
+        return;
+      }
+
+      var previewQuery = window.location.search;
+      var links = document.querySelectorAll('a[href]');
+
+      links.forEach(function (link) {
+        var href = link.getAttribute('href');
+        if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) {
+          return;
+        }
+
+        var url = new URL(href, window.location.origin);
+        if (url.origin !== window.location.origin) {
+          return;
+        }
+
+        if (url.search.includes('eo_token=')) {
+          return;
+        }
+
+        url.search = previewQuery.slice(1);
+        link.href = url.pathname + url.search + url.hash;
+      });
+    })();
+  </script>
 </body>
 </html>

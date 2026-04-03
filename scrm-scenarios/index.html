@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>企微管家Claw × 微盛SCRM Skill 十大亮点使用场景</title>
+<link rel="icon" type="image/png" href="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand: #3B82F6;
+  --brand-light: #60A5FA;
+  --brand-soft: rgba(59,130,246,0.12);
+  --brand-deep: #1D4ED8;
+  --accent-warm: #F59E0B;
+  --accent-green: #10B981;
+  --accent-coral: #F43F5E;
+  --accent-violet: #8B5CF6;
+  --accent-teal: #14B8A6;
+  --accent-orange: #F97316;
+
+  --dark-bg: #0B1120;
+  --dark-surface: #111827;
+  --dark-surface-2: #1F2937;
+  --dark-border: rgba(255,255,255,0.08);
+  --dark-text: #F1F5F9;
+  --dark-text-2: #94A3B8;
+  --dark-text-3: #64748B;
+
+  --surface-0: #FAFBFD;
+  --surface-1: #F1F5F9;
+  --surface-2: #E8ECF2;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-tertiary: #94A3B8;
+
+  --font-sans: 'Noto Sans SC', 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'DM Sans', 'Noto Sans SC', sans-serif;
+
+  --space-xs: clamp(0.25rem, 0.5vw, 0.5rem);
+  --space-sm: clamp(0.5rem, 1vw, 0.75rem);
+  --space-md: clamp(1rem, 2vw, 1.5rem);
+  --space-lg: clamp(1.5rem, 3vw, 2.5rem);
+  --space-xl: clamp(2rem, 5vw, 4rem);
+  --space-2xl: clamp(3rem, 7vw, 6rem);
+  --space-3xl: clamp(4rem, 10vw, 8rem);
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: var(--surface-0);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-md); }
+
+/* ═══════════════════════════════════════════════════
+   NAV — dark, floating
+   ═══════════════════════════════════════════════════ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  background: rgba(11,17,32,0.82);
+  border-bottom: 1px solid var(--dark-border);
+  transition: box-shadow 0.3s;
+}
+.nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
+.nav-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 var(--space-md);
+  display: flex; align-items: center; justify-content: space-between; height: 64px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 700; font-size: clamp(0.9rem,1.1vw,1rem); color: white;
+}
+.nav-logo img { width: 34px; height: 34px; border-radius: 10px; }
+.nav-links { display: flex; gap: var(--space-lg); list-style: none; }
+.nav-links a {
+  font-size: 0.85rem; font-weight: 500; color: var(--dark-text-2);
+  transition: color 0.2s; position: relative;
+}
+.nav-links a:hover { color: white; }
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 2px; background: var(--brand-light); transition: width 0.25s ease-out;
+}
+.nav-links a:hover::after { width: 100%; }
+.nav-cta {
+  padding: 8px 20px; background: var(--brand); color: white !important;
+  border-radius: 8px; font-weight: 600; font-size: 0.82rem;
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(59,130,246,0.4); }
+.nav-cta::after { display: none !important; }
+.nav-toggle {
+  display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px;
+}
+.nav-toggle span { display: block; width: 22px; height: 2px; background: white; border-radius: 2px; }
+
+/* ═══════════════════════════════════════════════════
+   HERO — dark, immersive
+   ═══════════════════════════════════════════════════ */
+.hero {
+  background: var(--dark-bg);
+  padding-top: calc(64px + var(--space-2xl));
+  padding-bottom: var(--space-3xl);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(59,130,246,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(139,92,246,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 var(--space-md);
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2xl); align-items: center;
+  position: relative; z-index: 1;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 16px; background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.2);
+  color: var(--brand-light); border-radius: 100px;
+  font-size: 0.78rem; font-weight: 600; margin-bottom: var(--space-md);
+}
+.hero-badge .pulse {
+  width: 7px; height: 7px; background: var(--accent-green); border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)} }
+.hero-kicker {
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+  font-weight: 700;
+  color: var(--dark-text-2);
+  margin-bottom: 10px;
+  letter-spacing: 0.01em;
+}
+.hero h1 {
+  font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 900; line-height: 1.22;
+  letter-spacing: -0.02em; color: white; margin-bottom: var(--space-md);
+}
+.hero h1 .hl {
+  color: var(--brand-light);
+  background: linear-gradient(135deg, var(--brand-light), #a78bfa);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+}
+.hero h1 .hl::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(96,165,250,0.95), rgba(167,139,250,0.9));
+  box-shadow: 0 0 16px rgba(96,165,250,0.25);
+}
+.hero-desc {
+  font-size: clamp(0.95rem,1.2vw,1.08rem); color: var(--dark-text-2);
+  line-height: 1.85; margin-bottom: var(--space-lg); max-width: 520px;
+}
+.hero-buttons { display: flex; gap: var(--space-sm); margin-bottom: var(--space-xl); flex-wrap: wrap; }
+.hero-btn {
+  padding: 12px 28px; border-radius: 10px; font-weight: 700; font-size: 0.9rem;
+  transition: transform 0.15s, box-shadow 0.2s; cursor: pointer; border: none;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.hero-btn.primary {
+  background: var(--brand); color: white;
+  box-shadow: 0 4px 20px rgba(59,130,246,0.35);
+}
+.hero-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(59,130,246,0.45); }
+.hero-btn.secondary {
+  background: rgba(255,255,255,0.06); color: var(--dark-text);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.hero-btn.secondary:hover { background: rgba(255,255,255,0.1); }
+.hero-stats { display: flex; gap: var(--space-xl); }
+.hero-stat-num {
+  font-family: var(--font-display); font-size: clamp(1.5rem,2.2vw,2rem);
+  font-weight: 800; color: white; line-height: 1;
+}
+.hero-stat-sub { font-size: 0.72rem; color: var(--dark-text-3); margin-top: 4px; }
+
+/* Hero phone mock */
+.hero-visual { position: relative; display: flex; justify-content: center; perspective: 1400px; padding: 24px 10px; }
+.hero-phone {
+  width: min(312px, 100%); aspect-ratio: 390 / 760;
+  background: linear-gradient(180deg, #1a2334 0%, #0f1726 100%);
+  border-radius: 40px;
+  border: 1px solid rgba(255,255,255,0.14); padding: 7px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset;
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
+  z-index: 2;
+}
+.hero-request-bubble {
+  position: absolute;
+  z-index: 1;
+  width: 220px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--dark-text);
+  font-size: 12px;
+  line-height: 1.62;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.22);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  pointer-events: none;
+}
+.hero-request-bubble.one { top: 26px; left: -88px; }
+.hero-request-bubble.two { top: 150px; right: -92px; }
+.hero-request-bubble.three { bottom: 46px; left: -104px; }
+.phone-notch {
+  width: 108px; height: 28px; background: #05080f; border-radius: 999px;
+  margin: 2px auto 0; position: relative; z-index: 2;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset;
+}
+.phone-screen {
+  height: calc(100% - 14px); background: #121a29; border-radius: 34px; overflow: hidden; margin-top: 6px;
+  display: flex; flex-direction: column;
+}
+.phone-bar {
+  padding: 14px 15px; display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid var(--dark-border);
+}
+.phone-avatar {
+  width: 36px; height: 36px; border-radius: 11px; object-fit: cover;
+}
+.phone-contact { min-width: 0; }
+.phone-contact .name { font-size: 12.5px; font-weight: 700; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.phone-contact .status {
+  font-size: 10px; color: var(--dark-text-3); display: flex; align-items: center; gap: 4px;
+  margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.phone-online {
+  width: 7px; height: 7px; background: var(--accent-green); border-radius: 50%;
+  margin-left: auto;
+}
+.chat-flow { flex: 1; padding: 16px 15px 18px; display: flex; flex-direction: column; gap: 12px; justify-content: flex-start; }
+.bubble {
+  max-width: 88%; padding: 11px 14px; border-radius: 16px;
+  font-size: 12px; line-height: 1.72;
+  animation: fadeUp 0.5s ease-out both;
+}
+.bubble.me {
+  align-self: flex-end; background: var(--brand); color: white;
+  border-bottom-right-radius: 4px;
+}
+.bubble.ai {
+  align-self: flex-start; background: var(--dark-surface); color: var(--dark-text);
+  border-bottom-left-radius: 4px;
+}
+.bubble .ai-tag {
+  display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--dark-text-3);
+  margin-bottom: 4px; font-weight: 600;
+}
+.bubble .ai-tag img { width: 14px; height: 14px; border-radius: 3px; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
+.bubble:nth-child(2){animation-delay:.15s}.bubble:nth-child(3){animation-delay:.35s}
+.bubble:nth-child(4){animation-delay:.55s}.bubble:nth-child(5){animation-delay:.75s}
+
+/* ═══════════════════════════════════════════════════
+   HOW IT WORKS
+   ═══════════════════════════════════════════════════ */
+.how-section { padding: var(--space-2xl) 0 var(--space-3xl); background: var(--surface-0); }
+.section-label {
+  font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--brand); margin-bottom: var(--space-xs);
+}
+.section-title {
+  font-size: clamp(1.5rem,3vw,2.3rem); font-weight: 800; line-height: 1.25;
+  letter-spacing: -0.015em; margin-bottom: var(--space-xs);
+}
+.section-subtitle {
+  font-size: clamp(0.9rem,1.1vw,1rem); color: var(--text-secondary);
+  max-width: 720px; margin-bottom: var(--space-xl); white-space: nowrap;
+}
+.how-flow {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: var(--space-lg);
+  position: relative;
+}
+.how-flow::before {
+  content: ''; position: absolute; top: 38px; left: 16%; width: 68%; height: 2px;
+  background: linear-gradient(90deg, var(--surface-2), var(--brand), var(--surface-2));
+}
+.how-step { text-align: center; position: relative; z-index: 1; }
+.how-step-num {
+  width: 56px; height: 56px; margin: 0 auto var(--space-sm);
+  background: var(--brand); color: white; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; font-weight: 800;
+  box-shadow: 0 4px 18px rgba(59,130,246,0.2);
+}
+.how-step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.how-step p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+
+/* ═══════════════════════════════════════════════════
+   SCENARIOS
+   ═══════════════════════════════════════════════════ */
+.scenarios-section { padding: var(--space-xl) 0 var(--space-3xl); }
+.scenario { margin-bottom: var(--space-3xl); scroll-margin-top: 80px; }
+.scenario:last-child { margin-bottom: 0; }
+.scenario-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2xl); align-items: center;
+}
+.scenario:nth-child(even) .scenario-grid { direction: rtl; }
+.scenario:nth-child(even) .scenario-grid > * { direction: ltr; }
+.scenario-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 12px; border-radius: 6px; font-size: 0.73rem; font-weight: 700;
+  margin-bottom: var(--space-sm);
+}
+.tag-coral{background:rgba(244,63,94,0.08);color:#E11D48}
+.tag-blue{background:rgba(59,130,246,0.08);color:#2563EB}
+.tag-green{background:rgba(16,185,129,0.08);color:#059669}
+.tag-warm{background:rgba(245,158,11,0.08);color:#D97706}
+.tag-violet{background:rgba(139,92,246,0.08);color:#7C3AED}
+.tag-teal{background:rgba(20,184,166,0.08);color:#0D9488}
+.tag-orange{background:rgba(249,115,22,0.08);color:#EA580C}
+.tag-indigo{background:rgba(99,102,241,0.08);color:#4F46E5}
+.tag-rose{background:rgba(251,113,133,0.08);color:#E11D48}
+.tag-emerald{background:rgba(52,211,153,0.08);color:#059669}
+.scenario h2 {
+  font-size: clamp(1.3rem,2.3vw,1.8rem); font-weight: 800; line-height: 1.3;
+  letter-spacing: -0.01em; margin-bottom: var(--space-xs);
+}
+.scenario-desc {
+  font-size: 0.9rem; color: var(--text-secondary); line-height: 1.8; margin-bottom: var(--space-md);
+}
+.value-points { display: flex; flex-direction: column; gap: 8px; margin-bottom: var(--space-md); }
+.vp { display: flex; align-items: flex-start; gap: 8px; font-size: 0.85rem; line-height: 1.6; }
+.vp-dot {
+  flex-shrink: 0; width: 20px; height: 20px; border-radius: 5px;
+  display: flex; align-items: center; justify-content: center; font-size: 10px; margin-top: 3px;
+}
+.vp-dot.blue{background:rgba(59,130,246,0.1);color:var(--brand)}
+.vp-dot.green{background:rgba(16,185,129,0.1);color:var(--accent-green)}
+.scenario-metrics {
+  display: flex; gap: var(--space-lg); padding-top: var(--space-sm);
+  border-top: 1px solid var(--surface-2);
+}
+.sm-num { font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; line-height: 1; }
+.sm-label { font-size: 0.72rem; color: var(--text-tertiary); margin-top: 2px; }
+
+/* Scenario chat */
+.sc-chat {
+  background: white; border-radius: var(--radius-lg); overflow: hidden;
+  box-shadow: 0 6px 32px rgba(15,23,42,0.06), 0 1px 4px rgba(15,23,42,0.04);
+  border: 1px solid var(--surface-2);
+}
+.cb {
+  max-width: 86%; padding: 10px 14px; border-radius: 14px;
+  font-size: 12.5px; line-height: 1.65;
+  animation: fadeUp 0.5s ease-out both;
+}
+.cb.u { align-self: flex-end; background: var(--brand); color: white; border-bottom-right-radius: 4px; }
+.cb.b { align-self: flex-start; background: var(--surface-1); color: var(--text-primary); border-bottom-left-radius: 4px; }
+.cb .tag {
+  display: inline-block; margin-top: 6px; padding: 3px 8px;
+  background: rgba(59,130,246,0.08); color: var(--brand);
+  border-radius: 4px; font-size: 10.5px; font-weight: 600;
+}
+.cb .claw-label {
+  display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--text-tertiary);
+  margin-bottom: 4px; font-weight: 600;
+}
+.sc-bar {
+  padding: 11px 14px; display: flex; align-items: center; gap: 9px;
+  background: var(--surface-1); border-bottom: 1px solid var(--surface-2);
+}
+.sc-bar img { width: 26px; height: 26px; border-radius: 7px; }
+.sc-bar .bar-name { font-size: 12px; font-weight: 600; }
+.sc-bar .bar-sub { font-size: 9.5px; color: var(--text-tertiary); }
+.sc-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 9px; min-height: 240px; }
+.sc-body .cb { font-size: 12px; }
+.sc-body .cb.u { background: var(--brand); color: white; }
+.sc-body .cb.b { background: var(--surface-1); color: var(--text-primary); }
+.sc-body .cb .tag { background: rgba(59,130,246,0.08); color: var(--brand); }
+.sc-body .cb .claw-label { color: var(--text-tertiary); }
+.sc-body .cb .claw-label img { display: none; }
+.crc {
+  background: var(--surface-0); border-radius: 8px; border: 1px solid var(--surface-2);
+  padding: 8px 10px; margin-top: 4px; font-size: 11px;
+}
+.crc-t { font-weight: 700; font-size: 11px; margin-bottom: 5px; }
+.crc-r { display: flex; justify-content: space-between; padding: 2px 0; color: var(--text-secondary); }
+.crc-r .v { font-weight: 600; color: var(--text-primary); }
+.crc-a {
+  margin-top: 6px; padding: 4px 8px; background: var(--brand); color: white;
+  border-radius: 5px; font-size: 10px; font-weight: 600; display: inline-block;
+}
+.sc-input {
+  padding: 9px 14px; display: flex; align-items: center; gap: 7px;
+  border-top: 1px solid var(--surface-2); background: var(--surface-1);
+}
+.sc-input .inp {
+  flex: 1; padding: 6px 10px; background: white; border-radius: 7px;
+  border: 1px solid var(--surface-2); font-size: 11px; color: var(--text-tertiary);
+}
+.sc-input .send {
+  width: 28px; height: 28px; background: var(--brand); border-radius: 7px;
+  display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════
+   CAPABILITIES GRID
+   ═══════════════════════════════════════════════════ */
+.cap-section { padding: var(--space-3xl) 0; background: var(--surface-1); }
+.cap-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--space-md); }
+.cap-item {
+  padding: var(--space-md); background: white; border-radius: var(--radius-md);
+  border: 1px solid var(--surface-2); transition: transform 0.2s, box-shadow 0.2s;
+}
+.cap-item:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(15,23,42,0.06); }
+.cap-icon {
+  width: 38px; height: 38px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; margin-bottom: var(--space-sm);
+}
+.cap-item h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 3px; }
+.cap-item p { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; }
+
+/* ═══════════════════════════════════════════════════
+   CTA
+   ═══════════════════════════════════════════════════ */
+.cta-section { padding: var(--space-3xl) 0 var(--space-2xl); }
+.cta-card {
+  background: var(--dark-bg); border-radius: var(--radius-xl);
+  padding: var(--space-2xl) var(--space-xl); text-align: center;
+  position: relative; overflow: hidden;
+}
+.cta-card::before {
+  content: ''; position: absolute; top: -40%; right: -15%; width: 55%; height: 180%;
+  background: radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 55%);
+  pointer-events: none;
+}
+.cta-card::after {
+  content: ''; position: absolute; bottom: -30%; left: -10%; width: 45%; height: 160%;
+  background: radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 55%);
+  pointer-events: none;
+}
+.cta-card h2 {
+  font-size: clamp(1.5rem,2.8vw,2.1rem); font-weight: 800; color: white;
+  margin-bottom: var(--space-xs); position: relative;
+}
+.cta-card p {
+  font-size: 0.95rem; color: var(--dark-text-2); margin-bottom: var(--space-lg);
+  max-width: 480px; margin-inline: auto; position: relative;
+}
+.cta-buttons { display: flex; gap: var(--space-sm); justify-content: center; position: relative; flex-wrap: wrap; }
+.cta-btn {
+  padding: 13px 30px; border-radius: 10px; font-weight: 700; font-size: 0.9rem;
+  transition: transform 0.15s, box-shadow 0.2s; cursor: pointer;
+}
+.cta-btn:hover { transform: translateY(-2px); }
+.cta-btn.primary { background: var(--brand); color: white; box-shadow: 0 4px 18px rgba(59,130,246,0.35); }
+.cta-btn.secondary {
+  background: rgba(255,255,255,0.06); color: white; border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* ═══════════════════════════════════════════════════
+   FOOTER — refined dark
+   ═══════════════════════════════════════════════════ */
+.footer {
+  background: var(--dark-bg); color: var(--dark-text-2); padding: var(--space-2xl) 0 0;
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: var(--space-xl);
+  padding-bottom: var(--space-xl); border-bottom: 1px solid var(--dark-border);
+}
+.footer-logo {
+  display: flex; align-items: center; gap: 10px; margin-bottom: var(--space-md);
+}
+.footer-logo img { width: 36px; height: 36px; border-radius: 10px; }
+.footer-logo span { font-size: 1rem; font-weight: 700; color: white; }
+.footer-brand p {
+  font-size: 0.82rem; line-height: 1.7; color: var(--dark-text-3); max-width: 300px;
+}
+.footer-col h5 {
+  font-size: 0.78rem; font-weight: 700; color: white; text-transform: uppercase;
+  letter-spacing: 0.08em; margin-bottom: var(--space-sm);
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 6px; }
+.footer-col a { font-size: 0.82rem; color: var(--dark-text-3); transition: color 0.2s; }
+.footer-col a:hover { color: var(--brand-light); }
+.footer-bottom {
+  padding: var(--space-md) 0;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-copy { font-size: 0.75rem; color: var(--dark-text-3); }
+.footer-copy a { color: var(--dark-text-2); }
+.footer-badges { display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; }
+.footer-badge {
+  padding: 4px 10px; border: 1px solid var(--dark-border); border-radius: 6px;
+  font-size: 0.7rem; color: var(--dark-text-3); display: flex; align-items: center; gap: 4px;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.65s ease-out, transform 0.65s ease-out;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .nav-toggle{display:flex}
+  .nav-links.open{
+    display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;
+    background:rgba(11,17,32,0.96);backdrop-filter:blur(20px);padding:var(--space-md);
+    gap:var(--space-sm);border-bottom:1px solid var(--dark-border);
+  }
+  .nav-links.open a{display:block;padding:10px 0;color:var(--dark-text)}
+  .hero-inner{grid-template-columns:1fr;gap:var(--space-xl);text-align:center}
+  .hero-desc{margin-inline:auto}
+  .hero-buttons{justify-content:center}
+  .hero-stats{justify-content:center;flex-wrap:wrap}
+  .hero-kicker{font-size:0.95rem}
+  .hero-phone{width:264px}
+  .hero-request-bubble{display:none}
+  .how-flow{grid-template-columns:1fr}.how-flow::before{display:none}
+  .scenario-grid{grid-template-columns:1fr;gap:var(--space-lg)}
+  .scenario:nth-child(even) .scenario-grid{direction:ltr}
+  .cap-grid{grid-template-columns:1fr 1fr}
+  .section-subtitle{white-space:normal}
+  .cta-buttons{flex-direction:column;align-items:center}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:var(--space-lg)}
+  .footer-bottom{flex-direction:column;gap:var(--space-sm);text-align:center}
+  .footer-badges{justify-content:center}
+}
+@media(max-width:480px){
+  .cap-grid{grid-template-columns:1fr}
+  .hero-stats{flex-direction:column;gap:var(--space-sm);align-items:center}
+  .scenario-metrics{flex-wrap:wrap;gap:var(--space-md)}
+  .footer-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt="Logo">
+      <span>企微管家Claw × 微盛SCRM</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#scenarios">应用场景</a></li>
+      <li><a href="#capabilities">Skill 能力</a></li>
+      <li><a href="#how">工作原理</a></li>
+      <li><a href="https://www.wshoto.com/" target="_blank" class="nav-cta">预约演示</a></li>
+    </ul>
+    <div class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><span class="pulse"></span>企微管家Claw × 微盛SCRM</div>
+      <div class="hero-kicker">AI + SCRM 智能私域运营</div>
+      <h1>在企业微信里<br>用 <span class="hl">一句话</span> 驱动<br>整个私域运营</h1>
+      <p class="hero-desc">企微管家 Claw —— 你的 AI 员工，深度连接微盛 SCRM 系统，让客户管理、精准营销、社群运营、数据分析在一句对话中完成。</p>
+      <div class="hero-buttons">
+        <a href="https://www.wshoto.com/" target="_blank" class="hero-btn primary">预约产品演示 →</a>
+        <a href="#scenarios" class="hero-btn secondary">查看 10 大场景 ↓</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hero-stat-num">30+</div><div class="hero-stat-sub">企微生态 Skills</div></div>
+        <div><div class="hero-stat-num">640h</div><div class="hero-stat-sub">单人年节省工时</div></div>
+        <div><div class="hero-stat-num">80%</div><div class="hero-stat-sub">运营动作自动化</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-request-bubble one">帮我把最近 30 天新增、带高意向标签的客户筛出来，今晚安排一轮群发</div>
+      <div class="hero-request-bubble two">看一下这周谁的客户跟进掉队了，顺手提醒一下相关销售</div>
+      <div class="hero-request-bubble three">给沉默客户群写条暖场内容，晚上 8 点自动发出去</div>
+      <div class="hero-phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-bar">
+            <img class="phone-avatar" src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt="">
+            <div class="phone-contact">
+              <div class="name">企微管家Claw × 微盛SCRM</div>
+              <div class="status">客户管理 · 群发 · 数据分析 Skills</div>
+            </div>
+            <div class="phone-online"></div>
+          </div>
+          <div class="chat-flow">
+            <div class="bubble me">筛选最近30天新增、带高意向标签的客户，准备一轮活动触达</div>
+            <div class="bubble ai">
+              <div class="ai-tag"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt="" style="width:14px;height:14px;border-radius:3px"> Claw</div>
+              已调用微盛SCRM 的客户筛选 Skill：<br>🎯 命中高意向客户 217 人<br>🏷 覆盖标签 6 个<br>📣 已生成推荐群发策略
+            </div>
+            <div class="bubble me">按教育行业客户生成一版群发文案，并把任务分配给销售团队</div>
+            <div class="bubble ai">
+              <div class="ai-tag"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt="" style="width:14px;height:14px;border-radius:3px"> Claw</div>
+              文案与任务已创建：<br>📝 群发文案 1 版<br>👥 已分配给 12 位销售<br>📊 预计今晚自动回传执行数据
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="container">
+    <div class="section-label reveal">工作原理</div>
+    <h2 class="section-title reveal">三步连接，AI 即刻上岗</h2>
+    <p class="section-subtitle reveal">无需改变工作习惯，在企业微信聊天窗口对话即可驱动微盛SCRM的全部 Skill 能力</p>
+    <div class="how-flow reveal">
+      <div class="how-step">
+        <div class="how-step-num">1</div>
+        <h3>对话下指令</h3>
+        <p>在企业微信中用自然语言告诉企微管家Claw你的需求</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">2</div>
+        <h3>AI 调度 SCRM Skill</h3>
+        <p>企微管家Claw自动识别意图，调用微盛SCRM的Skill能力完成操作</p>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">3</div>
+        <h3>结果即时反馈</h3>
+        <p>操作结果实时回传至聊天窗口，跟进任务自动创建，过程可追溯</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCENARIOS -->
+<section class="scenarios-section" id="scenarios">
+  <div class="container">
+    <div class="section-label reveal">亮点场景</div>
+    <h2 class="section-title reveal">10 大高价值使用场景</h2>
+    <p class="section-subtitle reveal">企微管家Claw × 微盛SCRM 的 Skill 能力深度融合，重新定义企业微信私域运营效率</p>
+
+    <!-- S1 -->
+    <div class="scenario reveal">
+      <div class="scenario-grid">
+        <div>
+          <div class="scenario-tag tag-coral">🔥 精准营销</div>
+          <h2>智能精准群发：从「广撒网」到「精准触达」</h2>
+          <p class="scenario-desc">告诉企微管家Claw你的营销诉求，它自动从微盛SCRM中筛选目标客户、匹配标签条件、生成个性化内容，一键创建群发任务。全流程从 2 小时缩短至 2 分钟。</p>
+          <div class="value-points">
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>智能选人</b> — 基于SCRM标签体系自动筛选，支持多标签交叉匹配</span></div>
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>素材联动</b> — 自动调用素材库海报，或AI生成全新营销内容</span></div>
+            <div class="vp"><div class="vp-dot green">↗</div><span><b>效果追踪</b> — 群发后自动拉取互动统计、到达率、评论数据</span></div>
+          </div>
+          <div class="scenario-metrics">
+            <div><div class="sm-num" style="color:var(--accent-coral)">95%</div><div class="sm-label">操作时间减少</div></div>
+            <div><div class="sm-num" style="color:var(--accent-coral)">3x</div><div class="sm-label">触达精准度提升</div></div>
+            <div><div class="sm-num" style="color:var(--accent-coral)">↑42%</div><div class="sm-label">客户打开率</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="sc-chat">
+            <div class="sc-bar"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt=""><div><div class="bar-name">企微管家Claw</div><div class="bar-sub">智能营销助理</div></div></div>
+            <div class="sc-body">
+              <div class="cb u">给最近30天新客户做一次产品促销群发</div>
+              <div class="cb b"><div class="claw-label"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt="">Claw</div>已从微盛SCRM筛选近30天新增客户：<div class="crc"><div class="crc-t">📋 筛选结果</div><div class="crc-r"><span>符合条件客户</span><span class="v">217 人</span></div><div class="crc-r"><span>覆盖员工数</span><span class="v">12 人</span></div><div class="crc-r"><span>推荐群发方式</span><span class="v">通知员工转发</span></div></div></div>
+              <div class="cb b">已匹配素材库「春季特惠」海报。确认后创建群发任务 👇<span class="tag">🚀 确认创建群发</span></div>
+            </div>
+            <div class="sc-input"><div class="inp">确认，使用春季特惠海报群发</div><div class="send">→</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S2 -->
+    <div class="scenario reveal">
+      <div class="scenario-grid">
+        <div>
+          <div class="scenario-tag tag-blue">🛡️ 客户留存</div>
+          <h2>流失预警与智能挽回：让沉默客户重新活跃</h2>
+          <p class="scenario-desc">企微管家Claw定期扫描微盛SCRM流失客户数据，识别高价值流失风险客户，结合客户画像自动生成个性化挽回话术，通过CRM跟进记录形成闭环。</p>
+          <div class="value-points">
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>主动发现</b> — 自动检测删除好友/员工删除的客户变动</span></div>
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>智能归因</b> — 结合标签、跟进记录和会话存档分析流失原因</span></div>
+            <div class="vp"><div class="vp-dot green">↗</div><span><b>自动跟进</b> — 生成挽回话术并创建CRM跟进任务</span></div>
+          </div>
+          <div class="scenario-metrics">
+            <div><div class="sm-num" style="color:var(--brand)">↓35%</div><div class="sm-label">客户流失率降低</div></div>
+            <div><div class="sm-num" style="color:var(--brand)">24h</div><div class="sm-label">流失响应缩短至</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="sc-chat">
+            <div class="sc-bar"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt=""><div><div class="bar-name">企微管家Claw</div><div class="bar-sub">客户留存守护</div></div></div>
+            <div class="sc-body">
+              <div class="cb b"><div class="claw-label"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt="">Claw</div>⚠️ 本周检测到 8 位客户删除了员工好友<div class="crc"><div class="crc-t">🔍 流失分析</div><div class="crc-r"><span>高价值客户</span><span class="v">3 人</span></div><div class="crc-r"><span>近期无互动 &gt;30天</span><span class="v">5 人</span></div><div class="crc-r"><span>带有VIP标签</span><span class="v">2 人</span></div></div></div>
+              <div class="cb u">给3位高价值客户创建挽回跟进任务</div>
+              <div class="cb b">已为3位高价值客户生成个性化挽回方案，跟进任务已创建 ✅<span class="tag">📝 3 条跟进记录已创建</span></div>
+            </div>
+            <div class="sc-input"><div class="inp">查看详细流失原因分析</div><div class="send">→</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S3 -->
+    <div class="scenario reveal">
+      <div class="scenario-grid">
+        <div>
+          <div class="scenario-tag tag-green">💬 社群运营</div>
+          <h2>社群智能管家：群聊运营不再凭感觉</h2>
+          <p class="scenario-desc">企微管家Claw连接微盛SCRM的群聊管理Skill能力，实时洞察群活跃度、成员构成、退群趋势，自动打标推荐互动策略。</p>
+          <div class="value-points">
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>群画像分析</b> — 群成员详情、入群/退群统计，识别活跃与沉默用户</span></div>
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>精细化运营</b> — 基于群标签定制差异化运营策略</span></div>
+            <div class="vp"><div class="vp-dot green">↗</div><span><b>自动触达</b> — 群发任务直发客户群，沉默群自动激活</span></div>
+          </div>
+          <div class="scenario-metrics">
+            <div><div class="sm-num" style="color:var(--accent-green)">↑60%</div><div class="sm-label">群活跃度提升</div></div>
+            <div><div class="sm-num" style="color:var(--accent-green)">↓50%</div><div class="sm-label">运营人力减少</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="sc-chat">
+            <div class="sc-bar"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt=""><div><div class="bar-name">企微管家Claw</div><div class="bar-sub">社群运营专家</div></div></div>
+            <div class="sc-body">
+              <div class="cb u">我管理的客户群最近情况怎么样？</div>
+              <div class="cb b"><div class="claw-label"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt="">Claw</div>已分析您的所有客户群：<div class="crc"><div class="crc-t">📊 群聊健康度报告</div><div class="crc-r"><span>管理群聊总数</span><span class="v">18 个</span></div><div class="crc-r"><span>本周活跃群</span><span class="v">12 个</span></div><div class="crc-r"><span>沉默群（7天无互动）</span><span class="v" style="color:var(--accent-coral)">6 个</span></div></div></div>
+              <div class="cb u">给沉默群发一条互动内容激活</div>
+              <div class="cb b">已定制激活内容，群发任务创建完成 🎯<span class="tag">📣 6 个群发任务已创建</span></div>
+            </div>
+            <div class="sc-input"><div class="inp">查看退群人员详情</div><div class="send">→</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S4 -->
+    <div class="scenario reveal">
+      <div class="scenario-grid">
+        <div>
+          <div class="scenario-tag tag-warm">📊 数据洞察</div>
+          <h2>对话式数据看板：问一句，知全局</h2>
+          <p class="scenario-desc">不用登录后台、不用导出报表。直接问企微管家Claw，它实时调用微盛SCRM的Skill能力拉取客户统计、员工绩效、群发效果等数据，辅助快速决策。</p>
+          <div class="value-points">
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>即问即查</b> — 客户增长趋势、流失率、员工拉新排名一句话查询</span></div>
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>多维分析</b> — 按天/按员工/按部门多维度交叉分析</span></div>
+            <div class="vp"><div class="vp-dot green">↗</div><span><b>主动播报</b> — 每日/每周自动推送关键指标变动</span></div>
+          </div>
+          <div class="scenario-metrics">
+            <div><div class="sm-num" style="color:var(--accent-warm)">5 秒</div><div class="sm-label">数据获取耗时</div></div>
+            <div><div class="sm-num" style="color:var(--accent-warm)">0 次</div><div class="sm-label">需要登录后台</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="sc-chat">
+            <div class="sc-bar"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt=""><div><div class="bar-name">企微管家Claw</div><div class="bar-sub">数据分析师</div></div></div>
+            <div class="sc-body">
+              <div class="cb u">这周团队的客户经营情况怎么样？</div>
+              <div class="cb b"><div class="claw-label"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt="">Claw</div>已拉取本周经营数据：<div class="crc"><div class="crc-t">📈 本周经营概览</div><div class="crc-r"><span>新增客户</span><span class="v">+156 人 ↑12%</span></div><div class="crc-r"><span>流失客户</span><span class="v">-23 人 ↓8%</span></div><div class="crc-r"><span>跟进记录</span><span class="v">342 条</span></div><div class="crc-r"><span>群发完成率</span><span class="v">87.3%</span></div></div></div>
+              <div class="cb b">💡 建议：李明本周跟进量偏低（仅8条），建议关注</div>
+            </div>
+            <div class="sc-input"><div class="inp">看各部门对比数据</div><div class="send">→</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S5 -->
+    <div class="scenario reveal">
+      <div class="scenario-grid">
+        <div>
+          <div class="scenario-tag tag-violet">⚡ 自动化 SOP</div>
+          <h2>SOP 智能执行监控：客户旅程全程护航</h2>
+          <p class="scenario-desc">通过企微管家Claw对话式管理微盛SCRM的SOP自动化Skill——查询规则执行状态、监控员工任务完成率，将SOP从「设置了就忘」变成「持续可观测」。</p>
+          <div class="value-points">
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>实时可观测</b> — 随时查询SOP任务执行进度和员工完成情况</span></div>
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>异常告警</b> — 自动发现执行率低的SOP规则并提醒管理者</span></div>
+            <div class="vp"><div class="vp-dot green">↗</div><span><b>闭环追踪</b> — 从触发到执行，链路任务完整可追溯</span></div>
+          </div>
+          <div class="scenario-metrics">
+            <div><div class="sm-num" style="color:var(--accent-violet)">↑92%</div><div class="sm-label">SOP执行率</div></div>
+            <div><div class="sm-num" style="color:var(--accent-violet)">↓70%</div><div class="sm-label">管理督导时间</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="sc-chat">
+            <div class="sc-bar"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt=""><div><div class="bar-name">企微管家Claw</div><div class="bar-sub">SOP 执行监控</div></div></div>
+            <div class="sc-body">
+              <div class="cb u">查看新客户SOP的执行情况</div>
+              <div class="cb b"><div class="claw-label"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt="">Claw</div>「新客户7日跟进SOP」执行情况：<div class="crc"><div class="crc-t">⚡ SOP 执行报告</div><div class="crc-r"><span>触发客户数</span><span class="v">89 人</span></div><div class="crc-r"><span>已完成全部节点</span><span class="v">72 人</span></div><div class="crc-r"><span>中途中断</span><span class="v" style="color:var(--accent-coral)">17 人</span></div><div class="crc-r"><span>执行率</span><span class="v">80.9%</span></div></div></div>
+              <div class="cb b">⚠️ 员工「刘辉」有6条未执行<span class="tag">📋 查看执行记录</span></div>
+            </div>
+            <div class="sc-input"><div class="inp">给刘辉发提醒</div><div class="send">→</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S6 -->
+    <div class="scenario reveal">
+      <div class="scenario-grid">
+        <div>
+          <div class="scenario-tag tag-teal">🤝 客户经营</div>
+          <h2>AI 客户经营助手：一分钟掌握客户全景</h2>
+          <p class="scenario-desc">拜访客户前，问企微管家Claw一句话，它自动调用微盛SCRM的Skill能力拉取客户详情、标签画像、跟进历史、共同群聊，生成结构化客户经营简报。</p>
+          <div class="value-points">
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>全景画像</b> — 基础信息、标签、自定义字段、协作成员一目了然</span></div>
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>历史回顾</b> — 跟进记录、会话存档、互动轨迹自动汇总</span></div>
+            <div class="vp"><div class="vp-dot green">↗</div><span><b>智能建议</b> — AI分析最佳跟进策略和时机</span></div>
+          </div>
+          <div class="scenario-metrics">
+            <div><div class="sm-num" style="color:var(--accent-teal)">1 分钟</div><div class="sm-label">掌握客户全貌</div></div>
+            <div><div class="sm-num" style="color:var(--accent-teal)">↑28%</div><div class="sm-label">成单转化率</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="sc-chat">
+            <div class="sc-bar"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt=""><div><div class="bar-name">企微管家Claw</div><div class="bar-sub">客户经营助手</div></div></div>
+            <div class="sc-body">
+              <div class="cb u">下午拜访王总，帮我准备客户简报</div>
+              <div class="cb b"><div class="claw-label"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt="">Claw</div>已整合「王总」客户全景信息：<div class="crc"><div class="crc-t">👤 客户经营简报</div><div class="crc-r"><span>客户标签</span><span class="v">VIP · 决策人 · 教育</span></div><div class="crc-r"><span>最近跟进</span><span class="v">3月28日 · 拜访</span></div><div class="crc-r"><span>共同群聊</span><span class="v">2 个</span></div><div class="crc-r"><span>跟进记录</span><span class="v">15 条</span></div></div></div>
+              <div class="cb b">💡 上次王总关注「社群裂变」方向，建议重点展示<span class="tag">📄 查看完整简报</span></div>
+            </div>
+            <div class="sc-input"><div class="inp">拜访完帮我创建跟进记录</div><div class="send">→</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S7 -->
+    <div class="scenario reveal">
+      <div class="scenario-grid">
+        <div>
+          <div class="scenario-tag tag-orange">🔄 全链路闭环</div>
+          <h2>AI 营销全链路闭环：从文案到执行一气呵成</h2>
+          <p class="scenario-desc">告诉企微管家Claw一个营销主题，它自动完成文案生成→海报制作→存入SCRM素材库→创建群发任务→定时催办的全流程，实现内容生产+执行的一体化闭环。</p>
+          <div class="value-points">
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>一句话启动</b> — 从需求到全链路执行，AI自动编排5个步骤</span></div>
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>素材自动入库</b> — AI生成海报自动上传至微盛SCRM素材库</span></div>
+            <div class="vp"><div class="vp-dot green">↗</div><span><b>执行催办</b> — 自动督促未按时执行的销售完成任务</span></div>
+          </div>
+          <div class="scenario-metrics">
+            <div><div class="sm-num" style="color:var(--accent-orange)">5步</div><div class="sm-label">全链路自动衔接</div></div>
+            <div><div class="sm-num" style="color:var(--accent-orange)">↑3x</div><div class="sm-label">营销执行效率</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="sc-chat">
+            <div class="sc-bar"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt=""><div><div class="bar-name">企微管家Claw</div><div class="bar-sub">营销全链路</div></div></div>
+            <div class="sc-body">
+              <div class="cb u">执行国庆促销全流程：生成文案→做海报→朋友圈群发→3天后催办</div>
+              <div class="cb b"><div class="claw-label"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt="">Claw</div>全链路执行中：<div class="crc"><div class="crc-t">🔄 营销链路进度</div><div class="crc-r"><span>① 促销文案生成</span><span class="v">✅ 完成</span></div><div class="crc-r"><span>② 海报制作并上传素材库</span><span class="v">✅ 完成</span></div><div class="crc-r"><span>③ 朋友圈群发任务</span><span class="v">✅ 已创建</span></div><div class="crc-r"><span>④ 3天后催办提醒</span><span class="v">⏰ 已设置</span></div></div><span class="tag">🎯 全链路已启动</span></div>
+            </div>
+            <div class="sc-input"><div class="inp">预览生成的文案</div><div class="send">→</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S8 -->
+    <div class="scenario reveal">
+      <div class="scenario-grid">
+        <div>
+          <div class="scenario-tag tag-indigo">📌 活码获客</div>
+          <h2>智能活码获客：从线下到线上无缝转化</h2>
+          <p class="scenario-desc">通过企微管家Claw对话创建个人活码，自动设置欢迎语和自动打标签规则。结合微盛SCRM的活码管理Skill，追踪各渠道获客效果。</p>
+          <div class="value-points">
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>一句话建码</b> — 通过对话完成活码创建，二维码自动下载</span></div>
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>自动打标</b> — 新加客户自动打上渠道标签，来源可追溯</span></div>
+            <div class="vp"><div class="vp-dot green">↗</div><span><b>渠道分析</b> — 实时统计各活码获客数据，优化投放策略</span></div>
+          </div>
+          <div class="scenario-metrics">
+            <div><div class="sm-num" style="color:#4F46E5">30 秒</div><div class="sm-label">建码到下载</div></div>
+            <div><div class="sm-num" style="color:#4F46E5">100%</div><div class="sm-label">客户来源可追溯</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="sc-chat">
+            <div class="sc-bar"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt=""><div><div class="bar-name">企微管家Claw</div><div class="bar-sub">活码管理助手</div></div></div>
+            <div class="sc-body">
+              <div class="cb u">创建活码，欢迎语"您好！很高兴认识您"，自动打"线下活动"标签</div>
+              <div class="cb b"><div class="claw-label"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt="">Claw</div>已通过微盛SCRM的Skill创建个人活码：<div class="crc"><div class="crc-t">📌 活码已创建</div><div class="crc-r"><span>活码名称</span><span class="v">线下活动-专属码</span></div><div class="crc-r"><span>欢迎语</span><span class="v">已设置</span></div><div class="crc-r"><span>自动标签</span><span class="v">线下活动</span></div><div class="crc-r"><span>二维码</span><span class="v">📥 已下载至本地</span></div></div><span class="tag">✅ 活码可直接使用</span></div>
+            </div>
+            <div class="sc-input"><div class="inp">查看活码添加统计</div><div class="send">→</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S9 -->
+    <div class="scenario reveal">
+      <div class="scenario-grid">
+        <div>
+          <div class="scenario-tag tag-rose">🖼️ 素材工厂</div>
+          <h2>海报素材 AI 工厂：从创意到素材库一步完成</h2>
+          <p class="scenario-desc">告诉企微管家Claw业绩数据或活动主题，AI自动生成4K高清海报，一键存入微盛SCRM素材库供全员引用。战报、活动海报、节日贺卡效率提升10倍。</p>
+          <div class="value-points">
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>AI制图</b> — 自然语言描述即可生成多种风格的营销海报</span></div>
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>自动入库</b> — 海报自动上传至微盛SCRM素材库并归类</span></div>
+            <div class="vp"><div class="vp-dot green">↗</div><span><b>全员可用</b> — 素材可直接引用至群发任务</span></div>
+          </div>
+          <div class="scenario-metrics">
+            <div><div class="sm-num" style="color:#E11D48">10x</div><div class="sm-label">素材生产效率</div></div>
+            <div><div class="sm-num" style="color:#E11D48">¥0</div><div class="sm-label">设计外包费用</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="sc-chat">
+            <div class="sc-bar"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt=""><div><div class="bar-name">企微管家Claw</div><div class="bar-sub">素材设计师</div></div></div>
+            <div class="sc-body">
+              <div class="cb u">根据Q1业绩数据生成"战区业绩排行榜"海报，TOP5展示新增客户数</div>
+              <div class="cb b"><div class="claw-label"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt="">Claw</div>海报已生成！<div class="crc"><div class="crc-t">🖼️ 素材制作完成</div><div class="crc-r"><span>海报标题</span><span class="v">Q1战区业绩排行榜</span></div><div class="crc-r"><span>尺寸</span><span class="v">1080×1920 · 4K</span></div><div class="crc-r"><span>SCRM素材库</span><span class="v">✅ 已上传</span></div><div class="crc-r"><span>素材分类</span><span class="v">战报 / 海报</span></div></div><span class="tag">🎨 可直接用于群发</span></div>
+            </div>
+            <div class="sc-input"><div class="inp">再生成一张节日贺卡版本</div><div class="send">→</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S10 -->
+    <div class="scenario reveal">
+      <div class="scenario-grid">
+        <div>
+          <div class="scenario-tag tag-emerald">🔐 合规质检</div>
+          <h2>会话存档智能质检：沟通合规风险实时可控</h2>
+          <p class="scenario-desc">企微管家Claw连接微盛SCRM的会话存档Skill能力，支持拉取会话记录、检测敏感词触发、监控超时回复规则，让管理者随时掌握一线沟通质量。</p>
+          <div class="value-points">
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>会话检索</b> — 按时间、人员维度快速查询历史沟通记录</span></div>
+            <div class="vp"><div class="vp-dot blue">✦</div><span><b>敏感词监控</b> — 实时检测沟通中的敏感词触发并告警</span></div>
+            <div class="vp"><div class="vp-dot green">↗</div><span><b>超时提醒</b> — 监控回复时效，自动督促超时回复</span></div>
+          </div>
+          <div class="scenario-metrics">
+            <div><div class="sm-num" style="color:var(--accent-green)">100%</div><div class="sm-label">沟通行为合规</div></div>
+            <div><div class="sm-num" style="color:var(--accent-green)">↓80%</div><div class="sm-label">质检人力成本</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="sc-chat">
+            <div class="sc-bar"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt=""><div><div class="bar-name">企微管家Claw</div><div class="bar-sub">合规质检助手</div></div></div>
+            <div class="sc-body">
+              <div class="cb u">查看本周会话存档中是否有敏感词触发</div>
+              <div class="cb b"><div class="claw-label"><img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt="">Claw</div>已扫描本周会话存档数据：<div class="crc"><div class="crc-t">🔐 合规检测报告</div><div class="crc-r"><span>扫描会话数</span><span class="v">1,423 条</span></div><div class="crc-r"><span>敏感词触发</span><span class="v" style="color:var(--accent-coral)">3 次</span></div><div class="crc-r"><span>超时回复（&gt;30min）</span><span class="v" style="color:var(--accent-warm)">7 次</span></div><div class="crc-r"><span>总体合规率</span><span class="v">99.3%</span></div></div><span class="tag">📋 查看详细记录</span></div>
+            </div>
+            <div class="sc-input"><div class="inp">查看敏感词触发详情</div><div class="send">→</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section class="cap-section" id="capabilities">
+  <div class="container">
+    <div class="section-label reveal">开放能力</div>
+    <h2 class="section-title reveal">微盛SCRM 全量 Skill 能力 AI 化</h2>
+    <p class="section-subtitle reveal">微盛SCRM开放平台 30+ 模块的 Skill 能力，通过企微管家Claw全部可对话调用</p>
+    <div class="cap-grid reveal">
+      <div class="cap-item"><div class="cap-icon" style="background:rgba(59,130,246,0.08)">🙋</div><h4>客户管理</h4><p>详情、批量查询、流失监测、协作成员、统计分析</p></div>
+      <div class="cap-item"><div class="cap-icon" style="background:rgba(16,185,129,0.08)">🏷️</div><h4>标签管理</h4><p>企业标签、业务标签、内部标签、群标签增删改查</p></div>
+      <div class="cap-item"><div class="cap-icon" style="background:rgba(245,158,11,0.08)">💬</div><h4>群聊管理</h4><p>群列表、群详情、群成员、群统计、获客分析</p></div>
+      <div class="cap-item"><div class="cap-icon" style="background:rgba(244,63,94,0.08)">📣</div><h4>群发任务</h4><p>创建与管理群发、执行统计、互动追踪、员工绩效</p></div>
+      <div class="cap-item"><div class="cap-icon" style="background:rgba(139,92,246,0.08)">📋</div><h4>SOP 自动化</h4><p>规则查询、任务执行监控、链路追踪、状态变更</p></div>
+      <div class="cap-item"><div class="cap-icon" style="background:rgba(20,184,166,0.08)">📝</div><h4>CRM 跟进</h4><p>跟进记录创建查询、线索/客户/商机全类型覆盖</p></div>
+      <div class="cap-item"><div class="cap-icon" style="background:rgba(249,115,22,0.08)">🖼️</div><h4>素材管理</h4><p>海报创建上传、素材库查询、分类管理、统计</p></div>
+      <div class="cap-item"><div class="cap-icon" style="background:rgba(99,102,241,0.08)">🔐</div><h4>会话存档</h4><p>密钥/专区模式查询、消息记录、敏感词监控</p></div>
+      <div class="cap-item"><div class="cap-icon" style="background:rgba(52,211,153,0.08)">👤</div><h4>员工管理</h4><p>员工详情名片、部门管理、拉新统计、使用分析</p></div>
+      <div class="cap-item"><div class="cap-icon" style="background:rgba(251,113,133,0.08)">📌</div><h4>活码管理</h4><p>个人/员工/区域/群/门店活码创建与统计</p></div>
+      <div class="cap-item"><div class="cap-icon" style="background:rgba(59,130,246,0.08)">🌊</div><h4>裂变增长</h4><p>任务裂变、群裂变、红包裂变活动管理与追踪</p></div>
+      <div class="cap-item"><div class="cap-icon" style="background:rgba(245,158,11,0.08)">🎧</div><h4>更多能力</h4><p>客服渠道、待办、积分、商城、客户继承…</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="cta-card reveal">
+      <h2>让 AI 成为你最得力的私域运营员工</h2>
+      <p>企微管家Claw × 微盛SCRM，一句话驱动企业微信全场景运营</p>
+      <div class="cta-buttons">
+        <a href="https://www.wshoto.com/" target="_blank" class="cta-btn primary">预约产品演示</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="https://pubres.wshbe.com/base-material-server/wwdf1ec9703f5c224a/2040096269767469057-1775231828526.png?imageMogr2/crop/800x800" alt="Logo">
+          <span>微盛 · 企微管家</span>
+        </div>
+        <p>企微管家Claw是可一键连接企业微信和个人微信的 AI Agent 智能体，深度集成微盛SCRM的Skill能力，让私域运营在一句对话中完成。</p>
+      </div>
+      <div class="footer-col">
+        <h5>产品与服务</h5>
+        <ul>
+          <li><a href="https://www.wshoto.com/qiweiguanjia" target="_blank">微盛SCRM</a></li>
+          <li><a href="https://www.wshoto.com/crm" target="_blank">微盛CRM</a></li>
+          <li><a href="https://www.wshoto.com/mall" target="_blank">微盛商城</a></li>
+          <li><a href="https://www.wshoto.com/kf" target="_blank">微信客服</a></li>
+          <li><a href="https://www.wshoto.com/openClaw" target="_blank">OpenClaw</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>解决方案</h5>
+        <ul>
+          <li><a href="https://www.wshoto.com/jy" target="_blank">教育培训</a></li>
+          <li><a href="https://www.wshoto.com/ds" target="_blank">电商行业</a></li>
+          <li><a href="https://www.wshoto.com/sh" target="_blank">生活服务</a></li>
+          <li><a href="https://www.wshoto.com/yy" target="_blank">医药行业</a></li>
+          <li><a href="https://www.wshoto.com/sc" target="_blank">商超行业</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>资源中心</h5>
+        <ul>
+          <li><a href="https://help.wshoto.com/index.html" target="_blank">帮助中心</a></li>
+          <li><a href="https://www.wshoto.com/case" target="_blank">客户案例</a></li>
+          <li><a href="https://www.wshoto.com/productprice" target="_blank">产品价格</a></li>
+          <li><a href="https://www.wshoto.com/" target="_blank">官方网站</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 <a href="https://www.wshoto.com/" target="_blank">江苏微盛网络科技有限公司</a> · 企微管家Claw — AI 驱动的企业微信私域运营解决方案</div>
+      <div class="footer-badges">
+        <div class="footer-badge">🏆 企微年度优秀合作伙伴</div>
+        <div class="footer-badge">🔒 等保三级认证</div>
+        <div class="footer-badge">☁️ 腾讯云启创新奖</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>20));
+const obs=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible')}),{threshold:0.08,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+document.querySelectorAll('#navLinks a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open')));
+const heroVisual=document.querySelector('.hero-visual');
+const heroPhone=document.querySelector('.hero-phone');
+if(heroVisual&&heroPhone&&window.matchMedia('(hover: hover)').matches){
+  const resetPhone=()=>{
+    heroPhone.style.transform='rotateX(0deg) rotateY(0deg) translate3d(0,0,0)';
+    heroPhone.style.boxShadow='0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset';
+  };
+  heroVisual.addEventListener('pointermove',(event)=>{
+    const rect=heroVisual.getBoundingClientRect();
+    const ratioX=(event.clientX-rect.left)/rect.width-0.5;
+    const ratioY=(event.clientY-rect.top)/rect.height-0.5;
+    const rotateY=ratioX*18;
+    const rotateX=ratioY*-18;
+    const moveX=ratioX*10;
+    const moveY=ratioY*10;
+    heroPhone.style.transform=`rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translate3d(${moveX.toFixed(2)}px, ${moveY.toFixed(2)}px, 0)`;
+    heroPhone.style.boxShadow=`${-moveX.toFixed(2)}px ${20-moveY.toFixed(2)}px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset`;
+  });
+  heroVisual.addEventListener('pointerleave',resetPhone);
+  resetPhone();
+}
+</script>
+</body>
+</html>
